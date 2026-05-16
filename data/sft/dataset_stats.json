@@ -1,0 +1,37 @@
+{
+  "source_items": 221,
+  "train_examples": 1541,
+  "valid_examples": 171,
+  "tasks": {
+    "explain_mistake": 414,
+    "evaluate_answer": 635,
+    "generate_exercise": 221,
+    "solve_math": 221,
+    "chat_tutor": 221
+  },
+  "chapters": {
+    "Functions and Graphs": 40,
+    "Polynomial Functions": 5,
+    "Functions": 20,
+    "Rational Functions": 2,
+    "Inverse Functions": 8,
+    "Trigonometric Functions": 11,
+    "Trigonometric Equations": 11,
+    "Exponential Functions": 4,
+    "Limits": 18,
+    "Derivatives": 15,
+    "Applications of Derivatives": 16,
+    "Integration": 16,
+    "Techniques of Integration": 14,
+    "Systems of Linear Equations": 9,
+    "An Application to Markov Chains": 13,
+    "Determinants and Diagonalization": 6,
+    "Vector Geometry": 10,
+    "Vector Spaces": 3
+  },
+  "difficulty": {
+    "easy": 54,
+    "medium": 132,
+    "hard": 35
+  }
+}

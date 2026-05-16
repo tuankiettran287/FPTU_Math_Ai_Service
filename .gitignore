@@ -1,0 +1,42 @@
+# Local dataset files
+Data_Bank.json
+Data_Bank.json.bak
+
+# Generated / derived data
+data/sft/*.jsonl
+data/generated_bank.jsonl
+data/uploads/
+
+# Model outputs and checkpoints
+outputs/
+checkpoints/
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Environment and local config
+.env
+.env.*
+!.env.example
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
