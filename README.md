@@ -1,53 +1,31 @@
 # FPTU_MATHAI
 
-FPTU_MATHAI là phần AI service cho hệ thống học toán của sinh viên FPT. Mục tiêu chính là xây dựng ngân hàng đề toán, fine-tune DeepSeek bằng LoRA, sinh đề, giải toán, chấm bài tự luận, phân tích điểm yếu và lưu dữ liệu dạng vector trong PostgreSQL.
+FastAPI service cho 3 chức năng AI cốt lõi của hệ thống học toán FPTU:
 
-Project hiện tập trung vào các môn toán phục vụ sinh viên IT như Mathematics for Engineering, Linear Algebra, Calculus và Discrete Mathematics.
+1. Đọc hiểu tài liệu và tự động sinh đề thi trắc nghiệm.
+2. Giải bài toán toán học hoặc bài toán logic theo từng bước.
+3. Chấm bài làm sinh viên, phát hiện lỗi sai và đề xuất hướng sửa.
 
-## Cấu Trúc Dự Án
+Service dùng model `DeepSeek-R1-Distill-Qwen-7B` local qua `transformers`, không fine-tune và không dùng LoRA. Prompt nghiệp vụ nằm tập trung trong một file duy nhất: `prompt.txt`.
+
+## Cấu Trúc
 
 ```txt
 FPTU_MathAI/
   AI_service/
-    main.py        # CLI chính để chạy toàn bộ chức năng AI
-    commands.py    # logic từng chức năng AI
-    db.py          # PostgreSQL + pgvector
-    llm.py         # load DeepSeek base + LoRA adapter
-    prompts.py     # prompt cho từng task
-    schemas.py     # chuẩn hóa schema giống Data_Bank.json
-    utils.py       # helper JSON, OCR, vector
-    config.py      # cấu hình mặc định
-  scripts/
-    prepare_sft_data.py
-    train_deepseek_lora.py
-    infer_mathai.py
-    generate_question_bank.py
-  data/sft/
-    train.jsonl
-    valid.jsonl
-    dataset_stats.json
-  Data_Bank.json
+    main.py       # FastAPI app và routes
+    llm.py        # lazy-load DeepSeek R1 Distill Qwen 7B local
+    db.py         # SQLite database
+    schemas.py    # request/response model và schema Data_Bank
+    config.py     # cấu hình môi trường
+    utils.py      # helper JSON, ID, thời gian
+  main.py         # chạy uvicorn local
+  prompt.txt      # prompt duy nhất cho 3 task AI
+  requirements.txt
+  README.md
   AI_FEATURES.md
   Doc.Md
-  requirements.txt
-  main.py          # wrapper gọi AI_service.main
 ```
-
-## Model Và Database
-
-Model mặc định:
-
-- Base model: `deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B`
-- LoRA adapter: `outputs/deepseek-fptu-mathai-lora`
-- Embedding model: `sentence-transformers/all-MiniLM-L6-v2`
-- Vector database: PostgreSQL + `pgvector`
-
-Các bảng chính do `AI_service` tự tạo:
-
-- `math_question_bank`: lưu đề, lời giải, metadata và `embedding vector(...)`
-- `ai_interactions`: lưu lịch sử gọi AI
-- `ai_evaluations`: lưu kết quả AI chấm bài tự luận
-- `ai_class_analytics`: lưu kết quả phân tích điểm yếu của lớp
 
 ## Cài Đặt
 
@@ -55,145 +33,145 @@ Các bảng chính do `AI_service` tự tạo:
 python -m pip install -r requirements.txt
 ```
 
-Cấu hình PostgreSQL:
+Nếu model đã tải sẵn ở máy local, trỏ biến môi trường tới thư mục model:
 
 ```powershell
-$env:DATABASE_URL="postgresql://postgres:postgres@localhost:5432/fptu_mathai"
+$env:DEEPSEEK_MODEL_PATH="D:\models\DeepSeek-R1-Distill-Qwen-7B"
 ```
 
-PostgreSQL cần cài extension `pgvector`. Script sẽ tự chạy:
+Nếu không set biến này, service dùng fallback `deepseek-ai/DeepSeek-R1-Distill-Qwen-7B` và phụ thuộc vào cache Hugging Face có sẵn.
 
-```sql
-CREATE EXTENSION IF NOT EXISTS vector;
-```
-
-OCR ảnh dùng `pytesseract`, nên nếu chạy chức năng đọc ảnh trực tiếp thì Windows cần cài thêm Tesseract OCR. Nếu backend đã OCR ảnh thành text thì chỉ cần truyền text bằng `--ocr-text`.
-
-## Chuẩn Bị Dữ Liệu Fine-Tune
-
-Tạo SFT dataset từ `Data_Bank.json`:
+Mặc định service chỉ đọc model từ local/cache:
 
 ```powershell
-python scripts/prepare_sft_data.py `
-  --input Data_Bank.json `
-  --output-dir data/sft `
-  --validation-ratio 0.1
+$env:MODEL_LOCAL_FILES_ONLY="true"
 ```
 
-Kết quả:
+Nếu muốn cho phép `transformers` tải model từ Hugging Face, đổi biến này thành `false`.
 
-- `data/sft/train.jsonl`
-- `data/sft/valid.jsonl`
-- `data/sft/dataset_stats.json`
-
-## Fine-Tune DeepSeek Bằng LoRA
+Database mặc định:
 
 ```powershell
-python scripts/train_deepseek_lora.py `
-  --model-name deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B `
-  --train-file data/sft/train.jsonl `
-  --valid-file data/sft/valid.jsonl `
-  --output-dir outputs/deepseek-fptu-mathai-lora `
-  --epochs 3 `
-  --batch-size 1 `
-  --grad-accum 8
+$env:DATABASE_URL="sqlite:///F:\FPTU_MathAI\mathai.db"
 ```
 
-Nếu chạy Linux/Colab và có GPU phù hợp, có thể thêm `--use-4bit`. Trên Windows, `bitsandbytes` có thể không ổn định.
-
-## Chạy AI Service
-
-Có thể chạy bằng entrypoint mới:
+## Chạy API
 
 ```powershell
-python -m AI_service.main --help
+python main.py
 ```
 
-Hoặc wrapper cũ:
+Hoặc:
 
 ```powershell
-python main.py --help
+uvicorn AI_service.main:app --host 127.0.0.1 --port 8000
 ```
 
-Các command chính:
+Swagger UI:
 
-```powershell
-python -m AI_service.main generate
-python -m AI_service.main solve-upload
-python -m AI_service.main evaluate-answer
-python -m AI_service.main explain-wrong
-python -m AI_service.main self-assess
-python -m AI_service.main analyze-class
-python -m AI_service.main teacher-chat
-python -m AI_service.main classify-question
-python -m AI_service.main import-json
-python -m AI_service.main search
+```txt
+http://127.0.0.1:8000/docs
 ```
 
-## Import Data_Bank Vào Vector DB
+Model được lazy-load: `/health` không load model, endpoint sinh/chấm đầu tiên mới load model.
 
-```powershell
-python -m AI_service.main import-json --input Data_Bank.json
+## Endpoint Chính
+
+### 1. Sinh đề từ tài liệu
+
+`POST /api/v1/exams/generate-from-document`
+
+```json
+{
+  "document_text": "Nội dung tài liệu hoặc nội dung đã OCR...",
+  "subject": "MAE",
+  "course": "Mathematics for Engineering",
+  "chapter": "Derivatives",
+  "topic": "Basic derivatives",
+  "difficulty": "medium",
+  "question_count": 5,
+  "choices_per_question": 4,
+  "language": "vi"
+}
 ```
 
-Mỗi câu hỏi sẽ được lưu theo schema gốc và có thêm vector embedding để search.
+Kết quả trả về `exam_id`, `coverage_report` và danh sách câu hỏi đã lưu vào DB.
 
-## Sinh Đề Và Lưu Vector
+### 2. Giải bài toán
 
-```powershell
-python -m AI_service.main generate `
-  --chapter "Linear Algebra" `
-  --topic "Vector Spaces" `
-  --difficulty medium `
-  --count 5
+`POST /api/v1/problems/solve`
+
+```json
+{
+  "problem_text": "Giải phương trình 2x + 3 = 7.",
+  "subject": "MAE",
+  "course": "Mathematics for Engineering",
+  "chapter": "Algebra",
+  "topic": "Linear equations",
+  "difficulty": "easy",
+  "problem_kind": "math",
+  "language": "vi"
+}
 ```
 
-Output được lưu vào `math_question_bank`.
+Kết quả là một bài toán theo schema ngân hàng câu hỏi, gồm đề bài, lời giải từng bước và đáp án cuối.
 
-## Giải Đề User Upload
+### 3. Chấm bài làm sinh viên
 
-Từ ảnh:
+`POST /api/v1/submissions/grade`
 
-```powershell
-python -m AI_service.main solve-upload `
-  --image-path data/uploads/problem.png `
-  --chapter "Calculus" `
-  --topic "Derivative"
+```json
+{
+  "question_id": "MATHAI_20260710093000_ab12cd34",
+  "student_answer": "2x + 3 = 7 nên x = 5",
+  "max_score": 10,
+  "rubric": "Đáp án 4 điểm, biến đổi 4 điểm, trình bày 2 điểm",
+  "student_id": "SE180001",
+  "submission_id": "SUB_001",
+  "language": "vi"
+}
 ```
 
-Từ text OCR:
+Nếu chưa có `question_id`, truyền trực tiếp:
 
-```powershell
-python -m AI_service.main solve-upload `
-  --ocr-text "Find the derivative of f(x)=x^3+2x." `
-  --chapter "Calculus" `
-  --topic "Derivative"
+```json
+{
+  "question_text": "Giải phương trình 2x + 3 = 7.",
+  "standard_solution": "x = 2",
+  "student_answer": "x = 5",
+  "max_score": 10
+}
 ```
 
-## Chấm Bài Tự Luận
+Kết quả gồm `verdict` (`DUNG` hoặc `SAI`), điểm, lỗi sai, nhận xét và hướng sửa.
 
-```powershell
-python -m AI_service.main evaluate-answer `
-  --question-id MAE_MATH_0001 `
-  --student-answer "x = 2" `
-  --student-id SE180001 `
-  --class-id MAE101_SP26 `
-  --submission-id SUB_001
+## Endpoint Tra Cứu
+
+- `GET /health`
+- `GET /api/v1/schema/problem`
+- `GET /api/v1/problems`
+- `GET /api/v1/problems/{problem_id}`
+- `GET /api/v1/evaluations/{evaluation_id}`
+
+## Database
+
+SQLite tự tạo các bảng:
+
+- `problems`: lưu bài toán/câu hỏi được sinh hoặc được giải, trường `document` chứa JSON theo schema `Data_Bank`.
+- `exam_generations`: lưu request sinh đề, coverage report và danh sách `problem_id`.
+- `evaluations`: lưu kết quả chấm bài sinh viên.
+
+Schema bài toán giữ các field chính:
+
+```txt
+id, subject, course, chapter, topic, subtopic, difficulty,
+question_type, question, solution, concepts_used, prerequisites,
+common_mistakes, hints, evaluation, metadata
 ```
 
-AI trả về verdict `DUNG` hoặc `SAI`, điểm, feedback, lỗi sai và gợi ý sửa.
+## Ghi Chú
 
-## Search Vector
-
-```powershell
-python -m AI_service.main search `
-  --query "linear independence vector spaces" `
-  --limit 5
-```
-
-## Ghi Chú Kỹ Thuật
-
-- `AI_service` không thay thế backend chính. Backend có thể gọi CLI này hoặc import module Python.
-- Các output AI được ép trả về JSON để backend dễ parse.
-- Câu hỏi sinh mới nên có bước giáo viên review trước khi đưa vào đề chính thức.
-- Dataset hiện chưa đủ lớn cho một model toán mạnh. Nên tiếp tục bổ sung đề thật, lời giải đúng và dữ liệu lỗi sai của sinh viên.
+- Service không train, không fine-tune, không dùng adapter.
+- Prompt nghiệp vụ chỉ nằm trong `prompt.txt`.
+- Các câu hỏi AI sinh có `metadata.verified = false`; giáo viên nên review trước khi đưa vào đề chính thức.
+- API nhận text tài liệu. Nếu tài liệu là PDF, ảnh hoặc DOCX, backend/UI nên OCR hoặc extract text trước rồi gửi vào endpoint.

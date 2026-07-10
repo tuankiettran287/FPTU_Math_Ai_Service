@@ -6,6 +6,10 @@ Data_Bank.json.bak
 data/sft/*.jsonl
 data/generated_bank.jsonl
 data/uploads/
+mathai.db
+mathai.db-*
+*.sqlite
+*.db
 
 # Model outputs and checkpoints
 outputs/
