@@ -1,0 +1,148 @@
+{
+  "_spec": {
+    "version": "1.0",
+    "muc_dich": "Bộ test Vấn đề 4 — đánh giá năng lực chấm bài của model qua endpoint /api/v1/competency/grade. Mỗi item = 1 câu hỏi + 1 bài làm sinh viên VIẾT SẴN + nhãn ĐÚNG biết trước (expected). Harness gửi (question, student_answer, hint_events) cho AI chấm, rồi SO NHÃN BẰNG CODE — không cần LLM giám khảo, không ai vặn được (bài học V3).",
+    "so_file": "3 file, mỗi môn 1 file: FPT_V4_Competency_Test_Set_45_MAE101.json / _MAD101.json / _MAS291.json",
+    "so_cau_moi_file": "45 câu = 9 kịch bản × 5 câu (phân bố ở _distribution). Nếu làm không kịp thì tối thiểu 27 câu = 9 kịch bản × 3, giữ nguyên tỉ lệ.",
+    "quy_tac_soan": [
+      "skill_id/clo_id phải là id THẬT trong FPT_Math_Competency_Framework_MAE101_MAD101_MAS291_v1.json (vd MAE-CLO1-S02).",
+      "student_answer phải viết như bài làm THẬT của sinh viên: trình bày TỪNG BƯỚC, có thể dùng LaTeX $..$; ca sai số thì con số sai phải truy được (vd 3×7=24).",
+      "Ca ADVANCED: phương pháp phải THẬT SỰ ngoài syllabus/nâng cao hơn (vd dùng L'Hôpital khi unit chỉ mới học giới hạn cơ bản; dùng đạo hàm tìm min/max thay vì bất đẳng thức; MAD dùng hàm sinh thay vì truy hồi; MAS dùng MGF thay vì tính trực tiếp) — và bài giải phải ĐÚNG.",
+      "difficulty đa số medium/hard (framework yêu cầu bằng chứng medium/hard cho mastery); easy tối đa 1/5 số câu.",
+      "accepted_methods CỐ Ý chỉ liệt kê phương pháp trong syllabus — để kiểm tra model có nhận ra phương pháp ngoài danh sách vẫn hợp lệ hay không.",
+      "expected.method_scope_level cho phép MẢNG khi ranh giới mờ (BEYOND_FPT_VALID vs ADVANCED_GENERALIZATION đều chấp nhận).",
+      "score_band là khoảng điểm chấp nhận trên thang points của câu — nới tay (±2/10) vì chấm tự luận có dao động hợp lý.",
+      "hint_events chỉ có ở 2 kịch bản HINT_*; revealed phải khai trung thực AI đã lộ gì; draft_at_request là bài làm dở TRƯỚC khi xin hint."
+    ],
+    "_distribution_per_file": {
+      "CORE_CORRECT": "5 câu — giải đúng, đủ bước, đúng phương pháp chuẩn syllabus",
+      "ALT_CORRECT": "5 câu — giải đúng bằng phương pháp thay thế hợp lệ trong mức môn",
+      "ADVANCED_CORRECT": "7 câu — giải ĐÚNG bằng phương pháp ngoài syllabus/nâng cao (trọng tâm chống kết luận oan: expect ADVANCED_BYPASS, CẤM KNOWLEDGE_GAP)",
+      "CALC_SLIP": "6 câu — phương pháp đúng nhưng sai phép tính giữa chừng → đáp số sai (expect PARTIALLY + chỉ ra được lỗi)",
+      "CONCEPT_WRONG": "6 câu — sai bản chất khái niệm / phương pháp không hợp lệ (expect KNOWLEDGE_GAP + INVALID_OR_UNJUSTIFIED)",
+      "RIGHT_ANSWER_NO_WORK": "4 câu — đáp số đúng nhưng nhảy bước/không lập luận (expect PARTIALLY, không được DEMONSTRATED trọn)",
+      "OFF_TOPIC": "3 câu — làm lạc đề/không liên quan (expect NOT_DEMONSTRATED, KHÔNG phải KNOWLEDGE_GAP)",
+      "HINT_HEAVY": "5 câu — có hint_events mức 4-5 (Dàn ý/Lời giải đầy đủ) rồi mới làm đúng (expect independent=false toàn bộ + must_flag_confirmation=true)",
+      "HINT_LIGHT": "4 câu — có hint mức 1-2 (Khái niệm/Phương pháp) nhưng phần tính toán tự làm (expect skill chính vẫn independent=true)"
+    },
+    "cham_bang_code": "So expected với response: answers_match == syllabus_frame.answers_match; method_scope_level ∈ expected (mảng); từng skill: status ∈ expected.status (mảng cho phép), independent == expected; question_score ∈ score_band; needs_confirmation == must_flag_confirmation; số mistakes ≥ min_mistakes. Mỗi phép so = 1 chỉ số, báo cáo % đạt theo kịch bản."
+  },
+  "items": [
+    {
+      "test_id": "V4_MAE101_001",
+      "subject": "MAE101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_001",
+        "question_text": "Cho hàm số $f(x) = \\dfrac{x^2 - 4}{x - 2}$ khi $x \\ne 2$ và $f(2) = m$. Tìm $m$ để $f$ liên tục tại $x = 2$. Trình bày đầy đủ các bước lập luận.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Bước 1: f liên tục tại x=2 khi lim_{x→2} f(x) = f(2) = m. Bước 2: Với x≠2, f(x) = (x-2)(x+2)/(x-2) = x+2. Bước 3: lim_{x→2} f(x) = lim_{x→2} (x+2) = 4. Bước 4: Vậy m = 4.",
+        "final_answer": "m = 4",
+        "accepted_methods": [
+          { "name": "Rút gọn phân thức rồi lấy giới hạn", "scope_level": "FPT_CORE", "outline": "Phân tích tử thành nhân tử, giản ước (x-2), tính lim trực tiếp" }
+        ],
+        "grading_notes": "Phải nêu điều kiện liên tục lim = f(2) mới được điểm lập luận trọn; chỉ ghi m=4 không giải thích thì trừ."
+      },
+      "skill_targets": [
+        { "skill_id": "MAE-CLO1-S03", "name": "Xác định tính liên tục và phân loại gián đoạn" }
+      ],
+      "student_answer": "Để f liên tục tại x=2 thì lim khi x→2 của f(x) phải bằng f(2)=m.\nVới x≠2: f(x) = (x^2-4)/(x-2) = (x-2)(x+2)/(x-2) = x+2.\nDo đó lim_{x→2} f(x) = 2+2 = 4.\nVậy m = 4.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": ["FPT_CORE", "FPT_ACCEPTED_ALTERNATIVE"],
+        "method_valid": true,
+        "skills": [
+          { "skill_id": "MAE-CLO1-S03", "status": ["DEMONSTRATED"], "independent": true }
+        ],
+        "score_band": [8, 10],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0,
+        "_note": "Ca trong-syllabus: chấp nhận cả FPT_CORE lẫn FPT_ACCEPTED_ALTERNATIVE (đo thật trên 32B: ranh giới 2 mức này dao động theo cách model đặt tên phương pháp; cả hai đều 'trong chương trình', không ảnh hưởng status/điểm). Áp dụng cho mọi câu CORE_CORRECT và ALT_CORRECT khi soạn bộ thật."
+      }
+    },
+    {
+      "test_id": "V4_MAE101_002",
+      "subject": "MAE101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_002",
+        "question_text": "Tính giới hạn $\\lim_{x \\to 0} \\dfrac{\\sin 3x}{x}$. Trình bày các bước.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Bước 1: Viết sin(3x)/x = 3·sin(3x)/(3x). Bước 2: Đặt t=3x, khi x→0 thì t→0, dùng giới hạn cơ bản lim_{t→0} sin(t)/t = 1. Bước 3: Kết quả = 3·1 = 3.",
+        "final_answer": "3",
+        "accepted_methods": [
+          { "name": "Biến đổi về giới hạn cơ bản sin(t)/t", "scope_level": "FPT_CORE", "outline": "Nhân chia 3, đổi biến t=3x, áp dụng lim sin t / t = 1" }
+        ],
+        "grading_notes": "Unit này (MAE-U01, giới hạn) CHƯA học đạo hàm/L'Hôpital. Nếu SV dùng L'Hôpital ĐÚNG thì bài vẫn đúng về toán — không được coi là hổng kiến thức, nhưng kỹ thuật giới hạn cơ bản chưa được quan sát."
+      },
+      "skill_targets": [
+        { "skill_id": "MAE-CLO1-S02", "name": "Tính giới hạn hàm số bằng các phép biến đổi và giới hạn cơ bản" }
+      ],
+      "student_answer": "Khi x→0, tử sin(3x)→0 và mẫu x→0, dạng 0/0 nên áp dụng quy tắc L'Hôpital:\nlim_{x→0} sin(3x)/x = lim_{x→0} (sin(3x))'/(x)' = lim_{x→0} 3cos(3x)/1 = 3·cos(0) = 3·1 = 3.\nVậy giới hạn bằng 3.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": ["BEYOND_FPT_VALID", "ADVANCED_GENERALIZATION"],
+        "method_valid": true,
+        "skills": [
+          { "skill_id": "MAE-CLO1-S02", "status": ["ADVANCED_BYPASS"], "independent": true }
+        ],
+        "score_band": [7, 10],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "CA TRỌNG TÂM: nếu model gán KNOWLEDGE_GAP cho ca này là LỖI NẶNG (kết luận oan). Điểm không được thấp chỉ vì dùng phương pháp ngoài syllabus."
+      }
+    },
+    {
+      "test_id": "V4_MAD101_001",
+      "subject": "MAD101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_001",
+        "question_text": "Chứng minh bằng quy nạp: $1 + 2 + \\dots + n = \\dfrac{n(n+1)}{2}$ với mọi số nguyên dương $n$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Cơ sở: n=1, VT=1, VP=1·2/2=1, đúng. Giả thiết quy nạp: đúng với n=k, tức 1+...+k = k(k+1)/2. Bước quy nạp: 1+...+k+(k+1) = k(k+1)/2 + (k+1) = (k+1)(k+2)/2 — đúng với n=k+1. Kết luận theo nguyên lý quy nạp.",
+        "final_answer": "Đpcm theo nguyên lý quy nạp (cơ sở n=1 + bước quy nạp k→k+1)",
+        "accepted_methods": [
+          { "name": "Quy nạp toán học", "scope_level": "FPT_CORE", "outline": "Cơ sở n=1, giả thiết với k, chứng minh với k+1" }
+        ],
+        "grading_notes": "Phải đủ 3 phần: cơ sở, giả thiết quy nạp, bước quy nạp. Thiếu cơ sở là lỗi cấu trúc chứng minh."
+      },
+      "skill_targets": [
+        { "skill_id": "MAD-CLO5-S01", "name": "Xây dựng chứng minh quy nạp toán học" }
+      ],
+      "student_answer": "Cơ sở: n=1: VT=1, VP=1(1+1)/2=1. Đúng.\nGiả sử đúng với n=k: 1+2+...+k = k(k+1)/2.\nXét n=k+1: 1+2+...+k+(k+1) = k(k+1)/2 + (k+1) = (k+1)(k/2 + 1) = (k+1)(k+2)/2.\nVậy mệnh đề đúng với n=k+1. Theo nguyên lý quy nạp, mệnh đề đúng với mọi n nguyên dương.",
+      "hint_events": [
+        {
+          "level": 4,
+          "hint_text": "Dàn ý: (1) kiểm tra n=1; (2) giả sử đúng với n=k; (3) cộng thêm (k+1) vào hai vế giả thiết rồi quy đồng để ra dạng (k+1)(k+2)/2; (4) kết luận theo nguyên lý quy nạp.",
+          "revealed": {
+            "concepts": ["nguyên lý quy nạp toán học"],
+            "methods": ["quy nạp: cơ sở + giả thiết + bước quy nạp"],
+            "steps": ["kiểm tra n=1", "cộng (k+1) vào giả thiết quy nạp", "quy đồng về (k+1)(k+2)/2"]
+          },
+          "draft_at_request": "Cơ sở: n=1: VT=1, VP=1. Đúng. (chưa biết làm tiếp thế nào)"
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": ["FPT_CORE"],
+        "method_valid": true,
+        "skills": [
+          { "skill_id": "MAD-CLO5-S01", "status": ["DEMONSTRATED", "PARTIALLY_DEMONSTRATED"], "independent": false }
+        ],
+        "score_band": [0, 4],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "SV xin DÀN Ý (mức 4) khi mới làm xong cơ sở → toàn bộ bước quy nạp làm SAU khi AI lộ khung. independent bắt buộc = false; điểm độc lập thấp; phải flag bài xác nhận."
+      }
+    }
+  ]
+}

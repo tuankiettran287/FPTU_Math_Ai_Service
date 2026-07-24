@@ -1,0 +1,20 @@
+{
+ "model": "qwen7b",
+ "mode": "pure",
+ "kind": "perf",
+ "load_time_s": 140.0,
+ "idle_vram_mib": 35376.0,
+ "card_vram_at_idle_mib": 73257.0,
+ "idle_power_w": 89.02,
+ "vram_mean": 73257.0,
+ "vram_peak": 73257.0,
+ "model_vram_mean": 35376.0,
+ "model_vram_peak": 35376.0,
+ "util_mean": 93.13333333333334,
+ "util_peak": 94.0,
+ "power_mean": 391.89500000000004,
+ "power_peak": 403.64,
+ "duration_s": 96.10328324092552,
+ "energy_wh": 0.38243681581623357,
+ "incremental_vram_mib": 0.0
+}

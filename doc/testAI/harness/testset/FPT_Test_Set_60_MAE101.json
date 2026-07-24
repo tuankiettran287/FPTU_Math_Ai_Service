@@ -1,0 +1,542 @@
+[
+  {
+    "test_id": "TEST_MAE101_001",
+    "subject": "MAE101",
+    "topic": "Functions and Graphs",
+    "difficulty": "easy",
+    "input_question": "Cho f(x)=2x²−3x+1. Tính f(2) và tìm các nghiệm của f(x)=0.",
+    "expected_context": "Giá trị hàm được tính bằng phép thế. Nghiệm bậc hai có thể tìm bằng phân tích nhân tử hoặc công thức nghiệm.",
+    "expected_answer": "f(2)=3. Ta có 2x²−3x+1=(2x−1)(x−1), nên các nghiệm là x=1/2 và x=1."
+  },
+  {
+    "test_id": "TEST_MAE101_002",
+    "subject": "MAE101",
+    "topic": "Functions and Graphs",
+    "difficulty": "medium",
+    "input_question": "Xác định miền xác định của f(x)=√(2x−1)/(x−3).",
+    "expected_context": "Biểu thức dưới căn phải không âm và mẫu số phải khác 0.",
+    "expected_answer": "Điều kiện 2x−1≥0 cho x≥1/2; đồng thời x≠3. Miền xác định là [1/2,3)∪(3,+∞)."
+  },
+  {
+    "test_id": "TEST_MAE101_003",
+    "subject": "MAE101",
+    "topic": "Limits",
+    "difficulty": "easy",
+    "input_question": "Tính lim khi x→2 của (x²−4)/(x−2).",
+    "expected_context": "Khi xuất hiện dạng 0/0, có thể phân tích tử thành nhân tử rồi rút gọn trên lân cận điểm giới hạn.",
+    "expected_answer": "(x²−4)/(x−2)=(x−2)(x+2)/(x−2)=x+2 với x≠2, nên giới hạn bằng 4."
+  },
+  {
+    "test_id": "TEST_MAE101_004",
+    "subject": "MAE101",
+    "topic": "One-sided Limits",
+    "difficulty": "medium",
+    "input_question": "Cho f(x)=x+1 nếu x<1 và f(x)=3−x nếu x≥1. Tính giới hạn trái, giới hạn phải tại x=1 và kết luận về lim x→1 f(x).",
+    "expected_context": "Giới hạn hai phía tồn tại khi giới hạn trái và phải cùng tồn tại và bằng nhau.",
+    "expected_answer": "Giới hạn trái bằng 2; giới hạn phải bằng 2. Vì hai giá trị bằng nhau nên lim x→1 f(x)=2."
+  },
+  {
+    "test_id": "TEST_MAE101_005",
+    "subject": "MAE101",
+    "topic": "Continuity",
+    "difficulty": "hard",
+    "input_question": "Tìm a để hàm f(x)=(x²−4)/(x−2) khi x≠2 và f(2)=a liên tục tại x=2.",
+    "expected_context": "Hàm liên tục tại c khi f(c) xác định và bằng giới hạn của hàm khi x tiến tới c.",
+    "expected_answer": "lim x→2 (x²−4)/(x−2)=4, do đó cần chọn a=4."
+  },
+  {
+    "test_id": "TEST_MAE101_006",
+    "subject": "MAE101",
+    "topic": "Asymptotes",
+    "difficulty": "medium",
+    "input_question": "Tìm tiệm cận đứng và tiệm cận ngang của f(x)=(3x+1)/(x−2).",
+    "expected_context": "Tiệm cận đứng xuất hiện tại nghiệm mẫu không bị khử. Với phân thức có tử và mẫu cùng bậc, tiệm cận ngang là tỉ số hệ số dẫn đầu.",
+    "expected_answer": "Tiệm cận đứng x=2; tiệm cận ngang y=3."
+  },
+  {
+    "test_id": "TEST_MAE101_007",
+    "subject": "MAE101",
+    "topic": "Limits and Continuity",
+    "difficulty": "hard",
+    "input_question": "Xét tính liên tục của f(x)=|x|/x tại x=0 và giải thích bằng giới hạn một phía.",
+    "expected_context": "Giới hạn trái và phải phải bằng nhau thì giới hạn hai phía mới tồn tại.",
+    "expected_answer": "Khi x→0−, f(x)=−1; khi x→0+, f(x)=1. Hai giới hạn khác nhau nên lim x→0 f(x) không tồn tại và hàm không liên tục tại 0."
+  },
+  {
+    "test_id": "TEST_MAE101_008",
+    "subject": "MAE101",
+    "topic": "Derivative Definition",
+    "difficulty": "easy",
+    "input_question": "Dùng định nghĩa đạo hàm để tính f'(x) với f(x)=x².",
+    "expected_context": "f'(x)=lim h→0 [f(x+h)−f(x)]/h.",
+    "expected_answer": "[ (x+h)²−x² ]/h=2x+h; cho h→0 được f'(x)=2x."
+  },
+  {
+    "test_id": "TEST_MAE101_009",
+    "subject": "MAE101",
+    "topic": "Differentiation Rules",
+    "difficulty": "easy",
+    "input_question": "Tính đạo hàm của f(x)=4x³−5x+7.",
+    "expected_context": "Quy tắc lũy thừa: d(xⁿ)/dx=nxⁿ⁻¹; đạo hàm hằng số bằng 0.",
+    "expected_answer": "f'(x)=12x²−5."
+  },
+  {
+    "test_id": "TEST_MAE101_010",
+    "subject": "MAE101",
+    "topic": "Product and Quotient Rules",
+    "difficulty": "medium",
+    "input_question": "Tính đạo hàm của y=(x²+1)eˣ.",
+    "expected_context": "Quy tắc tích: (uv)'=u'v+uv'.",
+    "expected_answer": "y'=2xeˣ+(x²+1)eˣ=eˣ(x²+2x+1)."
+  },
+  {
+    "test_id": "TEST_MAE101_011",
+    "subject": "MAE101",
+    "topic": "Chain Rule",
+    "difficulty": "medium",
+    "input_question": "Tính đạo hàm của y=(3x²−1)⁵.",
+    "expected_context": "Quy tắc chuỗi: đạo hàm hàm hợp bằng đạo hàm hàm ngoài nhân đạo hàm hàm trong.",
+    "expected_answer": "y'=5(3x²−1)⁴·6x=30x(3x²−1)⁴."
+  },
+  {
+    "test_id": "TEST_MAE101_012",
+    "subject": "MAE101",
+    "topic": "Implicit Differentiation",
+    "difficulty": "hard",
+    "input_question": "Cho x²+xy+y²=7. Tính dy/dx theo x,y.",
+    "expected_context": "Khi đạo hàm ẩn, xem y là hàm của x; đạo hàm xy dùng quy tắc tích.",
+    "expected_answer": "2x+(x y'+y)+2y y'=0, nên y'(x+2y)=−(2x+y), do đó dy/dx=−(2x+y)/(x+2y), với x+2y≠0."
+  },
+  {
+    "test_id": "TEST_MAE101_013",
+    "subject": "MAE101",
+    "topic": "Logarithmic Differentiation",
+    "difficulty": "hard",
+    "input_question": "Tính đạo hàm của y=xˣ với x>0.",
+    "expected_context": "Lấy log tự nhiên: ln y=x ln x, sau đó đạo hàm ẩn.",
+    "expected_answer": "y'/y=ln x+1, nên y'=xˣ(ln x+1)."
+  },
+  {
+    "test_id": "TEST_MAE101_014",
+    "subject": "MAE101",
+    "topic": "Trigonometric Derivatives",
+    "difficulty": "medium",
+    "input_question": "Tính đạo hàm của f(x)=sin(x²)+cos(3x).",
+    "expected_context": "Dùng đạo hàm lượng giác kết hợp quy tắc chuỗi.",
+    "expected_answer": "f'(x)=2x cos(x²)−3sin(3x)."
+  },
+  {
+    "test_id": "TEST_MAE101_015",
+    "subject": "MAE101",
+    "topic": "Rates of Change",
+    "difficulty": "easy",
+    "input_question": "Bán kính hình tròn tăng theo tốc độ 2 cm/s. Tính tốc độ tăng diện tích khi r=5 cm.",
+    "expected_context": "A=πr² nên dA/dt=2πr·dr/dt.",
+    "expected_answer": "dA/dt=2π·5·2=20π cm²/s."
+  },
+  {
+    "test_id": "TEST_MAE101_016",
+    "subject": "MAE101",
+    "topic": "Linear Approximation",
+    "difficulty": "medium",
+    "input_question": "Dùng xấp xỉ tuyến tính tại x=4 để ước lượng √4.1.",
+    "expected_context": "Với f(x)=√x, L(x)=f(a)+f'(a)(x−a), f'(x)=1/(2√x).",
+    "expected_answer": "L(4.1)=2+(1/4)(0.1)=2.025."
+  },
+  {
+    "test_id": "TEST_MAE101_017",
+    "subject": "MAE101",
+    "topic": "Critical Points",
+    "difficulty": "easy",
+    "input_question": "Tìm các điểm tới hạn của f(x)=x³−3x²−9x+1.",
+    "expected_context": "Điểm tới hạn xảy ra khi f'(x)=0 hoặc f' không xác định trong miền xác định.",
+    "expected_answer": "f'(x)=3x²−6x−9=3(x−3)(x+1), nên x=−1 và x=3."
+  },
+  {
+    "test_id": "TEST_MAE101_018",
+    "subject": "MAE101",
+    "topic": "Curve Analysis",
+    "difficulty": "medium",
+    "input_question": "Xét khoảng tăng, giảm của f(x)=x³−3x.",
+    "expected_context": "Dấu của f'(x) quyết định khoảng tăng giảm.",
+    "expected_answer": "f'(x)=3(x²−1). Hàm tăng trên (−∞,−1) và (1,+∞), giảm trên (−1,1)."
+  },
+  {
+    "test_id": "TEST_MAE101_019",
+    "subject": "MAE101",
+    "topic": "Optimization",
+    "difficulty": "hard",
+    "input_question": "Một hình chữ nhật có chu vi 40 m. Tìm kích thước để diện tích lớn nhất.",
+    "expected_context": "Đặt hai cạnh x,y với x+y=20. Diện tích A=x(20−x) là parabol quay xuống.",
+    "expected_answer": "A đạt cực đại tại x=10, y=10. Hình vuông 10 m × 10 m, diện tích lớn nhất 100 m²."
+  },
+  {
+    "test_id": "TEST_MAE101_020",
+    "subject": "MAE101",
+    "topic": "Newton Method",
+    "difficulty": "hard",
+    "input_question": "Dùng một bước Newton từ x₀=1.5 để xấp xỉ nghiệm dương của x²−2=0.",
+    "expected_context": "Công thức Newton: xₙ₊₁=xₙ−f(xₙ)/f'(xₙ).",
+    "expected_answer": "x₁=1.5−(1.5²−2)/(2·1.5)=1.5−0.25/3=17/12≈1.4167."
+  },
+  {
+    "test_id": "TEST_MAE101_021",
+    "subject": "MAE101",
+    "topic": "Mean Value Theorem",
+    "difficulty": "medium",
+    "input_question": "Kiểm tra định lý giá trị trung bình cho f(x)=x² trên [1,3] và tìm c.",
+    "expected_context": "Nếu f liên tục trên [a,b] và khả vi trên (a,b), tồn tại c sao cho f'(c)=[f(b)−f(a)]/(b−a).",
+    "expected_answer": "Hàm thỏa điều kiện. Hệ số góc trung bình=(9−1)/2=4; f'(c)=2c=4 nên c=2."
+  },
+  {
+    "test_id": "TEST_MAE101_022",
+    "subject": "MAE101",
+    "topic": "Antiderivatives",
+    "difficulty": "easy",
+    "input_question": "Tìm ∫(3x²−4x+2)dx.",
+    "expected_context": "Tích phân bất định dùng quy tắc ∫xⁿdx=xⁿ⁺¹/(n+1)+C với n≠−1.",
+    "expected_answer": "Kết quả là x³−2x²+2x+C."
+  },
+  {
+    "test_id": "TEST_MAE101_023",
+    "subject": "MAE101",
+    "topic": "Definite Integral",
+    "difficulty": "easy",
+    "input_question": "Tính ∫₀² (x+1)dx.",
+    "expected_context": "Tính nguyên hàm rồi áp dụng F(b)−F(a).",
+    "expected_answer": "[x²/2+x]₀²=2+2=4."
+  },
+  {
+    "test_id": "TEST_MAE101_024",
+    "subject": "MAE101",
+    "topic": "Fundamental Theorem of Calculus",
+    "difficulty": "medium",
+    "input_question": "Cho F(x)=∫₁ˣ (t²+1)dt. Tính F'(x) và F'(2).",
+    "expected_context": "Theo định lý cơ bản của giải tích, đạo hàm của tích phân có cận trên x bằng giá trị của hàm dưới dấu tích phân tại x.",
+    "expected_answer": "F'(x)=x²+1, nên F'(2)=5."
+  },
+  {
+    "test_id": "TEST_MAE101_025",
+    "subject": "MAE101",
+    "topic": "Substitution",
+    "difficulty": "medium",
+    "input_question": "Tính ∫2x cos(x²)dx.",
+    "expected_context": "Đặt u=x² thì du=2x dx.",
+    "expected_answer": "Tích phân trở thành ∫cos u du=sin u+C=sin(x²)+C."
+  },
+  {
+    "test_id": "TEST_MAE101_026",
+    "subject": "MAE101",
+    "topic": "Integration by Parts",
+    "difficulty": "hard",
+    "input_question": "Tính ∫x eˣ dx.",
+    "expected_context": "Công thức từng phần: ∫u dv=uv−∫v du.",
+    "expected_answer": "Chọn u=x, dv=eˣdx. Kết quả xeˣ−eˣ+C=eˣ(x−1)+C."
+  },
+  {
+    "test_id": "TEST_MAE101_027",
+    "subject": "MAE101",
+    "topic": "Numerical Integration",
+    "difficulty": "medium",
+    "input_question": "Dùng quy tắc hình thang với n=2 để xấp xỉ ∫₀² x²dx.",
+    "expected_context": "Với h=(b−a)/n, Tₙ=h[0.5f(x₀)+f(x₁)+0.5f(x₂)].",
+    "expected_answer": "h=1; T₂=1[0.5·0+1+0.5·4]=3."
+  },
+  {
+    "test_id": "TEST_MAE101_028",
+    "subject": "MAE101",
+    "topic": "Improper Integrals",
+    "difficulty": "hard",
+    "input_question": "Xét sự hội tụ và tính ∫₁^∞ 1/x² dx.",
+    "expected_context": "Tích phân suy rộng được định nghĩa bằng giới hạn. ∫₁^b x⁻²dx=[−1/x]₁^b.",
+    "expected_answer": "Giới hạn khi b→∞ của 1−1/b bằng 1. Tích phân hội tụ và có giá trị 1."
+  },
+  {
+    "test_id": "TEST_MAE101_029",
+    "subject": "MAE101",
+    "topic": "Linear Systems",
+    "difficulty": "easy",
+    "input_question": "Giải hệ x+y=5, x−y=1.",
+    "expected_context": "Có thể cộng hai phương trình để khử y.",
+    "expected_answer": "Cộng hai phương trình được 2x=6 nên x=3; suy ra y=2."
+  },
+  {
+    "test_id": "TEST_MAE101_030",
+    "subject": "MAE101",
+    "topic": "Gaussian Elimination",
+    "difficulty": "medium",
+    "input_question": "Giải hệ 2x+y=5, 4x−y=1 bằng khử Gauss.",
+    "expected_context": "Biểu diễn hệ bằng ma trận mở rộng và dùng phép biến đổi sơ cấp hàng.",
+    "expected_answer": "Cộng hai phương trình được 6x=6 nên x=1; từ 2x+y=5 suy ra y=3."
+  },
+  {
+    "test_id": "TEST_MAE101_031",
+    "subject": "MAE101",
+    "topic": "Consistency",
+    "difficulty": "medium",
+    "input_question": "Xét số nghiệm của hệ x+y=2 và 2x+2y=5.",
+    "expected_context": "Hai phương trình có vế trái tỉ lệ nhưng vế phải không cùng tỉ lệ, tạo hàng dạng 0=1 sau khử.",
+    "expected_answer": "Hệ vô nghiệm, tức không tương thích."
+  },
+  {
+    "test_id": "TEST_MAE101_032",
+    "subject": "MAE101",
+    "topic": "Homogeneous Systems",
+    "difficulty": "easy",
+    "input_question": "Giải hệ thuần nhất x+2y=0, 2x+4y=0.",
+    "expected_context": "Hệ thuần nhất luôn có nghiệm tầm thường; nếu phương trình phụ thuộc thì có biến tự do.",
+    "expected_answer": "Đặt y=t thì x=−2t. Tập nghiệm (x,y)=t(−2,1), t∈R."
+  },
+  {
+    "test_id": "TEST_MAE101_033",
+    "subject": "MAE101",
+    "topic": "RREF and Parameters",
+    "difficulty": "hard",
+    "input_question": "Tìm nghiệm tổng quát của hệ x+y+z=2, 2x+2y+2z=4.",
+    "expected_context": "Phương trình thứ hai phụ thuộc phương trình thứ nhất; có hai biến tự do.",
+    "expected_answer": "Đặt y=s, z=t thì x=2−s−t. Nghiệm (x,y,z)=(2−s−t,s,t), s,t∈R."
+  },
+  {
+    "test_id": "TEST_MAE101_034",
+    "subject": "MAE101",
+    "topic": "Linear Modeling",
+    "difficulty": "hard",
+    "input_question": "Một xưởng sản xuất sản phẩm A và B. Tổng số sản phẩm là 50; A dùng 2 giờ, B dùng 3 giờ và tổng thời gian là 130 giờ. Tìm số lượng mỗi loại.",
+    "expected_context": "Lập hệ a+b=50 và 2a+3b=130.",
+    "expected_answer": "Từ 2a+2b=100, trừ khỏi phương trình thời gian được b=30; suy ra a=20."
+  },
+  {
+    "test_id": "TEST_MAE101_035",
+    "subject": "MAE101",
+    "topic": "Matrix Operations",
+    "difficulty": "easy",
+    "input_question": "Cho A=[[1,2],[3,4]], B=[[2,0],[−1,5]]. Tính A+B.",
+    "expected_context": "Cộng ma trận theo từng phần tử tương ứng.",
+    "expected_answer": "A+B=[[3,2],[2,9]]."
+  },
+  {
+    "test_id": "TEST_MAE101_036",
+    "subject": "MAE101",
+    "topic": "Matrix Multiplication",
+    "difficulty": "medium",
+    "input_question": "Với A=[[1,2],[0,1]] và B=[[3,1],[2,4]], tính AB.",
+    "expected_context": "Phần tử (i,j) là tích vô hướng hàng i của A với cột j của B.",
+    "expected_answer": "AB=[[7,9],[2,4]]."
+  },
+  {
+    "test_id": "TEST_MAE101_037",
+    "subject": "MAE101",
+    "topic": "Matrix Inverse",
+    "difficulty": "medium",
+    "input_question": "Tìm nghịch đảo của A=[[2,1],[1,1]].",
+    "expected_context": "Với ma trận 2×2, A⁻¹=(1/det A)[[d,−b],[−c,a]] khi det A≠0.",
+    "expected_answer": "det A=1, nên A⁻¹=[[1,−1],[−1,2]]."
+  },
+  {
+    "test_id": "TEST_MAE101_038",
+    "subject": "MAE101",
+    "topic": "Properties of Inverses",
+    "difficulty": "hard",
+    "input_question": "Chứng minh rằng nếu A và B khả nghịch thì (AB)⁻¹=B⁻¹A⁻¹.",
+    "expected_context": "Để xác nhận nghịch đảo, kiểm tra cả tích trái và tích phải bằng ma trận đơn vị.",
+    "expected_answer": "(AB)(B⁻¹A⁻¹)=A(BB⁻¹)A⁻¹=AIA⁻¹=I; đồng thời (B⁻¹A⁻¹)(AB)=B⁻¹(A⁻¹A)B=B⁻¹IB=I. Vì vậy (AB)⁻¹=B⁻¹A⁻¹."
+  },
+  {
+    "test_id": "TEST_MAE101_039",
+    "subject": "MAE101",
+    "topic": "Linear Transformations",
+    "difficulty": "easy",
+    "input_question": "Cho T:R²→R², T(x,y)=(2x−y,x+3y). Viết ma trận chuẩn của T.",
+    "expected_context": "Các cột của ma trận chuẩn là T(e₁) và T(e₂).",
+    "expected_answer": "T(1,0)=(2,1), T(0,1)=(−1,3), nên ma trận là [[2,−1],[1,3]]."
+  },
+  {
+    "test_id": "TEST_MAE101_040",
+    "subject": "MAE101",
+    "topic": "Composition of Transformations",
+    "difficulty": "hard",
+    "input_question": "Cho T(x,y)=(x+y,y) và S(x,y)=(2x,x−y). Tính ma trận của S∘T.",
+    "expected_context": "Ma trận của phép hợp là tích [S][T], theo đúng thứ tự thực hiện.",
+    "expected_answer": "[T]=[[1,1],[0,1]], [S]=[[2,0],[1,−1]]. [S][T]=[[2,2],[1,0]]."
+  },
+  {
+    "test_id": "TEST_MAE101_041",
+    "subject": "MAE101",
+    "topic": "Transformation Geometry",
+    "difficulty": "medium",
+    "input_question": "Ma trận A=[[0,−1],[1,0]] biểu diễn phép biến đổi hình học nào trong R²?",
+    "expected_context": "Ma trận quay góc θ có dạng [[cosθ,−sinθ],[sinθ,cosθ]].",
+    "expected_answer": "Đây là phép quay ngược chiều kim đồng hồ góc 90° quanh gốc tọa độ."
+  },
+  {
+    "test_id": "TEST_MAE101_042",
+    "subject": "MAE101",
+    "topic": "Determinants",
+    "difficulty": "easy",
+    "input_question": "Tính det([[3,2],[1,4]]).",
+    "expected_context": "Định thức 2×2 bằng ad−bc.",
+    "expected_answer": "det=3·4−2·1=10."
+  },
+  {
+    "test_id": "TEST_MAE101_043",
+    "subject": "MAE101",
+    "topic": "Determinant Properties",
+    "difficulty": "medium",
+    "input_question": "Nếu det(A)=−2 với A là ma trận 3×3, tính det(3A).",
+    "expected_context": "Với ma trận n×n, det(cA)=cⁿdet(A).",
+    "expected_answer": "det(3A)=3³(−2)=−54."
+  },
+  {
+    "test_id": "TEST_MAE101_044",
+    "subject": "MAE101",
+    "topic": "Cramer's Rule",
+    "difficulty": "medium",
+    "input_question": "Dùng quy tắc Cramer giải hệ 2x+y=5, x−y=1.",
+    "expected_context": "Với det hệ số khác 0, x=det Aₓ/det A và y=det Aᵧ/det A.",
+    "expected_answer": "A=[[2,1],[1,−1]], det A=−3. det Aₓ=−6 nên x=2; det Aᵧ=−3 nên y=1."
+  },
+  {
+    "test_id": "TEST_MAE101_045",
+    "subject": "MAE101",
+    "topic": "Eigenvalues",
+    "difficulty": "easy",
+    "input_question": "Tìm trị riêng của A=[[2,0],[0,5]].",
+    "expected_context": "Trị riêng của ma trận đường chéo là các phần tử trên đường chéo.",
+    "expected_answer": "Các trị riêng là λ=2 và λ=5."
+  },
+  {
+    "test_id": "TEST_MAE101_046",
+    "subject": "MAE101",
+    "topic": "Eigenvectors",
+    "difficulty": "hard",
+    "input_question": "Tìm một cơ sở cho không gian riêng ứng với λ=3 của A=[[3,1],[0,3]].",
+    "expected_context": "Giải (A−λI)v=0.",
+    "expected_answer": "A−3I=[[0,1],[0,0]], nên y=0 và x tự do. Không gian riêng là span{(1,0)}."
+  },
+  {
+    "test_id": "TEST_MAE101_047",
+    "subject": "MAE101",
+    "topic": "Diagonalization",
+    "difficulty": "hard",
+    "input_question": "Xét A=[[1,1],[0,1]]. Ma trận có chéo hóa được không? Giải thích.",
+    "expected_context": "Ma trận 2×2 chéo hóa được khi có hai vector riêng độc lập tuyến tính.",
+    "expected_answer": "A chỉ có trị riêng λ=1 bội đại số 2 nhưng không gian riêng có số chiều 1, nên không chéo hóa được."
+  },
+  {
+    "test_id": "TEST_MAE101_048",
+    "subject": "MAE101",
+    "topic": "Determinant and Volume",
+    "difficulty": "medium",
+    "input_question": "Một phép biến đổi tuyến tính trong R³ có ma trận A với det(A)=−4. Thể tích của một khối bị thay đổi thế nào?",
+    "expected_context": "Giá trị tuyệt đối của định thức là hệ số co giãn thể tích; dấu cho biết sự đảo hướng.",
+    "expected_answer": "Thể tích được nhân với 4; dấu âm cho biết phép biến đổi đảo hướng."
+  },
+  {
+    "test_id": "TEST_MAE101_049",
+    "subject": "MAE101",
+    "topic": "Vectors in R3",
+    "difficulty": "easy",
+    "input_question": "Cho u=(1,2,−1), v=(3,0,4). Tính u+v và u·v.",
+    "expected_context": "Cộng vector theo từng tọa độ; tích vô hướng là tổng tích các tọa độ tương ứng.",
+    "expected_answer": "u+v=(4,2,3); u·v=1·3+2·0+(−1)·4=−1."
+  },
+  {
+    "test_id": "TEST_MAE101_050",
+    "subject": "MAE101",
+    "topic": "Projection",
+    "difficulty": "medium",
+    "input_question": "Tính hình chiếu của u=(3,4) lên v=(1,0).",
+    "expected_context": "proj_v(u)=(u·v)/(v·v) v.",
+    "expected_answer": "u·v=3, v·v=1, nên proj_v(u)=(3,0)."
+  },
+  {
+    "test_id": "TEST_MAE101_051",
+    "subject": "MAE101",
+    "topic": "Cross Product",
+    "difficulty": "medium",
+    "input_question": "Tính u×v với u=(1,0,0), v=(0,1,0).",
+    "expected_context": "Tích có hướng vuông góc với cả hai vector và tuân theo quy tắc bàn tay phải.",
+    "expected_answer": "u×v=(0,0,1)."
+  },
+  {
+    "test_id": "TEST_MAE101_052",
+    "subject": "MAE101",
+    "topic": "Lines and Planes",
+    "difficulty": "hard",
+    "input_question": "Tìm giao điểm của đường thẳng r=(1,0,2)+t(1,2,−1) với mặt phẳng x+y+z=6.",
+    "expected_context": "Thế tham số đường thẳng vào phương trình mặt phẳng rồi giải t.",
+    "expected_answer": "x=1+t, y=2t, z=2−t. Tổng bằng 3+2t=6 nên t=3/2. Giao điểm là (5/2,3,1/2)."
+  },
+  {
+    "test_id": "TEST_MAE101_053",
+    "subject": "MAE101",
+    "topic": "Plane Equation",
+    "difficulty": "easy",
+    "input_question": "Viết phương trình mặt phẳng đi qua P(1,2,3) và có vector pháp tuyến n=(2,−1,1).",
+    "expected_context": "Mặt phẳng có dạng n·[(x,y,z)−P]=0.",
+    "expected_answer": "2(x−1)−(y−2)+(z−3)=0, tương đương 2x−y+z−3=0."
+  },
+  {
+    "test_id": "TEST_MAE101_054",
+    "subject": "MAE101",
+    "topic": "Area and Volume Scaling",
+    "difficulty": "hard",
+    "input_question": "Một phép biến đổi trong R³ có ma trận chéo diag(2,−3,4). Tính hệ số thay đổi thể tích và nhận xét hướng.",
+    "expected_context": "Hệ số thể tích là |det A|; dấu det cho biết giữ hay đảo hướng.",
+    "expected_answer": "det A=2·(−3)·4=−24. Thể tích nhân 24 và hướng bị đảo."
+  },
+  {
+    "test_id": "TEST_MAE101_055",
+    "subject": "MAE101",
+    "topic": "Subspaces",
+    "difficulty": "easy",
+    "input_question": "Tập W={(x,y,z)∈R³ | x+y+z=0} có phải là không gian con của R³ không?",
+    "expected_context": "Tập nghiệm của một hệ tuyến tính thuần nhất luôn là không gian con.",
+    "expected_answer": "Có. W chứa vector 0 và đóng dưới phép cộng, nhân vô hướng vì điều kiện là phương trình tuyến tính thuần nhất."
+  },
+  {
+    "test_id": "TEST_MAE101_056",
+    "subject": "MAE101",
+    "topic": "Linear Independence",
+    "difficulty": "medium",
+    "input_question": "Xét v₁=(1,0,1), v₂=(2,0,2). Hai vector có độc lập tuyến tính không?",
+    "expected_context": "Hai vector khác 0 phụ thuộc tuyến tính nếu một vector là bội của vector kia.",
+    "expected_answer": "Không. v₂=2v₁ nên chúng phụ thuộc tuyến tính."
+  },
+  {
+    "test_id": "TEST_MAE101_057",
+    "subject": "MAE101",
+    "topic": "Basis and Dimension",
+    "difficulty": "medium",
+    "input_question": "Tìm một cơ sở và số chiều của W={(x,y,z)∈R³ | x+y+z=0}.",
+    "expected_context": "Giải điều kiện tuyến tính theo các biến tự do rồi viết vector tổng quát dưới dạng tổ hợp tuyến tính.",
+    "expected_answer": "x=−y−z. Đặt y=s,z=t: (x,y,z)=s(−1,1,0)+t(−1,0,1). Một cơ sở là {(-1,1,0),(-1,0,1)}, dim W=2."
+  },
+  {
+    "test_id": "TEST_MAE101_058",
+    "subject": "MAE101",
+    "topic": "Orthonormal Sets",
+    "difficulty": "easy",
+    "input_question": "Hai vector u=(1,1) và v=(1,−1) có trực giao không? Chuẩn hóa chúng.",
+    "expected_context": "Hai vector trực giao khi tích vô hướng bằng 0; chuẩn hóa bằng cách chia cho độ dài.",
+    "expected_answer": "u·v=0. Cả hai có độ dài √2, nên vector đơn vị là (1/√2,1/√2) và (1/√2,−1/√2)."
+  },
+  {
+    "test_id": "TEST_MAE101_059",
+    "subject": "MAE101",
+    "topic": "Rank and Nullity",
+    "difficulty": "hard",
+    "input_question": "Cho A là ma trận 3×5 có rank(A)=3. Tính nullity(A).",
+    "expected_context": "Định lý hạng-không gian-không: rank(A)+nullity(A)=số cột.",
+    "expected_answer": "nullity(A)=5−3=2."
+  },
+  {
+    "test_id": "TEST_MAE101_060",
+    "subject": "MAE101",
+    "topic": "Coordinates in a Basis",
+    "difficulty": "hard",
+    "input_question": "Cho cơ sở B={(1,1),(1,−1)} của R². Tìm tọa độ [v]_B của v=(4,2).",
+    "expected_context": "Tìm a,b sao cho a(1,1)+b(1,−1)=(4,2).",
+    "expected_answer": "Hệ a+b=4, a−b=2 cho a=3,b=1. Vì vậy [v]_B=(3,1)."
+  }
+]

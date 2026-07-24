@@ -1,0 +1,2555 @@
+{
+  "_spec": {
+    "version": "1.0",
+    "muc_dich": "Bộ test Vấn đề 4 — đánh giá năng lực chấm bài của model qua endpoint /api/v1/competency/grade. Mỗi item = 1 câu hỏi + 1 bài làm sinh viên VIẾT SẴN + nhãn ĐÚNG biết trước (expected). Harness gửi (question, student_answer, hint_events) cho AI chấm, rồi SO NHÃN BẰNG CODE — không cần LLM giám khảo, không ai vặn được (bài học V3).",
+    "so_file": "FPT_V4_Competency_Test_Set_45_MAD101.json",
+    "so_cau_moi_file": "45 câu, phân bố đúng theo _distribution_per_file",
+    "quy_tac_soan": [
+      "skill_id/clo_id phải là id THẬT trong FPT_Math_Competency_Framework_MAE101_MAD101_MAS291_v1.json (vd MAE-CLO1-S02).",
+      "student_answer phải viết như bài làm THẬT của sinh viên: trình bày TỪNG BƯỚC, có thể dùng LaTeX $..$; ca sai số thì con số sai phải truy được (vd 3×7=24).",
+      "Ca ADVANCED: phương pháp phải THẬT SỰ ngoài syllabus/nâng cao hơn (vd dùng L'Hôpital khi unit chỉ mới học giới hạn cơ bản; dùng đạo hàm tìm min/max thay vì bất đẳng thức; MAD dùng hàm sinh thay vì truy hồi; MAS dùng MGF thay vì tính trực tiếp) — và bài giải phải ĐÚNG.",
+      "difficulty đa số medium/hard (framework yêu cầu bằng chứng medium/hard cho mastery); easy tối đa 1/5 số câu.",
+      "accepted_methods CỐ Ý chỉ liệt kê phương pháp trong syllabus — để kiểm tra model có nhận ra phương pháp ngoài danh sách vẫn hợp lệ hay không.",
+      "expected.method_scope_level cho phép MẢNG khi ranh giới mờ (BEYOND_FPT_VALID vs ADVANCED_GENERALIZATION đều chấp nhận).",
+      "score_band là khoảng điểm chấp nhận trên thang points của câu — nới tay (±2/10) vì chấm tự luận có dao động hợp lý.",
+      "hint_events chỉ có ở 2 kịch bản HINT_*; revealed phải khai trung thực AI đã lộ gì; draft_at_request là bài làm dở TRƯỚC khi xin hint."
+    ],
+    "_distribution_per_file": {
+      "CORE_CORRECT": "5 câu — giải đúng, đủ bước, đúng phương pháp chuẩn syllabus",
+      "ALT_CORRECT": "5 câu — giải đúng bằng phương pháp thay thế hợp lệ trong mức môn",
+      "ADVANCED_CORRECT": "7 câu — giải ĐÚNG bằng phương pháp ngoài syllabus/nâng cao (trọng tâm chống kết luận oan: expect ADVANCED_BYPASS, CẤM KNOWLEDGE_GAP)",
+      "CALC_SLIP": "6 câu — phương pháp đúng nhưng sai phép tính giữa chừng → đáp số sai (expect PARTIALLY + chỉ ra được lỗi)",
+      "CONCEPT_WRONG": "6 câu — sai bản chất khái niệm / phương pháp không hợp lệ (expect KNOWLEDGE_GAP + INVALID_OR_UNJUSTIFIED)",
+      "RIGHT_ANSWER_NO_WORK": "4 câu — đáp số đúng nhưng nhảy bước/không lập luận (expect PARTIALLY, không được DEMONSTRATED trọn)",
+      "OFF_TOPIC": "3 câu — làm lạc đề/không liên quan (expect NOT_DEMONSTRATED, KHÔNG phải KNOWLEDGE_GAP)",
+      "HINT_HEAVY": "5 câu — có hint_events mức 4-5 (Dàn ý/Lời giải đầy đủ) rồi mới làm đúng (expect independent=false toàn bộ + must_flag_confirmation=true)",
+      "HINT_LIGHT": "4 câu — có hint mức 1-2 (Khái niệm/Phương pháp) nhưng phần tính toán tự làm (expect skill chính vẫn independent=true)"
+    },
+    "cham_bang_code": "So expected với response: answers_match == syllabus_frame.answers_match; method_scope_level ∈ expected (mảng); từng skill: status ∈ expected.status (mảng cho phép), independent == expected; question_score ∈ score_band; needs_confirmation == must_flag_confirmation; số mistakes ≥ min_mistakes. Mỗi phép so = 1 chỉ số, báo cáo % đạt theo kịch bản."
+  },
+  "items": [
+    {
+      "test_id": "V4_MAD101_001",
+      "subject": "MAD101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_001",
+        "question_text": "Chứng minh $\\neg(P\\to Q)\\equiv P\\land\\neg Q$ bằng các luật tương đương.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$P\\to Q\\equiv\\neg P\\lor Q$, nên phủ định là $\\neg(\\neg P\\lor Q)\\equiv P\\land\\neg Q$.",
+        "final_answer": "$\\neg(P\\to Q)\\equiv P\\land\\neg Q$",
+        "accepted_methods": [
+          {
+            "name": "Biến đổi tương đương logic",
+            "scope_level": "FPT_CORE",
+            "outline": "Thay kéo theo và dùng De Morgan."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO1-S02",
+          "name": "Xây dựng các biểu thức tương đương logic"
+        }
+      ],
+      "student_answer": "$P\\to Q\\equiv\\neg P\\lor Q$. Vì vậy $\\neg(P\\to Q)\\equiv\\neg(\\neg P\\lor Q)$. Theo De Morgan, biểu thức này bằng $P\\land\\neg Q$. Do đó hai vế tương đương.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO1-S02",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_002",
+      "subject": "MAD101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_002",
+        "question_text": "Phủ định mệnh đề $\\forall x\\in\\mathbb R\\,\\exists y\\in\\mathbb R: x+y=0$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đổi $\\forall$ thành $\\exists$, $\\exists$ thành $\\forall$, phủ định đẳng thức.",
+        "final_answer": "$\\exists x\\in\\mathbb R\\,\\forall y\\in\\mathbb R: x+y\\ne0$",
+        "accepted_methods": [
+          {
+            "name": "Phủ định lượng từ lồng nhau",
+            "scope_level": "FPT_CORE",
+            "outline": "Đổi lượng từ theo thứ tự và phủ định mệnh đề bên trong."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO1-S05",
+          "name": "Phủ định mệnh đề có lượng từ lồng nhau"
+        }
+      ],
+      "student_answer": "Phủ định của $\\forall x\\exists y\\,P(x,y)$ là $\\exists x\\forall y\\,\\neg P(x,y)$. Do đó kết quả là $\\exists x\\in\\mathbb R\\,\\forall y\\in\\mathbb R: x+y\\ne0$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO1-S05",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_003",
+      "subject": "MAD101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_003",
+        "question_text": "Phân tích độ phức tạp: `for i=1..n, for j=1..i` thực hiện một phép toán O(1).",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Tổng số lần là $\\sum_{i=1}^n i=n(n+1)/2$, nên $\\Theta(n^2)$.",
+        "final_answer": "$\\Theta(n^2)$",
+        "accepted_methods": [
+          {
+            "name": "Đếm số phép toán",
+            "scope_level": "FPT_CORE",
+            "outline": "Lập tổng theo i và lấy hạng trội."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO3-S04",
+          "name": "Xác định độ phức tạp thời gian của thuật toán cơ bản"
+        }
+      ],
+      "student_answer": "Với mỗi $i$, vòng trong chạy $i$ lần. Tổng là $1+2+\\cdots+n=n(n+1)/2$. Vì biểu thức có hạng trội $n^2/2$, độ phức tạp là $\\Theta(n^2)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO3-S04",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_004",
+      "subject": "MAD101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_004",
+        "question_text": "Dùng thuật toán Euclid tìm $\\gcd(414,662)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "662=414+248; 414=248+166; 248=166+82; 166=2·82+2; 82=41·2.",
+        "final_answer": "$\\gcd(414,662)=2$",
+        "accepted_methods": [
+          {
+            "name": "Thuật toán Euclid",
+            "scope_level": "FPT_CORE",
+            "outline": "Lặp phép chia có dư đến khi dư bằng 0."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO4-S03",
+          "name": "Xác định số nguyên tố và ước chung lớn nhất"
+        }
+      ],
+      "student_answer": "$662=1\\cdot414+248$; $414=1\\cdot248+166$; $248=1\\cdot166+82$; $166=2\\cdot82+2$; $82=41\\cdot2+0$. Số dư khác 0 cuối cùng là 2, nên gcd bằng 2.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO4-S03",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_005",
+      "subject": "MAD101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_005",
+        "question_text": "Chứng minh bằng quy nạp $1+3+\\cdots+(2n-1)=n^2$ với mọi $n\\ge1$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Cơ sở n=1; giả sử đúng với k; cộng 2k+1 để được (k+1)^2.",
+        "final_answer": "Đúng với mọi $n\\ge1$",
+        "accepted_methods": [
+          {
+            "name": "Quy nạp toán học",
+            "scope_level": "FPT_CORE",
+            "outline": "Cơ sở, giả thiết quy nạp, bước k→k+1."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO5-S01",
+          "name": "Xây dựng chứng minh quy nạp toán học"
+        }
+      ],
+      "student_answer": "Với $n=1$, hai vế cùng bằng 1. Giả sử tổng $k$ số lẻ đầu bằng $k^2$. Khi thêm số lẻ tiếp theo $2k+1$, tổng mới là $k^2+2k+1=(k+1)^2$. Vậy mệnh đề đúng với $k+1$, suy ra đúng với mọi $n\\ge1$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO5-S01",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_006",
+      "subject": "MAD101",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_006",
+        "question_text": "Kiểm tra $(P\\to Q)\\equiv(\\neg Q\\to\\neg P)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dùng luật phản đảo hoặc bảng chân trị; hai biểu thức tương đương.",
+        "final_answer": "Tương đương",
+        "accepted_methods": [
+          {
+            "name": "Luật phản đảo",
+            "scope_level": "FPT_CORE",
+            "outline": "Biến đổi kéo theo hoặc dùng luật contrapositive."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO1-S02",
+          "name": "Xây dựng các biểu thức tương đương logic"
+        }
+      ],
+      "student_answer": "Em lập bảng chân trị cho bốn trường hợp $(P,Q)$. Cột $P\\to Q$ lần lượt là T,F,T,T; cột $\\neg Q\\to\\neg P$ cũng là T,F,T,T. Hai cột giống nhau nên hai biểu thức tương đương.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO1-S02",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_007",
+      "subject": "MAD101",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_007",
+        "question_text": "Kiểm tra lập luận $P\\to Q,\\;Q\\to R,\\;\\neg R\\Rightarrow\\neg P$ có hợp lệ không.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dùng hypothetical syllogism và modus tollens.",
+        "final_answer": "Hợp lệ",
+        "accepted_methods": [
+          {
+            "name": "Quy tắc suy luận",
+            "scope_level": "FPT_CORE",
+            "outline": "Ghép kéo theo rồi dùng modus tollens."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO1-S06",
+          "name": "Áp dụng quy tắc suy luận"
+        }
+      ],
+      "student_answer": "Giả sử ngược lại $P$ đúng. Từ $P\\to Q$ suy ra $Q$, rồi từ $Q\\to R$ suy ra $R$, mâu thuẫn với $\\neg R$. Do đó $P$ không thể đúng, suy ra $\\neg P$. Lập luận hợp lệ.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO1-S06",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_008",
+      "subject": "MAD101",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_008",
+        "question_text": "Phân tích độ phức tạp của đoạn: `for i=1..n, for j=i..n` làm O(1).",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Tổng $\\sum_{i=1}^n(n-i+1)=n(n+1)/2$, nên $\\Theta(n^2)$.",
+        "final_answer": "$\\Theta(n^2)$",
+        "accepted_methods": [
+          {
+            "name": "Đếm số vòng lặp",
+            "scope_level": "FPT_CORE",
+            "outline": "Lập tổng số lần vòng trong."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO3-S04",
+          "name": "Xác định độ phức tạp thời gian của thuật toán cơ bản"
+        }
+      ],
+      "student_answer": "Em đếm theo đường chéo của bảng cặp $(i,j)$ với $1\\le i\\le j\\le n$. Đây là số cách chọn hai chỉ số có lặp, bằng $\\binom{n+1}{2}=n(n+1)/2$. Vì vậy độ phức tạp là $\\Theta(n^2)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO3-S04",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_009",
+      "subject": "MAD101",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_009",
+        "question_text": "Tìm $\\gcd(84,126)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dùng Euclid: 126=84+42, 84=2·42.",
+        "final_answer": "$42$",
+        "accepted_methods": [
+          {
+            "name": "Thuật toán Euclid",
+            "scope_level": "FPT_CORE",
+            "outline": "Chia lấy dư."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO4-S03",
+          "name": "Xác định số nguyên tố và ước chung lớn nhất"
+        }
+      ],
+      "student_answer": "Phân tích thừa số: $84=2^2\\cdot3\\cdot7$, $126=2\\cdot3^2\\cdot7$. Lấy số mũ nhỏ nhất của từng thừa số chung được $2\\cdot3\\cdot7=42$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO4-S03",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_010",
+      "subject": "MAD101",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_010",
+        "question_text": "Trong lớp có 30 người học Java, 25 học Python, 12 học cả hai. Có bao nhiêu người học ít nhất một môn?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$|J\\cup P|=30+25-12=43$.",
+        "final_answer": "$43$",
+        "accepted_methods": [
+          {
+            "name": "Bao hàm-loại trừ",
+            "scope_level": "FPT_CORE",
+            "outline": "Cộng hai tập rồi trừ giao."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO6-S03",
+          "name": "Áp dụng nguyên lý bao hàm-loại trừ"
+        }
+      ],
+      "student_answer": "Em chia thành ba nhóm rời nhau: chỉ Java có $30-12=18$, chỉ Python có $25-12=13$, và học cả hai có 12. Tổng $18+13+12=43$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO6-S03",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_011",
+      "subject": "MAD101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_011",
+        "question_text": "Từ các mệnh đề $P\\lor Q$, $\\neg P\\lor R$, $\\neg Q\\lor R$, chứng minh suy ra $R$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Có thể chia trường hợp P/Q và dùng quy tắc suy luận chuẩn.",
+        "final_answer": "$R$",
+        "accepted_methods": [
+          {
+            "name": "Suy luận theo trường hợp",
+            "scope_level": "FPT_CORE",
+            "outline": "Từ P∨Q, xét P hoặc Q, mỗi trường hợp suy ra R."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO1-S06",
+          "name": "Áp dụng quy tắc suy luận"
+        }
+      ],
+      "student_answer": "Em dùng resolution: từ $P\\lor Q$ và $\\neg P\\lor R$ suy ra $Q\\lor R$. Resolution tiếp với $\\neg Q\\lor R$ cho $R\\lor R$, tương đương $R$. Vậy kết luận được chứng minh.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO1-S06",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAD101_012",
+      "subject": "MAD101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_012",
+        "question_text": "Giải truy hồi $a_n=3a_{n-1}+2$, $a_0=1$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dịch biến hoặc khai triển, kết quả $a_n=2\\cdot3^n-1$.",
+        "final_answer": "$a_n=2\\cdot3^n-1$",
+        "accepted_methods": [
+          {
+            "name": "Giải truy hồi tuyến tính bậc một",
+            "scope_level": "FPT_CORE",
+            "outline": "Tìm nghiệm thuần nhất và nghiệm riêng."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO6-S05",
+          "name": "Thiết lập hệ thức truy hồi cho bài toán đếm"
+        }
+      ],
+      "student_answer": "Dùng hàm sinh $A(x)=\\sum_{n\\ge0}a_nx^n$. Từ truy hồi, $A(x)-1=3xA(x)+2x/(1-x)$. Suy ra $A(x)=\\frac{1+x}{(1-x)(1-3x)}=-\\frac1{1-x}+\\frac2{1-3x}$. Do đó $a_n=-1+2\\cdot3^n$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO6-S05",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAD101_013",
+      "subject": "MAD101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_013",
+        "question_text": "Cho $a_n=a_{n-1}+a_{n-2}$, $a_0=0,a_1=1$. Tính $a_{20}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Có thể tính truy hồi tuần tự; $a_{20}=6765$.",
+        "final_answer": "$6765$",
+        "accepted_methods": [
+          {
+            "name": "Lặp truy hồi",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính từ điều kiện đầu đến n=20."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO6-S05",
+          "name": "Thiết lập hệ thức truy hồi cho bài toán đếm"
+        }
+      ],
+      "student_answer": "Em dùng lũy thừa ma trận: $\\binom{a_{n+1}}{a_n}=\\begin{pmatrix}1&1\\\\1&0\\end{pmatrix}^n\\binom10$. Bình phương nhanh ma trận đến lũy thừa 20 cho $a_{20}=6765$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO6-S05",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAD101_014",
+      "subject": "MAD101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_014",
+        "question_text": "Giải hệ $x\\equiv2\\pmod3$, $x\\equiv3\\pmod5$, $x\\equiv2\\pmod7$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Có thể thử theo modulo 3 và 5 rồi kiểm tra modulo 7; nghiệm $x\\equiv23\\pmod{105}$.",
+        "final_answer": "$x\\equiv23\\pmod{105}$",
+        "accepted_methods": [
+          {
+            "name": "Giải đồng dư tuần tự",
+            "scope_level": "FPT_CORE",
+            "outline": "Ghép từng cặp đồng dư bằng thế."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO4-S02",
+          "name": "Giải phương trình đồng dư đơn giản"
+        }
+      ],
+      "student_answer": "Dùng định lý phần dư Trung Hoa. Đặt $M=105$, các phần $35,21,15$. Nghịch đảo tương ứng modulo 3,5,7 là 2,1,1. Suy ra $x\\equiv2\\cdot35\\cdot2+3\\cdot21+2\\cdot15=233\\equiv23\\pmod{105}$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO4-S02",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAD101_015",
+      "subject": "MAD101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_015",
+        "question_text": "Tính $7^{222}\\bmod13$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Có thể bình phương nhanh; kết quả 12.",
+        "final_answer": "$12$",
+        "accepted_methods": [
+          {
+            "name": "Bình phương nhanh modulo",
+            "scope_level": "FPT_CORE",
+            "outline": "Viết số mũ nhị phân và bình phương liên tiếp."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO4-S04",
+          "name": "Áp dụng thuật toán trên số nguyên"
+        }
+      ],
+      "student_answer": "Dùng định lý Fermat nhỏ: $7^{12}\\equiv1\\pmod{13}$. Vì $222\\equiv6\\pmod{12}$, ta có $7^{222}\\equiv7^6$. Tính $7^2\\equiv10$, $7^4\\equiv9$, nên $7^6\\equiv9\\cdot10=90\\equiv12\\pmod{13}$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO4-S04",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAD101_016",
+      "subject": "MAD101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_016",
+        "question_text": "Trong đồ thị trọng số có cạnh A-B=2, A-C=5, B-C=1, B-D=4, C-D=1, tìm đường ngắn nhất A→D.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dùng Dijkstra, đường A-B-C-D có độ dài 4.",
+        "final_answer": "A-B-C-D, độ dài 4",
+        "accepted_methods": [
+          {
+            "name": "Dijkstra",
+            "scope_level": "FPT_CORE",
+            "outline": "Cập nhật nhãn khoảng cách từ A."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO7-S07",
+          "name": "Tìm đường đi ngắn nhất trong đồ thị có trọng số"
+        }
+      ],
+      "student_answer": "Em dùng Floyd-Warshall trên ma trận khoảng cách. Sau khi cho phép B làm đỉnh trung gian, d(A,C) giảm từ 5 xuống 3. Cho phép C, d(A,D)=d(A,C)+d(C,D)=3+1=4. Truy vết được A-B-C-D.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO7-S07",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAD101_017",
+      "subject": "MAD101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_017",
+        "question_text": "Đồ thị đầy đủ $K_4$ có bao nhiêu cây khung?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Có thể liệt kê hoặc dùng công thức Cayley; kết quả 16.",
+        "final_answer": "$16$",
+        "accepted_methods": [
+          {
+            "name": "Liệt kê/cấu trúc cây khung",
+            "scope_level": "FPT_CORE",
+            "outline": "Đếm các cây khung khác nhau trên 4 đỉnh."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO8-S05",
+          "name": "Tìm cây khung nhỏ nhất"
+        }
+      ],
+      "student_answer": "Dùng định lý Matrix-Tree. Laplacian của $K_4$ có đường chéo 3 và ngoài đường chéo -1. Xóa một hàng và cột được ma trận $3\\times3$ có định thức 16. Theo định lý Matrix-Tree, số cây khung là 16.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO8-S05",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAD101_018",
+      "subject": "MAD101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_018",
+        "question_text": "Tính $\\sum_{k=1}^{10}k$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$10\\cdot11/2=55$.",
+        "final_answer": "$55$",
+        "accepted_methods": [
+          {
+            "name": "Công thức tổng số tự nhiên",
+            "scope_level": "FPT_CORE",
+            "outline": "Dùng n(n+1)/2."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO2-S06",
+          "name": "Tính và biến đổi tổng hữu hạn"
+        }
+      ],
+      "student_answer": "Em dùng công thức $n(n+1)/2$. Với $n=10$, em tính $10\\cdot11/2=50$. Vậy tổng bằng 50.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO2-S06",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_019",
+      "subject": "MAD101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_019",
+        "question_text": "Đếm số lần chạy của hai vòng: i=1..n, j=1..i.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$n(n+1)/2$, nên Theta(n²).",
+        "final_answer": "$n(n+1)/2$",
+        "accepted_methods": [
+          {
+            "name": "Tổng số lần vòng trong",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính sum i."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO3-S04",
+          "name": "Xác định độ phức tạp thời gian của thuật toán cơ bản"
+        }
+      ],
+      "student_answer": "Tổng là $\\sum_{i=1}^n i=n(n+1)/2$. Em khai triển thành $(n^2-n)/2$, nên với n lớn vẫn kết luận $\\Theta(n^2)$ nhưng số lần chính xác em ghi là $(n^2-n)/2$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO3-S04",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_020",
+      "subject": "MAD101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_020",
+        "question_text": "Dùng Euclid tìm $\\gcd(252,105)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "252=2·105+42; 105=2·42+21; gcd=21.",
+        "final_answer": "$21$",
+        "accepted_methods": [
+          {
+            "name": "Thuật toán Euclid",
+            "scope_level": "FPT_CORE",
+            "outline": "Lặp chia lấy dư."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO4-S03",
+          "name": "Xác định số nguyên tố và ước chung lớn nhất"
+        }
+      ],
+      "student_answer": "$252=2\\cdot105+42$, $105=2\\cdot42+21$. Em tiếp tục $42=3\\cdot21+0$, nên gcd là 3.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO4-S03",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_021",
+      "subject": "MAD101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_021",
+        "question_text": "Tính số cách chọn 3 người từ 8 người.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\binom83=56$.",
+        "final_answer": "$56$",
+        "accepted_methods": [
+          {
+            "name": "Tổ hợp",
+            "scope_level": "FPT_CORE",
+            "outline": "Dùng n!/[k!(n-k)!]."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO6-S02",
+          "name": "Sử dụng chỉnh hợp và tổ hợp"
+        }
+      ],
+      "student_answer": "$\\binom83=\\frac{8!}{3!5!}=\\frac{8\\cdot7\\cdot6}{3\\cdot2\\cdot1}=48$. Vậy có 48 cách.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO6-S02",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_022",
+      "subject": "MAD101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_022",
+        "question_text": "Đường A-B=2, B-C=3, A-C=8, C-D=1, B-D=7. Tìm đường ngắn nhất A→D.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đường A-B-C-D dài 6.",
+        "final_answer": "A-B-C-D, độ dài 6",
+        "accepted_methods": [
+          {
+            "name": "Dijkstra",
+            "scope_level": "FPT_CORE",
+            "outline": "Cập nhật các khoảng cách."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO7-S07",
+          "name": "Tìm đường đi ngắn nhất trong đồ thị có trọng số"
+        }
+      ],
+      "student_answer": "Từ A, em chọn B với 2, rồi cập nhật C=2+3=5 và D=2+7=9. Từ C cập nhật D=5+1=7. Vì vậy đường ngắn nhất A-B-C-D dài 7.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO7-S07",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_023",
+      "subject": "MAD101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_023",
+        "question_text": "Cho $a_n=2a_{n-1}+1$, $a_0=0$. Tính $a_4$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dãy 0,1,3,7,15.",
+        "final_answer": "$15$",
+        "accepted_methods": [
+          {
+            "name": "Lặp truy hồi",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính tuần tự."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO6-S05",
+          "name": "Thiết lập hệ thức truy hồi cho bài toán đếm"
+        }
+      ],
+      "student_answer": "$a_1=1$, $a_2=2\\cdot1+1=3$, $a_3=2\\cdot3+1=7$, $a_4=2\\cdot7+1=13$. Vậy $a_4=13$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO6-S05",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_024",
+      "subject": "MAD101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_024",
+        "question_text": "Phủ định $\\forall x\\exists y\\,P(x,y)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\exists x\\forall y\\,\\neg P(x,y)$.",
+        "final_answer": "$\\exists x\\forall y\\,\\neg P(x,y)$",
+        "accepted_methods": [
+          {
+            "name": "Phủ định lượng từ",
+            "scope_level": "FPT_CORE",
+            "outline": "Đổi từng lượng từ và phủ định mệnh đề."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO1-S05",
+          "name": "Phủ định mệnh đề có lượng từ lồng nhau"
+        }
+      ],
+      "student_answer": "Em chỉ thêm dấu phủ định trước vị từ nhưng giữ nguyên lượng từ: $\\forall x\\exists y\\,\\neg P(x,y)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO1-S05",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_025",
+      "subject": "MAD101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_025",
+        "question_text": "Từ $P\\to Q$ và $Q$, có suy ra $P$ không?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Không; đây là lỗi khẳng định hệ quả.",
+        "final_answer": "Không hợp lệ",
+        "accepted_methods": [
+          {
+            "name": "Kiểm tra quy tắc suy luận",
+            "scope_level": "FPT_CORE",
+            "outline": "Đưa phản ví dụ hoặc nhận diện fallacy."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO1-S06",
+          "name": "Áp dụng quy tắc suy luận"
+        }
+      ],
+      "student_answer": "Có. Vì nếu Q đúng thì điều kiện của mệnh đề kéo theo đã được đáp ứng, nên P phải đúng. Đây là modus ponens.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO1-S06",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_026",
+      "subject": "MAD101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_026",
+        "question_text": "Xác định Big-O của $3n^2+100n+7$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$O(n^2)$.",
+        "final_answer": "$O(n^2)$",
+        "accepted_methods": [
+          {
+            "name": "Hạng trội",
+            "scope_level": "FPT_CORE",
+            "outline": "Bỏ hệ số và hạng bậc thấp."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO3-S05",
+          "name": "Biện minh phân loại độ phức tạp"
+        }
+      ],
+      "student_answer": "Hệ số 100 lớn nhất nên độ phức tạp là $O(100n)=O(n)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO3-S05",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_027",
+      "subject": "MAD101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_027",
+        "question_text": "Giải $2x\\equiv1\\pmod4$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Không có nghiệm vì gcd(2,4)=2 không chia 1.",
+        "final_answer": "Vô nghiệm",
+        "accepted_methods": [
+          {
+            "name": "Điều kiện tồn tại nghiệm đồng dư",
+            "scope_level": "FPT_CORE",
+            "outline": "Kiểm tra gcd(a,m)|b."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO4-S02",
+          "name": "Giải phương trình đồng dư đơn giản"
+        }
+      ],
+      "student_answer": "Chia hai vế cho 2 được $x\\equiv1/2\\pmod2$. Em coi $1/2$ modulo 2 là 1, nên $x\\equiv1\\pmod2$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO4-S02",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_028",
+      "subject": "MAD101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_028",
+        "question_text": "Chọn ban 3 người từ 10 người, không xét chức vụ. Có bao nhiêu cách?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\binom{10}{3}=120$.",
+        "final_answer": "$120$",
+        "accepted_methods": [
+          {
+            "name": "Tổ hợp",
+            "scope_level": "FPT_CORE",
+            "outline": "Không xét thứ tự."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO6-S02",
+          "name": "Sử dụng chỉnh hợp và tổ hợp"
+        }
+      ],
+      "student_answer": "Vì chọn ba người theo thứ tự người thứ nhất, thứ hai, thứ ba nên có $10\\cdot9\\cdot8=720$ cách.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO6-S02",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_029",
+      "subject": "MAD101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_029",
+        "question_text": "Một đồ thị liên thông có 6 đỉnh và 5 cạnh. Có phải cây không?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đồ thị liên thông n đỉnh n-1 cạnh là cây.",
+        "final_answer": "Có",
+        "accepted_methods": [
+          {
+            "name": "Định lý đặc trưng cây",
+            "scope_level": "FPT_CORE",
+            "outline": "Dùng liên thông và số cạnh."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO8-S01",
+          "name": "Kiểm tra một đồ thị có phải cây"
+        }
+      ],
+      "student_answer": "Không, vì cây phải có số cạnh bằng số đỉnh. Đồ thị này có 5 cạnh nhưng 6 đỉnh nên không phải cây.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO8-S01",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAD101_030",
+      "subject": "MAD101",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_030",
+        "question_text": "Rút gọn $\\neg(P\\land Q)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\neg P\\lor\\neg Q$.",
+        "final_answer": "$\\neg P\\lor\\neg Q$",
+        "accepted_methods": [
+          {
+            "name": "De Morgan",
+            "scope_level": "FPT_CORE",
+            "outline": "Áp dụng luật và giải thích."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO1-S02",
+          "name": "Xây dựng các biểu thức tương đương logic"
+        }
+      ],
+      "student_answer": "$\\neg P\\lor\\neg Q$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO1-S02",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_031",
+      "subject": "MAD101",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_031",
+        "question_text": "Độ phức tạp của ba vòng lặp độc lập từ 1 đến n là gì?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\Theta(n^3)$.",
+        "final_answer": "$\\Theta(n^3)$",
+        "accepted_methods": [
+          {
+            "name": "Đếm phép toán",
+            "scope_level": "FPT_CORE",
+            "outline": "n·n·n."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO3-S04",
+          "name": "Xác định độ phức tạp thời gian của thuật toán cơ bản"
+        }
+      ],
+      "student_answer": "$O(n^3)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO3-S04",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_032",
+      "subject": "MAD101",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_032",
+        "question_text": "Tìm $\\gcd(48,18)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$6$.",
+        "final_answer": "$6$",
+        "accepted_methods": [
+          {
+            "name": "Euclid",
+            "scope_level": "FPT_CORE",
+            "outline": "Ghi các phép chia."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO4-S03",
+          "name": "Xác định số nguyên tố và ước chung lớn nhất"
+        }
+      ],
+      "student_answer": "$6$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO4-S03",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_033",
+      "subject": "MAD101",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_033",
+        "question_text": "Cây khung nhỏ nhất của đồ thị có các cạnh AB1, BC2, AC5 có tổng trọng số bao nhiêu?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Chọn AB và BC, tổng 3.",
+        "final_answer": "$3$",
+        "accepted_methods": [
+          {
+            "name": "Kruskal",
+            "scope_level": "FPT_CORE",
+            "outline": "Sắp cạnh, tránh chu trình."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO8-S05",
+          "name": "Tìm cây khung nhỏ nhất"
+        }
+      ],
+      "student_answer": "$3$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO8-S05",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_034",
+      "subject": "MAD101",
+      "scenario": "OFF_TOPIC",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_034",
+        "question_text": "Kiểm tra lập luận $P\\to Q,\\neg Q\\Rightarrow\\neg P$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Hợp lệ theo modus tollens.",
+        "final_answer": "Hợp lệ",
+        "accepted_methods": [
+          {
+            "name": "Quy tắc suy luận",
+            "scope_level": "FPT_CORE",
+            "outline": "Áp dụng modus tollens."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO1-S06",
+          "name": "Áp dụng quy tắc suy luận"
+        }
+      ],
+      "student_answer": "Đạo hàm của $x^2$ là $2x$, vì dùng quy tắc lũy thừa.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO1-S06",
+            "status": [
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          2
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_035",
+      "subject": "MAD101",
+      "scenario": "OFF_TOPIC",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_035",
+        "question_text": "Tìm $\\gcd(120,84)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$12$.",
+        "final_answer": "$12$",
+        "accepted_methods": [
+          {
+            "name": "Euclid",
+            "scope_level": "FPT_CORE",
+            "outline": "Chia lấy dư."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO4-S03",
+          "name": "Xác định số nguyên tố và ước chung lớn nhất"
+        }
+      ],
+      "student_answer": "Trung bình mẫu được tính bằng tổng các quan sát chia cho kích thước mẫu.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO4-S03",
+            "status": [
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          2
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_036",
+      "subject": "MAD101",
+      "scenario": "OFF_TOPIC",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_036",
+        "question_text": "Tìm đường ngắn nhất từ A đến D trong đồ thị đã cho.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dùng Dijkstra hoặc xét các đường đi hợp lệ.",
+        "final_answer": "Đường có trọng số nhỏ nhất",
+        "accepted_methods": [
+          {
+            "name": "Dijkstra",
+            "scope_level": "FPT_CORE",
+            "outline": "Cập nhật nhãn."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO7-S07",
+          "name": "Tìm đường đi ngắn nhất trong đồ thị có trọng số"
+        }
+      ],
+      "student_answer": "Định lý De Morgan nói phủ định của phép hội là phép tuyển các phủ định.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO7-S07",
+            "status": [
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          2
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_037",
+      "subject": "MAD101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_037",
+        "question_text": "Chứng minh $1+2+\\cdots+n=n(n+1)/2$ bằng quy nạp.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Cơ sở, giả thiết, bước quy nạp.",
+        "final_answer": "Đúng với mọi n dương",
+        "accepted_methods": [
+          {
+            "name": "Quy nạp toán học",
+            "scope_level": "FPT_CORE",
+            "outline": "Ba bước chuẩn."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO5-S01",
+          "name": "Xây dựng chứng minh quy nạp toán học"
+        }
+      ],
+      "student_answer": "Cơ sở n=1 đúng. Giả sử đúng với k. Khi đó tổng đến k+1 bằng $k(k+1)/2+(k+1)=(k+1)(k+2)/2$. Suy ra đúng theo quy nạp.",
+      "hint_events": [
+        {
+          "level": 4,
+          "hint_text": "Dàn ý: kiểm tra n=1; giả sử công thức tại k; cộng k+1; biến đổi thành (k+1)(k+2)/2; kết luận.",
+          "revealed": {
+            "concepts": [
+              "mathematical induction"
+            ],
+            "methods": [
+              "base-hypothesis-step"
+            ],
+            "steps": [
+              "base n=1",
+              "assume k",
+              "add k+1",
+              "factor"
+            ]
+          },
+          "draft_at_request": "Em mới kiểm tra n=1."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO5-S01",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_038",
+      "subject": "MAD101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_038",
+        "question_text": "Phân tích hai vòng lặp lồng nhau mỗi vòng n lần.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$n^2$, Theta(n²).",
+        "final_answer": "$\\Theta(n^2)$",
+        "accepted_methods": [
+          {
+            "name": "Đếm phép toán",
+            "scope_level": "FPT_CORE",
+            "outline": "Nhân số lần hai vòng."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO3-S04",
+          "name": "Xác định độ phức tạp thời gian của thuật toán cơ bản"
+        }
+      ],
+      "student_answer": "Mỗi giá trị i có n giá trị j, nên phần thân chạy $n\\cdot n=n^2$ lần. Độ phức tạp $\\Theta(n^2)$.",
+      "hint_events": [
+        {
+          "level": 5,
+          "hint_text": "Lời giải: vòng ngoài n lần; mỗi lần vòng trong n lần; tổng n²; bỏ hệ số cho Theta(n²).",
+          "revealed": {
+            "concepts": [
+              "nested loops"
+            ],
+            "methods": [
+              "operation counting"
+            ],
+            "steps": [
+              "outer n",
+              "inner n",
+              "multiply"
+            ]
+          },
+          "draft_at_request": "Em chưa biết cộng hay nhân hai vòng."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO3-S04",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_039",
+      "subject": "MAD101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_039",
+        "question_text": "Dùng Euclid tìm gcd(252,105).",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Chuỗi chia cho gcd=21.",
+        "final_answer": "$21$",
+        "accepted_methods": [
+          {
+            "name": "Euclid",
+            "scope_level": "FPT_CORE",
+            "outline": "Các phép chia lấy dư."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO4-S03",
+          "name": "Xác định số nguyên tố và ước chung lớn nhất"
+        }
+      ],
+      "student_answer": "$252=2\\cdot105+42$, $105=2\\cdot42+21$, $42=2\\cdot21$. Vậy gcd là 21.",
+      "hint_events": [
+        {
+          "level": 4,
+          "hint_text": "Dàn ý kèm số dư: 252=2·105+42; 105=2·42+21; tiếp tục đến dư 0; gcd là số dư khác 0 cuối.",
+          "revealed": {
+            "concepts": [
+              "gcd"
+            ],
+            "methods": [
+              "Euclidean algorithm"
+            ],
+            "steps": [
+              "remainders 42,21,0"
+            ]
+          },
+          "draft_at_request": "Em mới ghi gcd(252,105)=gcd(105,42)."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO4-S03",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_040",
+      "subject": "MAD101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_040",
+        "question_text": "Trong 100 số nguyên dương đầu, có bao nhiêu số chia hết cho 2 hoặc 5?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$50+20-10=60$.",
+        "final_answer": "$60$",
+        "accepted_methods": [
+          {
+            "name": "Bao hàm-loại trừ",
+            "scope_level": "FPT_CORE",
+            "outline": "Đếm bội 2, bội 5, trừ bội 10."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO6-S03",
+          "name": "Áp dụng nguyên lý bao hàm-loại trừ"
+        }
+      ],
+      "student_answer": "Có 50 bội của 2, 20 bội của 5 và 10 bội của cả hai. Theo bao hàm-loại trừ: $50+20-10=60$.",
+      "hint_events": [
+        {
+          "level": 4,
+          "hint_text": "Dàn ý: A=bội 2, B=bội 5; |A∪B|=|A|+|B|-|A∩B|; giao là bội 10.",
+          "revealed": {
+            "concepts": [
+              "inclusion-exclusion"
+            ],
+            "methods": [
+              "set counting"
+            ],
+            "steps": [
+              "count 2",
+              "count 5",
+              "subtract 10"
+            ]
+          },
+          "draft_at_request": "Em đã đếm được 50 số chẵn."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO6-S03",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_041",
+      "subject": "MAD101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_041",
+        "question_text": "Dùng Kruskal cho cạnh AB1, BC2, AC4, CD3, BD5.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Chọn AB1, BC2, CD3, tổng 6.",
+        "final_answer": "$6$",
+        "accepted_methods": [
+          {
+            "name": "Kruskal",
+            "scope_level": "FPT_CORE",
+            "outline": "Sắp tăng và bỏ cạnh tạo chu trình."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO8-S05",
+          "name": "Tìm cây khung nhỏ nhất"
+        }
+      ],
+      "student_answer": "Sắp cạnh 1,2,3,4,5. Chọn AB, BC, CD; ba cạnh nối đủ bốn đỉnh và không tạo chu trình. Tổng bằng 6.",
+      "hint_events": [
+        {
+          "level": 5,
+          "hint_text": "Lời giải: sắp AB1,BC2,CD3,AC4,BD5; chọn lần lượt ba cạnh đầu vì chưa tạo chu trình; dừng khi có n-1 cạnh.",
+          "revealed": {
+            "concepts": [
+              "minimum spanning tree"
+            ],
+            "methods": [
+              "Kruskal"
+            ],
+            "steps": [
+              "sort",
+              "select noncycle",
+              "stop n-1"
+            ]
+          },
+          "draft_at_request": "Em đã sắp các cạnh theo trọng số."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO8-S05",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_042",
+      "subject": "MAD101",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_042",
+        "question_text": "Rút gọn $\\neg(P\\lor Q)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\neg P\\land\\neg Q$.",
+        "final_answer": "$\\neg P\\land\\neg Q$",
+        "accepted_methods": [
+          {
+            "name": "De Morgan",
+            "scope_level": "FPT_CORE",
+            "outline": "Đổi tuyển thành hội và phủ định từng phần."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO1-S02",
+          "name": "Xây dựng các biểu thức tương đương logic"
+        }
+      ],
+      "student_answer": "Áp dụng De Morgan, phủ định của $P\\lor Q$ là $\\neg P\\land\\neg Q$.",
+      "hint_events": [
+        {
+          "level": 1,
+          "hint_text": "Nhớ luật De Morgan đổi phép tuyển thành phép hội.",
+          "revealed": {
+            "concepts": [
+              "De Morgan"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em chưa nhớ dấu nối sau khi phủ định."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO1-S02",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_043",
+      "subject": "MAD101",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_043",
+        "question_text": "Phân tích vòng lặp i=1; while i≤n: i=2i.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Chạy floor(log2 n)+1 lần, Theta(log n).",
+        "final_answer": "$\\Theta(\\log n)$",
+        "accepted_methods": [
+          {
+            "name": "Theo dõi tăng theo cấp số nhân",
+            "scope_level": "FPT_CORE",
+            "outline": "Sau k bước i=2^k."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO3-S04",
+          "name": "Xác định độ phức tạp thời gian của thuật toán cơ bản"
+        }
+      ],
+      "student_answer": "Sau k lần, $i=2^k$. Vòng dừng khi $2^k>n$, nên số lần xấp xỉ $\\log_2n$. Vì vậy độ phức tạp là $\\Theta(\\log n)$.",
+      "hint_events": [
+        {
+          "level": 1,
+          "hint_text": "Hãy viết giá trị i sau k vòng lặp.",
+          "revealed": {
+            "concepts": [
+              "geometric growth"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em đã liệt kê i=1,2,4,8,..."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO3-S04",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_044",
+      "subject": "MAD101",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAD101_044",
+        "question_text": "Giải $3x\\equiv4\\pmod7$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$x\\equiv6\\pmod7$.",
+        "final_answer": "$x\\equiv6\\pmod7$",
+        "accepted_methods": [
+          {
+            "name": "Nghịch đảo modulo",
+            "scope_level": "FPT_CORE",
+            "outline": "Tìm 3^{-1}=5 rồi nhân."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO4-S02",
+          "name": "Giải phương trình đồng dư đơn giản"
+        }
+      ],
+      "student_answer": "Nghịch đảo của 3 modulo 7 là 5 vì $3\\cdot5\\equiv1$. Nhân hai vế với 5: $x\\equiv20\\equiv6\\pmod7$.",
+      "hint_events": [
+        {
+          "level": 2,
+          "hint_text": "Hãy tìm số nhân với 3 cho dư 1 modulo 7.",
+          "revealed": {
+            "concepts": [
+              "modular inverse"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em biết cần khử hệ số 3."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO4-S02",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAD101_045",
+      "subject": "MAD101",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAD101_045",
+        "question_text": "Có bao nhiêu cách chọn 4 người từ 10 người?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\binom{10}{4}=210$.",
+        "final_answer": "$210$",
+        "accepted_methods": [
+          {
+            "name": "Tổ hợp",
+            "scope_level": "FPT_CORE",
+            "outline": "Không xét thứ tự."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAD-CLO6-S02",
+          "name": "Sử dụng chỉnh hợp và tổ hợp"
+        }
+      ],
+      "student_answer": "Vì thứ tự không quan trọng, dùng tổ hợp: $\\binom{10}{4}=10!/(4!6!)=(10\\cdot9\\cdot8\\cdot7)/(4\\cdot3\\cdot2\\cdot1)=210$.",
+      "hint_events": [
+        {
+          "level": 1,
+          "hint_text": "Hãy xác định xem thứ tự chọn có quan trọng không.",
+          "revealed": {
+            "concepts": [
+              "combination vs permutation"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em đang phân vân dùng chỉnh hợp hay tổ hợp."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAD-CLO6-S02",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    }
+  ]
+}

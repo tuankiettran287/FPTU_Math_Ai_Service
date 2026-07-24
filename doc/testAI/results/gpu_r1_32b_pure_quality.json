@@ -1,0 +1,15 @@
+{
+ "model": "r1_32b",
+ "mode": "pure",
+ "kind": "quality",
+ "vram_mean": 91843.27045454546,
+ "vram_peak": 92401.0,
+ "model_vram_mean": 89362.0,
+ "model_vram_peak": 89362.0,
+ "util_mean": 96.08181818181818,
+ "util_peak": 98.0,
+ "power_mean": 366.52030681818184,
+ "power_peak": 417.73,
+ "duration_s": 936.1019345903769,
+ "energy_wh": 0.5284826845716406
+}

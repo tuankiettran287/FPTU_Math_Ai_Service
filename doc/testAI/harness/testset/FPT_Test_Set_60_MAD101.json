@@ -1,0 +1,542 @@
+[
+  {
+    "test_id": "TEST_MAD101_001",
+    "subject": "MAD101",
+    "topic": "Propositional Logic",
+    "difficulty": "easy",
+    "input_question": "Cho P: 'Hệ thống hoạt động' và Q: 'Dữ liệu được lưu'. Viết biểu thức logic cho câu: 'Hệ thống hoạt động nhưng dữ liệu không được lưu'.",
+    "expected_context": "'Nhưng' được biểu diễn như phép hội; phủ định Q là ¬Q.",
+    "expected_answer": "Biểu thức là P ∧ ¬Q."
+  },
+  {
+    "test_id": "TEST_MAD101_002",
+    "subject": "MAD101",
+    "topic": "Truth Tables",
+    "difficulty": "medium",
+    "input_question": "Lập bảng chân trị cho (P→Q) và xác định trường hợp duy nhất mệnh đề sai.",
+    "expected_context": "Mệnh đề kéo theo P→Q chỉ sai khi P đúng và Q sai.",
+    "expected_answer": "Bảng: TT→T, TF→F, FT→T, FF→T. Trường hợp duy nhất sai là P=T, Q=F."
+  },
+  {
+    "test_id": "TEST_MAD101_003",
+    "subject": "MAD101",
+    "topic": "Logical Equivalence",
+    "difficulty": "medium",
+    "input_question": "Chứng minh ¬(P∧Q) tương đương ¬P∨¬Q.",
+    "expected_context": "Định luật De Morgan có thể được chứng minh bằng bảng chân trị hoặc biến đổi tương đương.",
+    "expected_answer": "Hai biểu thức đều có các giá trị F,T,T,T tương ứng với (P,Q)=(T,T),(T,F),(F,T),(F,F), nên tương đương."
+  },
+  {
+    "test_id": "TEST_MAD101_004",
+    "subject": "MAD101",
+    "topic": "Predicates and Quantifiers",
+    "difficulty": "easy",
+    "input_question": "Phủ định mệnh đề 'Mọi sinh viên đều hoàn thành bài tập'.",
+    "expected_context": "Phủ định của ∀x P(x) là ∃x ¬P(x).",
+    "expected_answer": "Phủ định là: 'Tồn tại ít nhất một sinh viên không hoàn thành bài tập'."
+  },
+  {
+    "test_id": "TEST_MAD101_005",
+    "subject": "MAD101",
+    "topic": "Nested Quantifiers",
+    "difficulty": "hard",
+    "input_question": "Phủ định mệnh đề ∀x∈R ∃y∈R: x+y=0 và diễn giải bằng lời.",
+    "expected_context": "Khi phủ định, đổi ∀ thành ∃, đổi ∃ thành ∀ và phủ định mệnh đề bên trong.",
+    "expected_answer": "Phủ định là ∃x∈R ∀y∈R: x+y≠0, nghĩa là tồn tại một số thực x sao cho với mọi y thực, x+y không bằng 0."
+  },
+  {
+    "test_id": "TEST_MAD101_006",
+    "subject": "MAD101",
+    "topic": "Rules of Inference",
+    "difficulty": "medium",
+    "input_question": "Từ P→Q, Q→R và P, hãy suy ra R và nêu các quy tắc đã dùng.",
+    "expected_context": "Modus ponens: từ P và P→Q suy ra Q; sau đó áp dụng tiếp cho Q→R.",
+    "expected_answer": "Từ P và P→Q suy ra Q bằng modus ponens; từ Q và Q→R suy ra R bằng modus ponens."
+  },
+  {
+    "test_id": "TEST_MAD101_007",
+    "subject": "MAD101",
+    "topic": "Invalid Arguments",
+    "difficulty": "hard",
+    "input_question": "Lập luận 'Nếu trời mưa thì đường ướt. Đường ướt. Vậy trời mưa' có hợp lệ không? Hãy giải thích.",
+    "expected_context": "Từ P→Q và Q không thể suy ra P; đây là lỗi khẳng định hệ quả.",
+    "expected_answer": "Không hợp lệ. Đường có thể ướt vì nguyên nhân khác. Đây là fallacy affirming the consequent."
+  },
+  {
+    "test_id": "TEST_MAD101_008",
+    "subject": "MAD101",
+    "topic": "Logic Translation",
+    "difficulty": "hard",
+    "input_question": "Biểu diễn câu 'Chỉ khi có quyền quản trị thì người dùng mới sửa được cấu hình' bằng P: 'có quyền quản trị', Q: 'sửa được cấu hình'.",
+    "expected_context": "Cụm 'Q chỉ khi P' có nghĩa Q→P.",
+    "expected_answer": "Biểu thức là Q→P."
+  },
+  {
+    "test_id": "TEST_MAD101_009",
+    "subject": "MAD101",
+    "topic": "Set Operations",
+    "difficulty": "easy",
+    "input_question": "Cho A={1,2,3,4}, B={3,4,5}. Tính A∪B, A∩B và A\\B.",
+    "expected_context": "Hợp chứa phần tử thuộc ít nhất một tập; giao chứa phần tử chung; hiệu A\\B chứa phần tử thuộc A nhưng không thuộc B.",
+    "expected_answer": "A∪B={1,2,3,4,5}; A∩B={3,4}; A\\B={1,2}."
+  },
+  {
+    "test_id": "TEST_MAD101_010",
+    "subject": "MAD101",
+    "topic": "Power Sets",
+    "difficulty": "medium",
+    "input_question": "Tập A={a,b,c} có bao nhiêu tập con? Liệt kê các tập con có đúng 2 phần tử.",
+    "expected_context": "Một tập có n phần tử có 2ⁿ tập con; số tập con 2 phần tử là C(n,2).",
+    "expected_answer": "A có 2³=8 tập con. Các tập con 2 phần tử: {a,b}, {a,c}, {b,c}."
+  },
+  {
+    "test_id": "TEST_MAD101_011",
+    "subject": "MAD101",
+    "topic": "Set Identities",
+    "difficulty": "hard",
+    "input_question": "Chứng minh A∩(B∪C)=(A∩B)∪(A∩C) bằng phương pháp phần tử.",
+    "expected_context": "Hai tập bằng nhau khi mỗi phần tử thuộc tập này khi và chỉ khi thuộc tập kia.",
+    "expected_answer": "Với mọi x: x∈A∩(B∪C) ⇔ x∈A và (x∈B hoặc x∈C) ⇔ (x∈A∩B) hoặc (x∈A∩C) ⇔ x∈(A∩B)∪(A∩C)."
+  },
+  {
+    "test_id": "TEST_MAD101_012",
+    "subject": "MAD101",
+    "topic": "Functions",
+    "difficulty": "easy",
+    "input_question": "Hàm f:Z→Z, f(x)=2x+1 có đơn ánh không?",
+    "expected_context": "Hàm đơn ánh nếu f(a)=f(b) kéo theo a=b.",
+    "expected_answer": "Có. Nếu 2a+1=2b+1 thì a=b."
+  },
+  {
+    "test_id": "TEST_MAD101_013",
+    "subject": "MAD101",
+    "topic": "Function Composition",
+    "difficulty": "medium",
+    "input_question": "Cho f(x)=x² và g(x)=x+1. Tính (f∘g)(x) và (g∘f)(x).",
+    "expected_context": "(f∘g)(x)=f(g(x)); thứ tự hợp hàm thường làm kết quả khác nhau.",
+    "expected_answer": "(f∘g)(x)=(x+1)²; (g∘f)(x)=x²+1."
+  },
+  {
+    "test_id": "TEST_MAD101_014",
+    "subject": "MAD101",
+    "topic": "Sequences",
+    "difficulty": "medium",
+    "input_question": "Cho dãy aₙ=3n−2. Tính a₁, a₅ và tổng 5 số hạng đầu.",
+    "expected_context": "Thế chỉ số vào công thức; tổng cấp số cộng có thể tính trực tiếp hoặc dùng Sₙ=n(a₁+aₙ)/2.",
+    "expected_answer": "a₁=1, a₅=13. S₅=5(1+13)/2=35."
+  },
+  {
+    "test_id": "TEST_MAD101_015",
+    "subject": "MAD101",
+    "topic": "Summations",
+    "difficulty": "hard",
+    "input_question": "Tính tổng Σ từ k=1 đến n của (2k−1).",
+    "expected_context": "Tổng n số lẻ đầu tiên bằng n²; cũng có thể dùng 2Σk−Σ1.",
+    "expected_answer": "2·n(n+1)/2−n=n(n+1)−n=n²."
+  },
+  {
+    "test_id": "TEST_MAD101_016",
+    "subject": "MAD101",
+    "topic": "Algorithm Properties",
+    "difficulty": "easy",
+    "input_question": "Nêu bốn tính chất cơ bản mà một thuật toán đúng cần có.",
+    "expected_context": "Thuật toán thường yêu cầu đầu vào/đầu ra xác định, các bước rõ ràng, hữu hạn và thực thi được.",
+    "expected_answer": "Có thể nêu: đầu vào và đầu ra xác định; mỗi bước không mơ hồ; kết thúc sau hữu hạn bước; các bước có thể thực hiện hiệu quả."
+  },
+  {
+    "test_id": "TEST_MAD101_017",
+    "subject": "MAD101",
+    "topic": "Algorithm Tracing",
+    "difficulty": "medium",
+    "input_question": "Thuật toán đặt s=0 rồi với i từ 1 đến 5 cập nhật s=s+i². Giá trị cuối của s là bao nhiêu?",
+    "expected_context": "Theo dõi tuần tự các vòng lặp và cộng bình phương các số từ 1 đến 5.",
+    "expected_answer": "s=1+4+9+16+25=55."
+  },
+  {
+    "test_id": "TEST_MAD101_018",
+    "subject": "MAD101",
+    "topic": "Big-O Basics",
+    "difficulty": "easy",
+    "input_question": "Xác định Big-O của 7n²+3n+10.",
+    "expected_context": "Big-O giữ lại hạng tăng nhanh nhất và bỏ hệ số hằng.",
+    "expected_answer": "Độ phức tạp là O(n²)."
+  },
+  {
+    "test_id": "TEST_MAD101_019",
+    "subject": "MAD101",
+    "topic": "Complexity Comparison",
+    "difficulty": "medium",
+    "input_question": "Sắp xếp các hàm log n, n, n log n, n², 2ⁿ theo tốc độ tăng dần.",
+    "expected_context": "So sánh tốc độ tăng tiệm cận khi n→∞.",
+    "expected_answer": "log n < n < n log n < n² < 2ⁿ."
+  },
+  {
+    "test_id": "TEST_MAD101_020",
+    "subject": "MAD101",
+    "topic": "Nested Loops",
+    "difficulty": "medium",
+    "input_question": "Một thuật toán có hai vòng lặp lồng nhau, mỗi vòng chạy từ 1 đến n và phần thân O(1). Độ phức tạp thời gian là gì?",
+    "expected_context": "Tổng số lần thực hiện phần thân là n·n.",
+    "expected_answer": "Độ phức tạp là Θ(n²), do phần thân chạy chính xác n² lần."
+  },
+  {
+    "test_id": "TEST_MAD101_021",
+    "subject": "MAD101",
+    "topic": "Algorithm Analysis",
+    "difficulty": "hard",
+    "input_question": "Đoạn mã: i=1; while i≤n: thực hiện O(1); i=2i. Xác định số vòng lặp và độ phức tạp.",
+    "expected_context": "Sau k vòng, i=2ᵏ. Dừng khi 2ᵏ>n.",
+    "expected_answer": "Số vòng là ⌊log₂n⌋+1, nên độ phức tạp Θ(log n)."
+  },
+  {
+    "test_id": "TEST_MAD101_022",
+    "subject": "MAD101",
+    "topic": "Correctness and Invariant",
+    "difficulty": "hard",
+    "input_question": "Với thuật toán cộng dồn s=s+a[i] từ i=1 đến n, hãy nêu một bất biến vòng lặp dùng để chứng minh tính đúng.",
+    "expected_context": "Bất biến phải đúng trước vòng lặp, được duy trì và dẫn tới hậu điều kiện khi kết thúc.",
+    "expected_answer": "Sau khi hoàn thành vòng lặp thứ i, s bằng tổng a[1]+...+a[i]. Khởi tạo đúng với i=0, mỗi bước duy trì bằng cách cộng a[i], và khi i=n suy ra s là tổng toàn bộ mảng."
+  },
+  {
+    "test_id": "TEST_MAD101_023",
+    "subject": "MAD101",
+    "topic": "Divisibility",
+    "difficulty": "easy",
+    "input_question": "Kiểm tra 7 có chia hết 203 hay không và tìm thương nếu có.",
+    "expected_context": "a chia hết b khi tồn tại số nguyên k sao cho b=ak.",
+    "expected_answer": "203=7·29, nên 7 chia hết 203 và thương là 29."
+  },
+  {
+    "test_id": "TEST_MAD101_024",
+    "subject": "MAD101",
+    "topic": "Euclidean Algorithm",
+    "difficulty": "medium",
+    "input_question": "Dùng thuật toán Euclid tìm gcd(252,105).",
+    "expected_context": "Lặp phép chia có dư: gcd(a,b)=gcd(b,a mod b).",
+    "expected_answer": "252=2·105+42; 105=2·42+21; 42=2·21. Vì vậy gcd=21."
+  },
+  {
+    "test_id": "TEST_MAD101_025",
+    "subject": "MAD101",
+    "topic": "Bézout Identity",
+    "difficulty": "hard",
+    "input_question": "Biểu diễn gcd(252,105) dưới dạng 252x+105y.",
+    "expected_context": "Dùng thế ngược từ thuật toán Euclid.",
+    "expected_answer": "21=105−2·42=105−2(252−2·105)=5·105−2·252. Do đó x=−2, y=5."
+  },
+  {
+    "test_id": "TEST_MAD101_026",
+    "subject": "MAD101",
+    "topic": "Modular Arithmetic",
+    "difficulty": "easy",
+    "input_question": "Tính 38 mod 7 và (15+19) mod 7.",
+    "expected_context": "Số dư phải nằm trong {0,...,m−1}; phép cộng có thể lấy modulo trước hoặc sau.",
+    "expected_answer": "38 mod 7=3; (15+19) mod 7=34 mod 7=6."
+  },
+  {
+    "test_id": "TEST_MAD101_027",
+    "subject": "MAD101",
+    "topic": "Linear Congruence",
+    "difficulty": "medium",
+    "input_question": "Giải 3x≡4 (mod 7).",
+    "expected_context": "Nhân hai vế với nghịch đảo của 3 modulo 7; 3⁻¹≡5.",
+    "expected_answer": "x≡5·4≡20≡6 (mod 7)."
+  },
+  {
+    "test_id": "TEST_MAD101_028",
+    "subject": "MAD101",
+    "topic": "Modular Exponentiation",
+    "difficulty": "hard",
+    "input_question": "Tính 3¹⁰⁰ mod 7.",
+    "expected_context": "Có thể dùng chu kỳ hoặc định lý Fermat nhỏ vì gcd(3,7)=1.",
+    "expected_answer": "3⁶≡1 (mod 7), 100≡4 (mod 6), nên 3¹⁰⁰≡3⁴=81≡4 (mod 7)."
+  },
+  {
+    "test_id": "TEST_MAD101_029",
+    "subject": "MAD101",
+    "topic": "RSA Basics",
+    "difficulty": "hard",
+    "input_question": "Trong RSA với p=5, q=11, e=3, hãy tìm n, φ(n) và khóa bí mật d nhỏ nhất dương.",
+    "expected_context": "n=pq, φ(n)=(p−1)(q−1), và d là nghịch đảo của e modulo φ(n).",
+    "expected_answer": "n=55; φ(n)=4·10=40. Giải 3d≡1 mod 40 được d=27 vì 3·27=81≡1."
+  },
+  {
+    "test_id": "TEST_MAD101_030",
+    "subject": "MAD101",
+    "topic": "Mathematical Induction",
+    "difficulty": "easy",
+    "input_question": "Nêu ba bước chính của chứng minh quy nạp toán học.",
+    "expected_context": "Chứng minh quy nạp gồm cơ sở, giả thiết quy nạp và bước quy nạp.",
+    "expected_answer": "1) Chứng minh mệnh đề đúng tại giá trị đầu; 2) giả sử đúng với n=k; 3) từ đó chứng minh đúng với n=k+1."
+  },
+  {
+    "test_id": "TEST_MAD101_031",
+    "subject": "MAD101",
+    "topic": "Induction Sum",
+    "difficulty": "medium",
+    "input_question": "Chứng minh bằng quy nạp rằng 1+2+...+n=n(n+1)/2.",
+    "expected_context": "Kiểm tra n=1; giả sử công thức đúng với k rồi cộng k+1.",
+    "expected_answer": "Cơ sở: 1=1·2/2. Giả sử Σ₁ᵏi=k(k+1)/2. Khi đó Σ₁ᵏ⁺¹i=k(k+1)/2+(k+1)=(k+1)(k+2)/2. Suy ra đúng với mọi n≥1."
+  },
+  {
+    "test_id": "TEST_MAD101_032",
+    "subject": "MAD101",
+    "topic": "Strong Induction",
+    "difficulty": "hard",
+    "input_question": "Giải thích khác biệt giữa quy nạp thường và quy nạp mạnh.",
+    "expected_context": "Quy nạp thường giả sử P(k); quy nạp mạnh có thể giả sử toàn bộ P(1),...,P(k). Cả hai nguyên lý tương đương về sức mạnh chứng minh.",
+    "expected_answer": "Quy nạp mạnh cho phép dùng tất cả trường hợp trước để chứng minh P(k+1), hữu ích cho phân tích thừa số hoặc truy hồi; quy nạp thường chỉ nêu trực tiếp P(k)."
+  },
+  {
+    "test_id": "TEST_MAD101_033",
+    "subject": "MAD101",
+    "topic": "Recursive Definitions",
+    "difficulty": "easy",
+    "input_question": "Cho a₁=2 và aₙ=3aₙ₋₁. Tính a₂,a₃,a₄.",
+    "expected_context": "Dùng định nghĩa truy hồi lần lượt từ số hạng đầu.",
+    "expected_answer": "a₂=6, a₃=18, a₄=54."
+  },
+  {
+    "test_id": "TEST_MAD101_034",
+    "subject": "MAD101",
+    "topic": "Recursive Algorithms",
+    "difficulty": "medium",
+    "input_question": "Viết công thức truy hồi cho số phép nhân T(n) của thuật toán tính n! theo định nghĩa factorial(n)=n·factorial(n−1).",
+    "expected_context": "Mỗi lời gọi không cơ sở thực hiện một phép nhân và gọi bài toán kích thước n−1.",
+    "expected_answer": "T(1)=0 và T(n)=T(n−1)+1 với n≥2; do đó T(n)=n−1."
+  },
+  {
+    "test_id": "TEST_MAD101_035",
+    "subject": "MAD101",
+    "topic": "Recursive Trace",
+    "difficulty": "medium",
+    "input_question": "Với F(0)=0, F(1)=1, F(n)=F(n−1)+F(n−2), tính F(6).",
+    "expected_context": "Tính tuần tự các số Fibonacci từ điều kiện đầu.",
+    "expected_answer": "Dãy là 0,1,1,2,3,5,8, nên F(6)=8."
+  },
+  {
+    "test_id": "TEST_MAD101_036",
+    "subject": "MAD101",
+    "topic": "Structural Induction",
+    "difficulty": "hard",
+    "input_question": "Nêu cách chứng minh bằng quy nạp cấu trúc rằng mọi biểu thức số học được tạo từ số nguyên bằng phép + có số lượng dấu ngoặc trái bằng dấu ngoặc phải.",
+    "expected_context": "Quy nạp cấu trúc kiểm tra đối tượng cơ sở và chứng minh tính chất được bảo toàn bởi quy tắc xây dựng.",
+    "expected_answer": "Cơ sở: một số nguyên không có ngoặc nên hai số lượng bằng 0. Bước cấu trúc: nếu E₁,E₂ cân bằng thì (E₁+E₂) thêm đúng một ngoặc trái và một ngoặc phải, nên vẫn cân bằng."
+  },
+  {
+    "test_id": "TEST_MAD101_037",
+    "subject": "MAD101",
+    "topic": "Recursion Pitfalls",
+    "difficulty": "hard",
+    "input_question": "Tại sao định nghĩa f(n)=f(n)+1 không tạo thành một hàm đệ quy hợp lệ?",
+    "expected_context": "Định nghĩa đệ quy cần trường hợp cơ sở và lời gọi phải tiến về đối tượng nhỏ hơn hoặc trạng thái kết thúc.",
+    "expected_answer": "Nó tự gọi lại đúng cùng đối số, không có trường hợp cơ sở và không tiến tới kết thúc, nên dẫn đến đệ quy vô hạn."
+  },
+  {
+    "test_id": "TEST_MAD101_038",
+    "subject": "MAD101",
+    "topic": "Product Rule",
+    "difficulty": "easy",
+    "input_question": "Có 4 loại áo và 3 loại quần. Có bao nhiêu bộ trang phục gồm một áo và một quần?",
+    "expected_context": "Quy tắc nhân: nếu hai lựa chọn độc lập có m và n cách thì có mn cách kết hợp.",
+    "expected_answer": "Có 4·3=12 bộ."
+  },
+  {
+    "test_id": "TEST_MAD101_039",
+    "subject": "MAD101",
+    "topic": "Permutations",
+    "difficulty": "medium",
+    "input_question": "Có bao nhiêu cách sắp xếp 5 sinh viên thành một hàng?",
+    "expected_context": "Số hoán vị của n phần tử phân biệt là n!.",
+    "expected_answer": "Có 5!=120 cách."
+  },
+  {
+    "test_id": "TEST_MAD101_040",
+    "subject": "MAD101",
+    "topic": "Combinations",
+    "difficulty": "easy",
+    "input_question": "Chọn 3 người từ nhóm 8 người có bao nhiêu cách?",
+    "expected_context": "Số cách chọn không xét thứ tự là C(n,k)=n!/[k!(n−k)!].",
+    "expected_answer": "C(8,3)=56."
+  },
+  {
+    "test_id": "TEST_MAD101_041",
+    "subject": "MAD101",
+    "topic": "Inclusion-Exclusion",
+    "difficulty": "medium",
+    "input_question": "Trong lớp có 25 sinh viên học Java, 18 học Python và 10 học cả hai. Có bao nhiêu sinh viên học ít nhất một môn?",
+    "expected_context": "|A∪B|=|A|+|B|−|A∩B|.",
+    "expected_answer": "Có 25+18−10=33 sinh viên."
+  },
+  {
+    "test_id": "TEST_MAD101_042",
+    "subject": "MAD101",
+    "topic": "Pigeonhole Principle",
+    "difficulty": "hard",
+    "input_question": "Chứng minh trong 13 người luôn có ít nhất hai người sinh cùng tháng.",
+    "expected_context": "Nguyên lý Dirichlet: phân n+1 đối tượng vào n hộp thì có hộp chứa ít nhất 2 đối tượng.",
+    "expected_answer": "Có 12 tháng là 12 hộp và 13 người là 13 đối tượng, nên ít nhất một tháng có từ 2 người sinh."
+  },
+  {
+    "test_id": "TEST_MAD101_043",
+    "subject": "MAD101",
+    "topic": "Binomial Theorem",
+    "difficulty": "medium",
+    "input_question": "Tìm hệ số của x³ trong khai triển (1+2x)⁵.",
+    "expected_context": "Trong (a+b)ⁿ, hạng chứa xᵏ có hệ số C(n,k)2ᵏ khi a=1,b=2x.",
+    "expected_answer": "Hệ số là C(5,3)·2³=10·8=80."
+  },
+  {
+    "test_id": "TEST_MAD101_044",
+    "subject": "MAD101",
+    "topic": "Linear Recurrence",
+    "difficulty": "hard",
+    "input_question": "Giải truy hồi aₙ=3aₙ₋₁, a₀=2.",
+    "expected_context": "Truy hồi bậc một dạng aₙ=raₙ₋₁ có nghiệm aₙ=a₀rⁿ.",
+    "expected_answer": "aₙ=2·3ⁿ."
+  },
+  {
+    "test_id": "TEST_MAD101_045",
+    "subject": "MAD101",
+    "topic": "Nonhomogeneous Recurrence",
+    "difficulty": "hard",
+    "input_question": "Tìm nghiệm của aₙ=aₙ₋₁+2 với a₀=1.",
+    "expected_context": "Mỗi bước tăng thêm 2; có thể khai triển lặp hoặc giải truy hồi tuyến tính.",
+    "expected_answer": "aₙ=1+2n."
+  },
+  {
+    "test_id": "TEST_MAD101_046",
+    "subject": "MAD101",
+    "topic": "Graph Terminology",
+    "difficulty": "easy",
+    "input_question": "Trong đồ thị vô hướng, bậc của một đỉnh là gì? Một khuyên được tính bao nhiêu vào bậc?",
+    "expected_context": "Bậc là số cạnh liên thuộc, trong đó khuyên chạm đỉnh hai lần.",
+    "expected_answer": "Bậc của đỉnh là tổng số đầu mút cạnh tại đỉnh; mỗi khuyên đóng góp 2 vào bậc."
+  },
+  {
+    "test_id": "TEST_MAD101_047",
+    "subject": "MAD101",
+    "topic": "Handshaking Theorem",
+    "difficulty": "medium",
+    "input_question": "Một đồ thị vô hướng có các bậc 3,3,2,2,2,2. Có bao nhiêu cạnh?",
+    "expected_context": "Tổng bậc các đỉnh bằng 2|E|.",
+    "expected_answer": "Tổng bậc=14, nên |E|=7."
+  },
+  {
+    "test_id": "TEST_MAD101_048",
+    "subject": "MAD101",
+    "topic": "Graph Representations",
+    "difficulty": "easy",
+    "input_question": "Viết ma trận kề của đồ thị có V={1,2,3}, E={{1,2},{2,3}} theo thứ tự đỉnh 1,2,3.",
+    "expected_context": "Trong đồ thị đơn vô hướng, Aᵢⱼ=1 khi hai đỉnh kề nhau và ma trận đối xứng.",
+    "expected_answer": "Ma trận là [[0,1,0],[1,0,1],[0,1,0]]."
+  },
+  {
+    "test_id": "TEST_MAD101_049",
+    "subject": "MAD101",
+    "topic": "Paths and Connectivity",
+    "difficulty": "medium",
+    "input_question": "Đồ thị có các cạnh {1,2},{2,3},{4,5}. Đồ thị có liên thông không? Hãy nêu các thành phần liên thông.",
+    "expected_context": "Đồ thị liên thông nếu có đường đi giữa mọi cặp đỉnh.",
+    "expected_answer": "Không liên thông. Các thành phần liên thông là {1,2,3} và {4,5}."
+  },
+  {
+    "test_id": "TEST_MAD101_050",
+    "subject": "MAD101",
+    "topic": "Euler Paths",
+    "difficulty": "hard",
+    "input_question": "Một đồ thị liên thông có đúng hai đỉnh bậc lẻ. Nó có đường đi Euler hay chu trình Euler?",
+    "expected_context": "Đồ thị liên thông có đường đi Euler khi có 0 hoặc 2 đỉnh bậc lẻ; có chu trình Euler khi mọi đỉnh bậc chẵn.",
+    "expected_answer": "Nó có đường đi Euler bắt đầu và kết thúc tại hai đỉnh bậc lẻ, nhưng không có chu trình Euler."
+  },
+  {
+    "test_id": "TEST_MAD101_051",
+    "subject": "MAD101",
+    "topic": "Hamiltonian Reasoning",
+    "difficulty": "hard",
+    "input_question": "Chu trình C₅ có chu trình Hamilton không? Có đường đi Euler không?",
+    "expected_context": "Chu trình Hamilton đi qua mọi đỉnh đúng một lần rồi quay lại; đồ thị Euler yêu cầu bậc chẵn.",
+    "expected_answer": "Có chu trình Hamilton chính là toàn bộ C₅. Mỗi đỉnh có bậc 2 nên cũng có chu trình Euler, do đó có đường đi Euler."
+  },
+  {
+    "test_id": "TEST_MAD101_052",
+    "subject": "MAD101",
+    "topic": "Dijkstra Algorithm",
+    "difficulty": "medium",
+    "input_question": "Trong đồ thị có trọng số dương: A-B=2, A-C=5, B-C=1, B-D=4, C-D=1. Tìm khoảng cách ngắn nhất từ A đến D.",
+    "expected_context": "Dijkstra chọn đỉnh chưa xét có khoảng cách tạm thời nhỏ nhất và thư giãn các cạnh.",
+    "expected_answer": "Đường ngắn nhất là A→B→C→D với độ dài 2+1+1=4."
+  },
+  {
+    "test_id": "TEST_MAD101_053",
+    "subject": "MAD101",
+    "topic": "Graph Coloring",
+    "difficulty": "hard",
+    "input_question": "Xác định số màu tối thiểu để tô chu trình C₅ sao cho hai đỉnh kề nhau khác màu.",
+    "expected_context": "Chu trình chẵn tô được bằng 2 màu; chu trình lẻ cần 3 màu.",
+    "expected_answer": "C₅ là chu trình lẻ nên số sắc χ(C₅)=3."
+  },
+  {
+    "test_id": "TEST_MAD101_054",
+    "subject": "MAD101",
+    "topic": "Tree Properties",
+    "difficulty": "easy",
+    "input_question": "Một cây có 12 đỉnh thì có bao nhiêu cạnh?",
+    "expected_context": "Mọi cây hữu hạn có n đỉnh thì có đúng n−1 cạnh.",
+    "expected_answer": "Cây có 11 cạnh."
+  },
+  {
+    "test_id": "TEST_MAD101_055",
+    "subject": "MAD101",
+    "topic": "Recognizing Trees",
+    "difficulty": "medium",
+    "input_question": "Một đồ thị đơn liên thông có 8 đỉnh và 7 cạnh. Nó có chắc chắn là cây không?",
+    "expected_context": "Đồ thị đơn vô hướng liên thông có n đỉnh và n−1 cạnh thì là cây.",
+    "expected_answer": "Có. Vì liên thông và có đúng 8−1=7 cạnh nên nó là cây."
+  },
+  {
+    "test_id": "TEST_MAD101_056",
+    "subject": "MAD101",
+    "topic": "Rooted Trees",
+    "difficulty": "easy",
+    "input_question": "Trong cây có gốc, hãy phân biệt cha, con, tổ tiên và hậu duệ.",
+    "expected_context": "Quan hệ được xác định theo hướng từ gốc xuống các mức của cây.",
+    "expected_answer": "Cha là đỉnh ngay phía trên; con là đỉnh ngay phía dưới; tổ tiên nằm trên đường từ đỉnh đến gốc; hậu duệ nằm trong cây con bắt đầu tại đỉnh."
+  },
+  {
+    "test_id": "TEST_MAD101_057",
+    "subject": "MAD101",
+    "topic": "Binary Trees",
+    "difficulty": "medium",
+    "input_question": "Một cây nhị phân đầy đủ có 15 đỉnh trong. Nó có bao nhiêu lá?",
+    "expected_context": "Trong cây nhị phân đầy đủ, mỗi đỉnh trong có đúng 2 con và số lá L=I+1.",
+    "expected_answer": "Số lá là 15+1=16."
+  },
+  {
+    "test_id": "TEST_MAD101_058",
+    "subject": "MAD101",
+    "topic": "Tree Traversal",
+    "difficulty": "medium",
+    "input_question": "Cho cây nhị phân có gốc A, con trái B, con phải C; B có hai con D,E. Hãy liệt kê thứ tự preorder.",
+    "expected_context": "Preorder duyệt gốc, cây con trái, rồi cây con phải.",
+    "expected_answer": "Thứ tự preorder là A, B, D, E, C."
+  },
+  {
+    "test_id": "TEST_MAD101_059",
+    "subject": "MAD101",
+    "topic": "Spanning Trees",
+    "difficulty": "hard",
+    "input_question": "Đồ thị đầy đủ K₄ có bao nhiêu cây khung?",
+    "expected_context": "Theo công thức Cayley, Kₙ có nⁿ⁻² cây khung.",
+    "expected_answer": "K₄ có 4²=16 cây khung."
+  },
+  {
+    "test_id": "TEST_MAD101_060",
+    "subject": "MAD101",
+    "topic": "Minimum Spanning Tree",
+    "difficulty": "hard",
+    "input_question": "Đồ thị có cạnh AB=1, AC=4, BC=2, BD=5, CD=3. Dùng Kruskal tìm cây khung nhỏ nhất.",
+    "expected_context": "Kruskal chọn cạnh theo trọng số tăng dần và bỏ cạnh tạo chu trình.",
+    "expected_answer": "Chọn AB=1, BC=2, CD=3. Ba cạnh nối đủ bốn đỉnh, tổng trọng số bằng 6."
+  }
+]

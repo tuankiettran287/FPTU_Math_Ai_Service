@@ -1,0 +1,542 @@
+[
+  {
+    "test_id": "TEST_MAS291_001",
+    "subject": "MAS291",
+    "topic": "Statistical Thinking",
+    "difficulty": "easy",
+    "input_question": "Phân biệt tổng thể và mẫu trong nghiên cứu đo thời gian sử dụng pin của toàn bộ điện thoại một hãng, khi nhà nghiên cứu kiểm tra 100 chiếc.",
+    "expected_context": "Tổng thể là toàn bộ đối tượng cần suy luận; mẫu là tập con thực sự được quan sát.",
+    "expected_answer": "Tổng thể là tất cả điện thoại của hãng thuộc phạm vi nghiên cứu; mẫu là 100 chiếc được kiểm tra."
+  },
+  {
+    "test_id": "TEST_MAS291_002",
+    "subject": "MAS291",
+    "topic": "Data Types",
+    "difficulty": "easy",
+    "input_question": "Biến 'loại hệ điều hành' và biến 'thời lượng pin theo giờ' lần lượt thuộc loại dữ liệu nào?",
+    "expected_context": "Dữ liệu định tính mô tả nhóm/nhãn; dữ liệu định lượng biểu diễn đại lượng số.",
+    "expected_answer": "Loại hệ điều hành là dữ liệu định tính danh nghĩa; thời lượng pin là dữ liệu định lượng liên tục."
+  },
+  {
+    "test_id": "TEST_MAS291_003",
+    "subject": "MAS291",
+    "topic": "Sampling Design",
+    "difficulty": "medium",
+    "input_question": "Một trường khảo sát mức độ hài lòng bằng cách chỉ hỏi sinh viên đang ngồi trong thư viện. Hãy chỉ ra sai lệch có thể xảy ra.",
+    "expected_context": "Mẫu thuận tiện có thể không đại diện cho tổng thể vì xác suất được chọn không đồng đều.",
+    "expected_answer": "Có sai lệch chọn mẫu: sinh viên ở thư viện có thể có hành vi và mức hài lòng khác sinh viên không đến thư viện, nên kết quả khó khái quát cho toàn trường."
+  },
+  {
+    "test_id": "TEST_MAS291_004",
+    "subject": "MAS291",
+    "topic": "Experimental Design",
+    "difficulty": "medium",
+    "input_question": "Trong thử nghiệm so sánh hai giao diện học tập, tại sao cần phân công ngẫu nhiên người dùng vào hai nhóm?",
+    "expected_context": "Phân công ngẫu nhiên giúp cân bằng các yếu tố gây nhiễu và hỗ trợ suy luận nhân quả.",
+    "expected_answer": "Nó làm giảm sai lệch do khác biệt sẵn có giữa các nhóm, để chênh lệch kết quả có thể hợp lý hơn được quy cho giao diện."
+  },
+  {
+    "test_id": "TEST_MAS291_005",
+    "subject": "MAS291",
+    "topic": "Mechanistic vs Empirical Models",
+    "difficulty": "hard",
+    "input_question": "Phân biệt mô hình cơ chế và mô hình thực nghiệm, rồi cho một ví dụ mỗi loại trong kỹ thuật.",
+    "expected_context": "Mô hình cơ chế dựa trên quy luật vật lý/lý thuyết; mô hình thực nghiệm được khớp từ dữ liệu quan sát.",
+    "expected_answer": "Ví dụ cơ chế: quãng đường rơi tự do s=gt²/2. Ví dụ thực nghiệm: hồi quy mức tiêu thụ điện theo nhiệt độ từ dữ liệu đo. Mô hình cơ chế giải thích bằng nguyên lý; mô hình thực nghiệm mô tả quan hệ quan sát."
+  },
+  {
+    "test_id": "TEST_MAS291_006",
+    "subject": "MAS291",
+    "topic": "Validity and Confounding",
+    "difficulty": "hard",
+    "input_question": "Một nghiên cứu thấy sinh viên dùng ứng dụng học AI có điểm cao hơn, nhưng nhóm này cũng học nhiều giờ hơn. Có thể kết luận ứng dụng gây tăng điểm không?",
+    "expected_context": "Biến gây nhiễu liên quan cả yếu tố giải thích và kết quả có thể tạo quan hệ giả; nghiên cứu quan sát không tự động chứng minh nhân quả.",
+    "expected_answer": "Chưa thể kết luận. Số giờ học là biến gây nhiễu. Cần kiểm soát thời gian học, ghép cặp, hồi quy điều chỉnh hoặc tốt hơn là thử nghiệm ngẫu nhiên."
+  },
+  {
+    "test_id": "TEST_MAS291_007",
+    "subject": "MAS291",
+    "topic": "Sample Spaces and Events",
+    "difficulty": "easy",
+    "input_question": "Tung một đồng xu và một xúc xắc sáu mặt. Không gian mẫu có bao nhiêu kết quả?",
+    "expected_context": "Dùng quy tắc nhân cho hai phép thử: 2 kết quả của đồng xu và 6 kết quả của xúc xắc.",
+    "expected_answer": "Không gian mẫu có 2·6=12 kết quả."
+  },
+  {
+    "test_id": "TEST_MAS291_008",
+    "subject": "MAS291",
+    "topic": "Probability Rules",
+    "difficulty": "easy",
+    "input_question": "Nếu P(A)=0.35 thì P(Aᶜ) bằng bao nhiêu?",
+    "expected_context": "Quy tắc bù: P(Aᶜ)=1−P(A).",
+    "expected_answer": "P(Aᶜ)=1−0.35=0.65."
+  },
+  {
+    "test_id": "TEST_MAS291_009",
+    "subject": "MAS291",
+    "topic": "Conditional Probability",
+    "difficulty": "medium",
+    "input_question": "Một hộp có 5 bi đỏ và 3 bi xanh. Lấy liên tiếp 2 bi không hoàn lại. Tính xác suất cả hai bi đều đỏ.",
+    "expected_context": "Không hoàn lại làm xác suất lần hai phụ thuộc lần đầu; dùng quy tắc nhân có điều kiện.",
+    "expected_answer": "P=5/8·4/7=20/56=5/14."
+  },
+  {
+    "test_id": "TEST_MAS291_010",
+    "subject": "MAS291",
+    "topic": "Independence",
+    "difficulty": "medium",
+    "input_question": "Cho P(A)=0.4, P(B)=0.5 và P(A∩B)=0.2. A và B có độc lập không?",
+    "expected_context": "A và B độc lập khi P(A∩B)=P(A)P(B).",
+    "expected_answer": "P(A)P(B)=0.4·0.5=0.2=P(A∩B), nên A và B độc lập."
+  },
+  {
+    "test_id": "TEST_MAS291_011",
+    "subject": "MAS291",
+    "topic": "Total Probability and Bayes",
+    "difficulty": "hard",
+    "input_question": "Máy M1 sản xuất 60% sản phẩm với tỉ lệ lỗi 2%; M2 sản xuất 40% với tỉ lệ lỗi 5%. Một sản phẩm bị lỗi. Tính xác suất nó đến từ M2.",
+    "expected_context": "Dùng xác suất toàn phần cho sự kiện lỗi rồi áp dụng Bayes.",
+    "expected_answer": "P(L)=0.6·0.02+0.4·0.05=0.032. P(M2|L)=0.4·0.05/0.032=0.625."
+  },
+  {
+    "test_id": "TEST_MAS291_012",
+    "subject": "MAS291",
+    "topic": "Reliability",
+    "difficulty": "hard",
+    "input_question": "Ba linh kiện độc lập mắc song song, mỗi linh kiện hoạt động với xác suất 0.9. Hệ thống hoạt động nếu ít nhất một linh kiện hoạt động. Tính độ tin cậy.",
+    "expected_context": "Xác suất ít nhất một hoạt động bằng 1 trừ xác suất tất cả cùng hỏng.",
+    "expected_answer": "P(hệ hoạt động)=1−(0.1)³=0.999."
+  },
+  {
+    "test_id": "TEST_MAS291_013",
+    "subject": "MAS291",
+    "topic": "Discrete Random Variables",
+    "difficulty": "easy",
+    "input_question": "Một biến ngẫu nhiên X nhận các giá trị 0,1,2 với xác suất 0.2,0.5,0.3. Kiểm tra đây có phải phân phối xác suất hợp lệ không.",
+    "expected_context": "Mọi xác suất phải không âm và tổng phải bằng 1.",
+    "expected_answer": "Có. Các xác suất đều không âm và 0.2+0.5+0.3=1."
+  },
+  {
+    "test_id": "TEST_MAS291_014",
+    "subject": "MAS291",
+    "topic": "Expected Value",
+    "difficulty": "easy",
+    "input_question": "Với X nhận 1,2,3 và xác suất tương ứng 0.2,0.5,0.3, tính E(X).",
+    "expected_context": "Kỳ vọng rời rạc E(X)=Σx p(x).",
+    "expected_answer": "E(X)=1·0.2+2·0.5+3·0.3=2.1."
+  },
+  {
+    "test_id": "TEST_MAS291_015",
+    "subject": "MAS291",
+    "topic": "Variance",
+    "difficulty": "medium",
+    "input_question": "Với X có P(X=0)=0.5, P(X=2)=0.5, tính Var(X).",
+    "expected_context": "Var(X)=E(X²)−[E(X)]².",
+    "expected_answer": "E(X)=1; E(X²)=0.5·0+0.5·4=2; Var(X)=2−1²=1."
+  },
+  {
+    "test_id": "TEST_MAS291_016",
+    "subject": "MAS291",
+    "topic": "Binomial Distribution",
+    "difficulty": "medium",
+    "input_question": "Một phép thử có xác suất thành công 0.3, lặp độc lập 5 lần. Tính xác suất đúng 2 lần thành công.",
+    "expected_context": "Nếu số lần thử cố định, độc lập, hai kết quả và p không đổi thì X~Bin(n,p).",
+    "expected_answer": "P(X=2)=C(5,2)(0.3)²(0.7)³=10·0.09·0.343=0.3087."
+  },
+  {
+    "test_id": "TEST_MAS291_017",
+    "subject": "MAS291",
+    "topic": "Poisson Distribution",
+    "difficulty": "hard",
+    "input_question": "Số lỗi trung bình trên một trang là 2 và tuân theo Poisson. Tính xác suất một trang có ít nhất 3 lỗi.",
+    "expected_context": "Với X~Poisson(λ), P(X≥3)=1−[P(0)+P(1)+P(2)].",
+    "expected_answer": "P(X≥3)=1−e⁻²(1+2+2²/2)=1−5e⁻²≈0.3233."
+  },
+  {
+    "test_id": "TEST_MAS291_018",
+    "subject": "MAS291",
+    "topic": "Distribution Selection",
+    "difficulty": "hard",
+    "input_question": "Một nhà máy kiểm tra từng sản phẩm cho đến khi gặp sản phẩm lỗi đầu tiên; xác suất lỗi mỗi sản phẩm là 0.04 và các lần độc lập. Chọn phân phối phù hợp và tính số sản phẩm kỳ vọng được kiểm tra.",
+    "expected_context": "Số phép thử cho đến thành công đầu tiên tuân theo phân phối hình học với E(X)=1/p nếu tính cả lần thành công.",
+    "expected_answer": "X~Geometric(p=0.04), nên E(X)=1/0.04=25 sản phẩm."
+  },
+  {
+    "test_id": "TEST_MAS291_019",
+    "subject": "MAS291",
+    "topic": "Continuous Random Variables",
+    "difficulty": "easy",
+    "input_question": "Với biến ngẫu nhiên liên tục X, xác suất P(X=2) bằng bao nhiêu?",
+    "expected_context": "Đối với phân phối liên tục, xác suất tại một điểm riêng lẻ bằng 0.",
+    "expected_answer": "P(X=2)=0."
+  },
+  {
+    "test_id": "TEST_MAS291_020",
+    "subject": "MAS291",
+    "topic": "Uniform Distribution",
+    "difficulty": "easy",
+    "input_question": "X phân phối đều trên [0,10]. Tính P(2≤X≤5).",
+    "expected_context": "Với phân phối đều, xác suất bằng độ dài khoảng thuận lợi chia độ dài toàn khoảng.",
+    "expected_answer": "P=(5−2)/(10−0)=0.3."
+  },
+  {
+    "test_id": "TEST_MAS291_021",
+    "subject": "MAS291",
+    "topic": "Normal Distribution",
+    "difficulty": "medium",
+    "input_question": "X~N(100,15²). Tính z-score tương ứng với x=130.",
+    "expected_context": "Chuẩn hóa z=(x−μ)/σ.",
+    "expected_answer": "z=(130−100)/15=2."
+  },
+  {
+    "test_id": "TEST_MAS291_022",
+    "subject": "MAS291",
+    "topic": "Exponential Distribution",
+    "difficulty": "medium",
+    "input_question": "Thời gian chờ X~Exponential(λ=0.2 mỗi phút). Tính P(X>10).",
+    "expected_context": "Hàm sống của phân phối mũ là P(X>t)=e^(−λt).",
+    "expected_answer": "P(X>10)=e⁻²≈0.1353."
+  },
+  {
+    "test_id": "TEST_MAS291_023",
+    "subject": "MAS291",
+    "topic": "Normal Probability",
+    "difficulty": "hard",
+    "input_question": "X~N(50,10²). Xấp xỉ P(40<X<70) bằng bảng chuẩn, biết Φ(2)=0.9772 và Φ(−1)=0.1587.",
+    "expected_context": "Chuẩn hóa hai cận rồi lấy hiệu hàm phân phối chuẩn.",
+    "expected_answer": "z₁=(40−50)/10=−1; z₂=2. P=Φ(2)−Φ(−1)=0.9772−0.1587=0.8185."
+  },
+  {
+    "test_id": "TEST_MAS291_024",
+    "subject": "MAS291",
+    "topic": "Memoryless Property",
+    "difficulty": "hard",
+    "input_question": "Thời gian sống X của linh kiện tuân theo phân phối mũ. Biết P(X>5)=0.6. Tính P(X>12 | X>7).",
+    "expected_context": "Phân phối mũ có tính không nhớ: P(X>s+t|X>s)=P(X>t).",
+    "expected_answer": "P(X>12|X>7)=P(X>5)=0.6."
+  },
+  {
+    "test_id": "TEST_MAS291_025",
+    "subject": "MAS291",
+    "topic": "Measures of Center",
+    "difficulty": "easy",
+    "input_question": "Tính trung bình và trung vị của dữ liệu 2,4,4,6,9.",
+    "expected_context": "Trung bình là tổng chia số quan sát; trung vị là giá trị giữa sau khi sắp xếp.",
+    "expected_answer": "Trung bình=(2+4+4+6+9)/5=5; trung vị=4."
+  },
+  {
+    "test_id": "TEST_MAS291_026",
+    "subject": "MAS291",
+    "topic": "Measures of Spread",
+    "difficulty": "easy",
+    "input_question": "Tính range của dữ liệu 3,7,8,10,15.",
+    "expected_context": "Range bằng giá trị lớn nhất trừ giá trị nhỏ nhất.",
+    "expected_answer": "Range=15−3=12."
+  },
+  {
+    "test_id": "TEST_MAS291_027",
+    "subject": "MAS291",
+    "topic": "Sample Variance",
+    "difficulty": "medium",
+    "input_question": "Tính phương sai mẫu của dữ liệu 1,3,5.",
+    "expected_context": "Phương sai mẫu s²=Σ(xᵢ−x̄)²/(n−1).",
+    "expected_answer": "x̄=3; tổng bình phương độ lệch=4+0+4=8; s²=8/2=4."
+  },
+  {
+    "test_id": "TEST_MAS291_028",
+    "subject": "MAS291",
+    "topic": "Outliers and Robustness",
+    "difficulty": "medium",
+    "input_question": "Giải thích vì sao trung vị thường phù hợp hơn trung bình khi dữ liệu có ngoại lệ lớn.",
+    "expected_context": "Trung bình sử dụng trực tiếp độ lớn của mọi quan sát; trung vị chỉ phụ thuộc thứ tự.",
+    "expected_answer": "Ngoại lệ có thể kéo trung bình mạnh về phía nó, trong khi trung vị ít thay đổi, nên trung vị là thước đo trung tâm bền vững hơn."
+  },
+  {
+    "test_id": "TEST_MAS291_029",
+    "subject": "MAS291",
+    "topic": "Quartiles and IQR",
+    "difficulty": "hard",
+    "input_question": "Với dữ liệu đã sắp xếp 1,2,3,4,5,6,7,8,9, tính Q1, Q3 và IQR theo cách lấy trung vị của mỗi nửa, bỏ trung vị chung.",
+    "expected_context": "IQR=Q3−Q1; với n lẻ, bỏ trung vị chung rồi lấy trung vị mỗi nửa.",
+    "expected_answer": "Trung vị chung là 5. Nửa dưới 1,2,3,4 có Q1=2.5; nửa trên 6,7,8,9 có Q3=7.5; IQR=5."
+  },
+  {
+    "test_id": "TEST_MAS291_030",
+    "subject": "MAS291",
+    "topic": "Standardization and Comparison",
+    "difficulty": "hard",
+    "input_question": "Sinh viên A đạt 80 trong lớp có μ=70, σ=5; sinh viên B đạt 90 trong lớp có μ=75, σ=10. Ai có kết quả tương đối tốt hơn?",
+    "expected_context": "So sánh bằng z-score để quy về số độ lệch chuẩn trên trung bình.",
+    "expected_answer": "z_A=(80−70)/5=2; z_B=(90−75)/10=1.5. A có vị trí tương đối tốt hơn."
+  },
+  {
+    "test_id": "TEST_MAS291_031",
+    "subject": "MAS291",
+    "topic": "Point Estimation",
+    "difficulty": "easy",
+    "input_question": "Phân biệt tham số và thống kê; cho ví dụ với trung bình.",
+    "expected_context": "Tham số mô tả tổng thể; thống kê được tính từ mẫu và thường dùng để ước lượng tham số.",
+    "expected_answer": "μ là trung bình tổng thể, còn x̄ là trung bình mẫu dùng để ước lượng μ."
+  },
+  {
+    "test_id": "TEST_MAS291_032",
+    "subject": "MAS291",
+    "topic": "Unbiased Estimators",
+    "difficulty": "easy",
+    "input_question": "Ước lượng không chệch là gì?",
+    "expected_context": "Một ước lượng θ̂ không chệch nếu kỳ vọng của nó bằng tham số thật θ.",
+    "expected_answer": "Điều kiện là E(θ̂)=θ. Ví dụ x̄ là ước lượng không chệch của μ khi mẫu ngẫu nhiên."
+  },
+  {
+    "test_id": "TEST_MAS291_033",
+    "subject": "MAS291",
+    "topic": "Sampling Distribution of Mean",
+    "difficulty": "medium",
+    "input_question": "Tổng thể có μ=50, σ=12. Với mẫu ngẫu nhiên n=36, tìm kỳ vọng và sai số chuẩn của x̄.",
+    "expected_context": "E(x̄)=μ và SE(x̄)=σ/√n.",
+    "expected_answer": "E(x̄)=50; SE=12/6=2."
+  },
+  {
+    "test_id": "TEST_MAS291_034",
+    "subject": "MAS291",
+    "topic": "Central Limit Theorem",
+    "difficulty": "medium",
+    "input_question": "Phát biểu vai trò của định lý giới hạn trung tâm đối với trung bình mẫu.",
+    "expected_context": "Với n đủ lớn và các điều kiện phù hợp, phân phối của trung bình mẫu xấp xỉ chuẩn bất kể hình dạng tổng thể.",
+    "expected_answer": "CLT cho phép dùng x̄≈N(μ,σ²/n) khi mẫu đủ lớn, hỗ trợ tính xác suất và suy luận cho trung bình."
+  },
+  {
+    "test_id": "TEST_MAS291_035",
+    "subject": "MAS291",
+    "topic": "Probability for Sample Mean",
+    "difficulty": "hard",
+    "input_question": "Tổng thể có μ=100, σ=20. Với n=100, xấp xỉ P(x̄>104), biết P(Z>2)=0.0228.",
+    "expected_context": "Sai số chuẩn của x̄ là σ/√n; chuẩn hóa bằng z=(x̄−μ)/SE.",
+    "expected_answer": "SE=20/10=2; z=(104−100)/2=2. Do đó P(x̄>104)=0.0228."
+  },
+  {
+    "test_id": "TEST_MAS291_036",
+    "subject": "MAS291",
+    "topic": "Bias-Variance Tradeoff",
+    "difficulty": "hard",
+    "input_question": "Hai ước lượng θ̂₁ và θ̂₂ có: Bias(θ̂₁)=0, Var(θ̂₁)=9; Bias(θ̂₂)=2, Var(θ̂₂)=3. So sánh MSE.",
+    "expected_context": "MSE(θ̂)=Var(θ̂)+Bias(θ̂)².",
+    "expected_answer": "MSE₁=9+0=9; MSE₂=3+4=7. Theo MSE, θ̂₂ tốt hơn dù bị chệch."
+  },
+  {
+    "test_id": "TEST_MAS291_037",
+    "subject": "MAS291",
+    "topic": "Confidence Interval Meaning",
+    "difficulty": "easy",
+    "input_question": "Diễn giải đúng khoảng tin cậy 95% cho trung bình tổng thể.",
+    "expected_context": "Mức tin cậy mô tả tỉ lệ dài hạn của quy trình tạo khoảng, không phải xác suất hậu nghiệm của một tham số cố định.",
+    "expected_answer": "Nếu lặp lấy mẫu và dựng khoảng theo cùng phương pháp, khoảng 95% trong số đó sẽ chứa μ. Không nên nói có 95% xác suất μ nằm trong khoảng đã tính."
+  },
+  {
+    "test_id": "TEST_MAS291_038",
+    "subject": "MAS291",
+    "topic": "Margin of Error",
+    "difficulty": "easy",
+    "input_question": "Với σ đã biết, khoảng tin cậy cho μ có sai số biên E=z*σ/√n. Nếu tăng n lên 4 lần thì E thay đổi thế nào?",
+    "expected_context": "Sai số biên tỉ lệ nghịch với √n.",
+    "expected_answer": "Khi n tăng gấp 4, √n tăng gấp 2 nên E giảm còn một nửa."
+  },
+  {
+    "test_id": "TEST_MAS291_039",
+    "subject": "MAS291",
+    "topic": "CI for Mean, Sigma Known",
+    "difficulty": "medium",
+    "input_question": "Mẫu n=64 có x̄=50, σ=8. Lập khoảng tin cậy 95% cho μ với z*=1.96.",
+    "expected_context": "Khoảng z: x̄±z*σ/√n.",
+    "expected_answer": "SE=8/8=1; khoảng là 50±1.96, tức (48.04,51.96)."
+  },
+  {
+    "test_id": "TEST_MAS291_040",
+    "subject": "MAS291",
+    "topic": "CI for Proportion",
+    "difficulty": "medium",
+    "input_question": "Trong 200 người có 120 người đồng ý. Lập khoảng tin cậy 95% xấp xỉ cho tỉ lệ, dùng z*=1.96.",
+    "expected_context": "p̂=x/n; SE=√[p̂(1−p̂)/n]; khoảng p̂±z*SE.",
+    "expected_answer": "p̂=0.6; SE=√(0.24/200)≈0.03464; E≈0.0679. Khoảng xấp xỉ (0.532,0.668)."
+  },
+  {
+    "test_id": "TEST_MAS291_041",
+    "subject": "MAS291",
+    "topic": "Sample Size Planning",
+    "difficulty": "hard",
+    "input_question": "Cần ước lượng tỉ lệ với sai số biên không quá 0.03 ở mức 95%, chưa có ước lượng ban đầu. Tìm cỡ mẫu tối thiểu với z*=1.96.",
+    "expected_context": "Khi chưa biết p, dùng p=0.5 để tạo phương sai lớn nhất; n=z²p(1−p)/E² và làm tròn lên.",
+    "expected_answer": "n=1.96²·0.25/0.03²≈1067.11, nên cần ít nhất 1068 quan sát."
+  },
+  {
+    "test_id": "TEST_MAS291_042",
+    "subject": "MAS291",
+    "topic": "t Interval Conditions",
+    "difficulty": "hard",
+    "input_question": "Mẫu n=16 có x̄=12, s=4. Khi nào có thể dùng khoảng t cho μ, và bậc tự do là bao nhiêu?",
+    "expected_context": "Khi σ chưa biết, dùng t nếu mẫu ngẫu nhiên/độc lập và tổng thể gần chuẩn hoặc mẫu không có lệch/ngoại lệ nghiêm trọng với n nhỏ.",
+    "expected_answer": "Có thể dùng khoảng t nếu điều kiện mẫu và hình dạng phù hợp; bậc tự do df=n−1=15."
+  },
+  {
+    "test_id": "TEST_MAS291_043",
+    "subject": "MAS291",
+    "topic": "Hypotheses",
+    "difficulty": "easy",
+    "input_question": "Một hãng tuyên bố tuổi thọ trung bình của pin là 10 giờ. Viết H0 và H1 cho kiểm định xem tuổi thọ có khác 10 giờ không.",
+    "expected_context": "Kiểm định hai phía dùng giả thuyết đối μ≠μ0; dấu bằng đặt trong H0.",
+    "expected_answer": "H0: μ=10; H1: μ≠10."
+  },
+  {
+    "test_id": "TEST_MAS291_044",
+    "subject": "MAS291",
+    "topic": "p-value",
+    "difficulty": "easy",
+    "input_question": "p-value biểu thị điều gì trong kiểm định giả thuyết?",
+    "expected_context": "p-value được tính dưới giả định H0 đúng và đo mức cực đoan của dữ liệu so với H0.",
+    "expected_answer": "Đó là xác suất, khi H0 đúng, thu được thống kê kiểm định ít nhất cực đoan như quan sát. p-value nhỏ là bằng chứng chống H0."
+  },
+  {
+    "test_id": "TEST_MAS291_045",
+    "subject": "MAS291",
+    "topic": "One-Sample z Test",
+    "difficulty": "medium",
+    "input_question": "Biết σ=12, n=36, x̄=104. Kiểm định H0:μ=100 so với H1:μ>100. Tính z.",
+    "expected_context": "Thống kê z=(x̄−μ0)/(σ/√n).",
+    "expected_answer": "SE=12/6=2; z=(104−100)/2=2."
+  },
+  {
+    "test_id": "TEST_MAS291_046",
+    "subject": "MAS291",
+    "topic": "Decision Rule",
+    "difficulty": "medium",
+    "input_question": "Trong kiểm định ở mức α=0.05, p-value=0.03. Đưa ra quyết định và diễn giải.",
+    "expected_context": "Bác bỏ H0 khi p-value≤α.",
+    "expected_answer": "Vì 0.03<0.05, bác bỏ H0. Dữ liệu cung cấp bằng chứng thống kê ủng hộ H1 ở mức 5%."
+  },
+  {
+    "test_id": "TEST_MAS291_047",
+    "subject": "MAS291",
+    "topic": "Type I and Type II Errors",
+    "difficulty": "hard",
+    "input_question": "Một xét nghiệm kiểm định H0: 'sản phẩm đạt chuẩn' và H1: 'sản phẩm không đạt chuẩn'. Diễn giải sai lầm loại I và loại II.",
+    "expected_context": "Loại I là bác bỏ H0 khi H0 đúng; loại II là không bác bỏ H0 khi H1 đúng.",
+    "expected_answer": "Loại I: kết luận sản phẩm không đạt dù thật sự đạt. Loại II: không phát hiện sản phẩm không đạt và coi như chưa đủ bằng chứng loại bỏ nó."
+  },
+  {
+    "test_id": "TEST_MAS291_048",
+    "subject": "MAS291",
+    "topic": "Power and Sample Size",
+    "difficulty": "hard",
+    "input_question": "Giải thích ảnh hưởng của việc tăng cỡ mẫu lên power khi α và hiệu ứng thật được giữ cố định.",
+    "expected_context": "Mẫu lớn làm sai số chuẩn nhỏ hơn, giúp phân phối dưới H1 tách xa hơn tương đối so với ngưỡng bác bỏ.",
+    "expected_answer": "Tăng n thường làm power tăng và xác suất sai lầm loại II giảm, vì kiểm định nhạy hơn với hiệu ứng thật."
+  },
+  {
+    "test_id": "TEST_MAS291_049",
+    "subject": "MAS291",
+    "topic": "Independent vs Paired Samples",
+    "difficulty": "easy",
+    "input_question": "Đo huyết áp của cùng 20 người trước và sau điều trị là dữ liệu độc lập hay ghép cặp?",
+    "expected_context": "Quan sát ghép cặp xuất hiện khi hai giá trị thuộc cùng đối tượng hoặc cặp tương ứng.",
+    "expected_answer": "Đây là dữ liệu ghép cặp; phân tích nên dựa trên hiệu số sau−trước của từng người."
+  },
+  {
+    "test_id": "TEST_MAS291_050",
+    "subject": "MAS291",
+    "topic": "Difference in Means",
+    "difficulty": "easy",
+    "input_question": "Mẫu 1 có x̄₁=15, mẫu 2 có x̄₂=12. Ước lượng điểm cho μ₁−μ₂ là bao nhiêu?",
+    "expected_context": "Ước lượng điểm tự nhiên của hiệu hai trung bình là x̄₁−x̄₂.",
+    "expected_answer": "Ước lượng là 15−12=3."
+  },
+  {
+    "test_id": "TEST_MAS291_051",
+    "subject": "MAS291",
+    "topic": "SE for Difference",
+    "difficulty": "medium",
+    "input_question": "Hai mẫu độc lập có s₁=4,n₁=25 và s₂=3,n₂=36. Tính sai số chuẩn xấp xỉ của x̄₁−x̄₂.",
+    "expected_context": "SE=√(s₁²/n₁+s₂²/n₂) khi không giả sử phương sai bằng nhau.",
+    "expected_answer": "SE=√(16/25+9/36)=√(0.64+0.25)=√0.89≈0.943."
+  },
+  {
+    "test_id": "TEST_MAS291_052",
+    "subject": "MAS291",
+    "topic": "Paired t Statistic",
+    "difficulty": "medium",
+    "input_question": "Với hiệu số d=Sau−Trước có d̄=−2, s_d=4, n=16, kiểm định H0:μ_d=0. Tính t.",
+    "expected_context": "Kiểm định ghép cặp là kiểm định một mẫu trên hiệu số: t=(d̄−0)/(s_d/√n).",
+    "expected_answer": "SE=4/4=1; t=−2."
+  },
+  {
+    "test_id": "TEST_MAS291_053",
+    "subject": "MAS291",
+    "topic": "Two-Proportion Comparison",
+    "difficulty": "hard",
+    "input_question": "Nhóm A có 60/100 thành công, nhóm B có 45/90 thành công. Tính ước lượng p_A−p_B và sai số chuẩn không gộp cho khoảng tin cậy.",
+    "expected_context": "Ước lượng là p̂A−p̂B; SE=√[p̂A(1−p̂A)/nA+p̂B(1−p̂B)/nB].",
+    "expected_answer": "p̂A=0.6, p̂B=0.5, hiệu=0.1. SE=√(0.24/100+0.25/90)≈√0.005178≈0.0720."
+  },
+  {
+    "test_id": "TEST_MAS291_054",
+    "subject": "MAS291",
+    "topic": "Equal Variance Assumption",
+    "difficulty": "hard",
+    "input_question": "Khi so sánh hai trung bình độc lập, tại sao phương pháp Welch thường an toàn hơn pooled t-test?",
+    "expected_context": "Pooled t-test giả định phương sai hai tổng thể bằng nhau; Welch điều chỉnh sai số chuẩn và bậc tự do khi phương sai khác.",
+    "expected_answer": "Welch không cần giả định phương sai bằng nhau và vẫn hoạt động tốt khi cỡ mẫu hoặc độ phân tán khác nhau; pooled chỉ nên dùng khi giả định phương sai chung có cơ sở."
+  },
+  {
+    "test_id": "TEST_MAS291_055",
+    "subject": "MAS291",
+    "topic": "Correlation",
+    "difficulty": "easy",
+    "input_question": "Hệ số tương quan r=−0.85 cho biết điều gì?",
+    "expected_context": "r đo hướng và độ mạnh của quan hệ tuyến tính, nằm trong [−1,1].",
+    "expected_answer": "Có quan hệ tuyến tính âm mạnh: khi một biến tăng, biến kia có xu hướng giảm. Nó không tự chứng minh quan hệ nhân quả."
+  },
+  {
+    "test_id": "TEST_MAS291_056",
+    "subject": "MAS291",
+    "topic": "Regression Equation",
+    "difficulty": "easy",
+    "input_question": "Cho đường hồi quy ŷ=5+2x. Dự đoán y khi x=4.",
+    "expected_context": "Thế x vào phương trình hồi quy; hệ số góc là thay đổi dự đoán của y khi x tăng một đơn vị.",
+    "expected_answer": "ŷ=5+2·4=13."
+  },
+  {
+    "test_id": "TEST_MAS291_057",
+    "subject": "MAS291",
+    "topic": "Slope Interpretation",
+    "difficulty": "medium",
+    "input_question": "Trong mô hình dự đoán điểm số ŷ=40+3x, với x là số giờ học, diễn giải hệ số góc 3.",
+    "expected_context": "Hệ số góc biểu thị mức thay đổi trung bình dự đoán của y ứng với một đơn vị tăng của x.",
+    "expected_answer": "Mỗi giờ học tăng thêm liên quan đến điểm dự đoán tăng trung bình 3 điểm, trong phạm vi dữ liệu và theo mô hình tuyến tính."
+  },
+  {
+    "test_id": "TEST_MAS291_058",
+    "subject": "MAS291",
+    "topic": "Coefficient of Determination",
+    "difficulty": "medium",
+    "input_question": "Nếu r=0.8 trong hồi quy tuyến tính đơn, tính R² và diễn giải.",
+    "expected_context": "Trong hồi quy tuyến tính đơn có hệ số chặn, R²=r².",
+    "expected_answer": "R²=0.64. Khoảng 64% biến thiên của y trong mẫu được giải thích bởi quan hệ tuyến tính với x."
+  },
+  {
+    "test_id": "TEST_MAS291_059",
+    "subject": "MAS291",
+    "topic": "Residual Analysis",
+    "difficulty": "hard",
+    "input_question": "Một đồ thị phần dư có dạng cong chữ U rõ rệt. Điều đó gợi ý vấn đề gì và nên làm gì?",
+    "expected_context": "Mô hình tuyến tính phù hợp khi phần dư phân bố ngẫu nhiên quanh 0; cấu trúc cong cho thấy thiếu phi tuyến.",
+    "expected_answer": "Dạng chữ U cho thấy quan hệ không tuyến tính và mô hình đường thẳng bị sai dạng. Có thể thêm hạng x², biến đổi biến hoặc dùng mô hình phi tuyến phù hợp."
+  },
+  {
+    "test_id": "TEST_MAS291_060",
+    "subject": "MAS291",
+    "topic": "Correlation and Causation",
+    "difficulty": "hard",
+    "input_question": "Một phân tích cho thấy tương quan mạnh giữa doanh số kem và số ca say nắng. Có thể kết luận kem gây say nắng không? Hãy đề xuất biến gây nhiễu.",
+    "expected_context": "Tương quan không chứng minh nhân quả; một biến thứ ba có thể ảnh hưởng cả hai biến.",
+    "expected_answer": "Không thể kết luận. Nhiệt độ hoặc mùa hè là biến gây nhiễu hợp lý: trời nóng làm cả doanh số kem và số ca say nắng tăng."
+  }
+]

@@ -1,0 +1,20 @@
+{
+ "model": "r1_7b",
+ "mode": "rag",
+ "kind": "perf",
+ "load_time_s": 166.0,
+ "idle_vram_mib": 35396.0,
+ "card_vram_at_idle_mib": 73259.0,
+ "idle_power_w": 96.22,
+ "vram_mean": 73263.0,
+ "vram_peak": 73263.0,
+ "model_vram_mean": 35400.0,
+ "model_vram_peak": 35400.0,
+ "util_mean": 92.84482758620689,
+ "util_peak": 100.0,
+ "power_mean": 402.1419827586207,
+ "power_peak": 425.21,
+ "duration_s": 124.45374217582867,
+ "energy_wh": 0.5071878844486134,
+ "incremental_vram_mib": 4.0
+}

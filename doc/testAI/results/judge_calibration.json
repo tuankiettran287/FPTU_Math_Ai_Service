@@ -1,0 +1,847 @@
+{
+ "n": 139,
+ "n_parsed": 138,
+ "accuracy": 0.7536,
+ "by_variant": {
+  "arithmetic_slip": 0.8611,
+  "correct_paraphrase": 0.96,
+  "correct_verbatim": 1.0,
+  "incomplete": 0.125
+ },
+ "detail": [
+  {
+   "test_id": "TEST_MAE101_015",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_029",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_003",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_003",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_015",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_029",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_022",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_029",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_039",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_039",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_039",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_022",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_003",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_014",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_041",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_006",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_024",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_041",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_041",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_014",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_024",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_044",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_006",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_044",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_044",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_006",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_033",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_046",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_046",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_033",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_012",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_012",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_033",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_046",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_019",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_052",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_052",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_004",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_012",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_052",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_019",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_004",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_016",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_019",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_023",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAD101_023",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_009",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_023",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_001",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_019",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_001",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_016",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAD101_014",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAD101_009",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_014",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_020",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_019",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_019",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_020",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_049",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAD101_006",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_049",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_049",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_006",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_005",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_005",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_022",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_005",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAD101_051",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_051",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_038",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_022",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAD101_022",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_021",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_021",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_038",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_038",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAD101_045",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAD101_051",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_021",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAD101_045",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_013",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_050",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_050",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_013",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_013",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_049",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_009",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_043",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_009",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_043",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_049",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_057",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_057",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_003",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_004",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_057",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_052",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_004",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_048",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_052",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_003",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_053",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_048",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_053",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_018",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_030",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_030",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_022",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_030",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_018",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_015",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_024",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_006",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_046",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_029",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_041",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_041",
+   "variant": "arithmetic_slip",
+   "label": "incorrect",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAS291_041",
+   "variant": "correct_verbatim",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_009",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": null
+  },
+  {
+   "test_id": "TEST_MAS291_041",
+   "variant": "incomplete",
+   "label": "incorrect",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_019",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "incorrect"
+  },
+  {
+   "test_id": "TEST_MAE101_003",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_038",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_020",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_012",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_039",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_045",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_021",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_013",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_023",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_050",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_049",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAE101_052",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_051",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_018",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_053",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAS291_057",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  },
+  {
+   "test_id": "TEST_MAD101_022",
+   "variant": "correct_paraphrase",
+   "label": "correct",
+   "judge_pred": "correct"
+  }
+ ]
+}

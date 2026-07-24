@@ -1,0 +1,711 @@
+<title>MathTutor AI — ERD & Core Flows (bản đúng theo code)</title>
+<style>
+  :root{
+    --ground:#eef1f5; --paper:#ffffff; --panel:#f7f9fb;
+    --ink:#161b22; --muted:#5b6672; --faint:#8a93a0;
+    --line:#d6dde5; --line-strong:#c2cbd6;
+    --accent:#0f766e; --accent-2:#14b8a6; --accent-soft:#d5efec;
+    --pk:#b45309; --pk-bg:#fdf0dc;
+    --fk:#1d4ed8; --fk-bg:#e2e9fd;
+    --enum:#7c3aed; --enum-bg:#ece2fb;
+    --json:#475569; --json-bg:#e6ebf1;
+    --vec:#0e7490; --vec-bg:#d5eef4;
+    --removed:#c0392b; --removed-bg:#fbe5e2;
+    --added:#0f766e; --added-bg:#d5efec;
+    --renamed:#b45309; --renamed-bg:#fdf0dc;
+    --a-sv:#0f766e; --a-fe:#1d4ed8; --a-be:#334155; --a-ai:#a21caf; --a-db:#15803d; --a-gv:#b45309;
+    --shadow:0 1px 2px rgba(20,30,45,.06),0 4px 14px rgba(20,30,45,.05);
+    --mono:ui-monospace,"Cascadia Code","SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --sans:ui-sans-serif,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ground:#0d1117; --paper:#161c24; --panel:#1b222c;
+      --ink:#e6edf3; --muted:#9aa6b2; --faint:#6b7683;
+      --line:#29313c; --line-strong:#3a434f;
+      --accent:#2dd4bf; --accent-2:#5eead4; --accent-soft:#123231;
+      --pk:#f0b25f; --pk-bg:#3a2c14;
+      --fk:#8ab0ff; --fk-bg:#182642;
+      --enum:#c4a5f7; --enum-bg:#271a3c;
+      --json:#a7b4c2; --json-bg:#232c37;
+      --vec:#67d3e8; --vec-bg:#0f2f38;
+      --removed:#f28b82; --removed-bg:#3a1d1a;
+      --added:#5eead4; --added-bg:#0f2f2c;
+      --renamed:#f0b25f; --renamed-bg:#3a2c14;
+      --a-sv:#2dd4bf; --a-fe:#8ab0ff; --a-be:#b8c2ce; --a-ai:#e879d6; --a-db:#6ee7a0; --a-gv:#f0b25f;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.28);
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#eef1f5; --paper:#ffffff; --panel:#f7f9fb; --ink:#161b22; --muted:#5b6672; --faint:#8a93a0;
+    --line:#d6dde5; --line-strong:#c2cbd6; --accent:#0f766e; --accent-2:#14b8a6; --accent-soft:#d5efec;
+    --pk:#b45309;--pk-bg:#fdf0dc;--fk:#1d4ed8;--fk-bg:#e2e9fd;--enum:#7c3aed;--enum-bg:#ece2fb;--json:#475569;--json-bg:#e6ebf1;--vec:#0e7490;--vec-bg:#d5eef4;
+    --removed:#c0392b;--removed-bg:#fbe5e2;--added:#0f766e;--added-bg:#d5efec;--renamed:#b45309;--renamed-bg:#fdf0dc;
+    --a-sv:#0f766e;--a-fe:#1d4ed8;--a-be:#334155;--a-ai:#a21caf;--a-db:#15803d;--a-gv:#b45309;
+  }
+  :root[data-theme="dark"]{
+    --ground:#0d1117; --paper:#161c24; --panel:#1b222c; --ink:#e6edf3; --muted:#9aa6b2; --faint:#6b7683;
+    --line:#29313c; --line-strong:#3a434f; --accent:#2dd4bf; --accent-2:#5eead4; --accent-soft:#123231;
+    --pk:#f0b25f;--pk-bg:#3a2c14;--fk:#8ab0ff;--fk-bg:#182642;--enum:#c4a5f7;--enum-bg:#271a3c;--json:#a7b4c2;--json-bg:#232c37;--vec:#67d3e8;--vec-bg:#0f2f38;
+    --removed:#f28b82;--removed-bg:#3a1d1a;--added:#5eead4;--added-bg:#0f2f2c;--renamed:#f0b25f;--renamed-bg:#3a2c14;
+    --a-sv:#2dd4bf;--a-fe:#8ab0ff;--a-be:#b8c2ce;--a-ai:#e879d6;--a-db:#6ee7a0;--a-gv:#f0b25f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);line-height:1.55;
+    -webkit-font-smoothing:antialiased;font-size:15px}
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 24px 96px}
+
+  /* ── Masthead ── */
+  header.top{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:26px 28px;box-shadow:var(--shadow);
+    position:relative;overflow:hidden}
+  header.top::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:22px 22px;opacity:.28;mask-image:linear-gradient(105deg,#000,transparent 62%)}
+  .kicker{position:relative;font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  header.top h1{position:relative;margin:.35em 0 .15em;font-size:clamp(24px,3.4vw,34px);line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
+  header.top p.sub{position:relative;margin:0;color:var(--muted);max-width:70ch}
+  .verify{position:relative;margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:11.5px}
+  .verify span{border:1px solid var(--line-strong);background:var(--panel);border-radius:5px;padding:4px 9px;color:var(--muted)}
+  .verify b{color:var(--ink);font-weight:600}
+
+  /* ── Alert ── */
+  .alert{margin-top:18px;border:1px solid var(--line);border-left:3px solid var(--removed);background:var(--paper);
+    border-radius:8px;padding:16px 20px;box-shadow:var(--shadow)}
+  .alert h2{margin:0 0 6px;font-size:15px}
+  .alert p{margin:0;color:var(--muted);font-size:14px}
+  .alert code{font-family:var(--mono);font-size:12.5px;color:var(--removed);background:var(--removed-bg);padding:1px 6px;border-radius:4px}
+
+  /* ── Section headings ── */
+  .part{margin:52px 0 18px;display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line-strong);padding-bottom:10px}
+  .part .num{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:700;letter-spacing:.05em}
+  .part h2{margin:0;font-size:21px;letter-spacing:-.015em}
+  .part .tag{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint)}
+
+  .module{margin:30px 0}
+  .module h3{margin:0 0 3px;font-size:16.5px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+  .module h3 .db{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--vec);
+    background:var(--vec-bg);border:1px solid var(--line);padding:2px 7px;border-radius:20px}
+  .module p.note{margin:0 0 14px;color:var(--muted);font-size:13.5px;max-width:80ch}
+
+  /* ── Entity grid & cards ── */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:14px;align-items:start}
+  .ent{border:1px solid var(--line);background:var(--paper);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+  .ent > .eh{padding:9px 12px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+  .ent > .eh .nm{font-family:var(--mono);font-weight:700;font-size:13.5px;letter-spacing:-.01em}
+  .ent > .eh .tb{font-family:var(--mono);font-size:10px;color:var(--faint)}
+  .ent.core > .eh{background:linear-gradient(0deg,var(--panel),var(--accent-soft))}
+  .flds{padding:4px 0}
+  .fld{display:flex;align-items:center;gap:8px;padding:3.5px 12px;font-family:var(--mono);font-size:12px}
+  .fld .k{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .fld .k .ty{color:var(--faint);font-size:10.5px}
+  .b{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.04em;padding:1px 5px;border-radius:4px;text-transform:uppercase;flex:none}
+  .b.pk{color:var(--pk);background:var(--pk-bg)} .b.fk{color:var(--fk);background:var(--fk-bg)}
+  .b.en{color:var(--enum);background:var(--enum-bg)} .b.js{color:var(--json);background:var(--json-bg)}
+  .b.vc{color:var(--vec);background:var(--vec-bg)}
+  .ent.small .flds{padding:6px 0}
+  .ent.small .fld{padding:2.5px 12px;font-size:11.5px;color:var(--muted)}
+
+  .rels{margin-top:12px;border:1px dashed var(--line-strong);border-radius:8px;background:var(--panel);padding:11px 15px}
+  .rels .rt{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+  .rels ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px}
+  .rels li{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .rels li b{color:var(--ink);font-weight:600}
+  .rels li .c{color:var(--accent);font-weight:700;padding:0 3px}
+
+  /* ── Legend ── */
+  .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:22px 0 8px}
+  .lg{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:11px 14px;box-shadow:var(--shadow)}
+  .lg .lt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:7px;font-family:var(--mono)}
+  .lg .row{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+  .lg .row span{font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:5px}
+
+  /* ── Flows ── */
+  .flow{border:1px solid var(--line);background:var(--paper);border-radius:10px;box-shadow:var(--shadow);margin:16px 0;overflow:hidden}
+  .flow > .fh{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .flow > .fh .fn{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent);border:1px solid var(--line-strong);border-radius:5px;padding:3px 8px;background:var(--panel)}
+  .flow > .fh h4{margin:0;font-size:16px;letter-spacing:-.01em}
+  .flow > .fh .st{margin-left:auto;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:20px}
+  .st.ok{color:var(--added);background:var(--added-bg)} .st.fix{color:var(--removed);background:var(--removed-bg)} .st.new{color:var(--fk);background:var(--fk-bg)}
+  .steps{padding:14px 18px 6px;counter-reset:s}
+  .step{display:grid;grid-template-columns:26px auto 1fr;gap:10px;align-items:start;padding:5px 0;position:relative}
+  .step::before{counter-increment:s;content:counter(s);font-family:var(--mono);font-size:11px;font-weight:700;color:var(--faint);
+    width:22px;height:22px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--panel)}
+  .actor{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.03em;padding:2px 7px;border-radius:5px;color:#fff;white-space:nowrap;margin-top:1px}
+  .actor.sv{background:var(--a-sv)} .actor.fe{background:var(--a-fe)} .actor.be{background:var(--a-be)} .actor.ai{background:var(--a-ai)} .actor.db{background:var(--a-db)} .actor.gv{background:var(--a-gv)}
+  @media (prefers-color-scheme:dark){.actor{color:#0d1117}}
+  :root[data-theme="light"] .actor{color:#fff} :root[data-theme="dark"] .actor{color:#0d1117}
+  .step .tx{font-size:13.5px;color:var(--ink)}
+  .step .tx code{font-family:var(--mono);font-size:12px;background:var(--panel);border:1px solid var(--line);padding:0 5px;border-radius:4px;color:var(--accent)}
+  .fix-note{margin:8px 18px 16px;border-radius:8px;border:1px solid var(--line);border-left:3px solid var(--removed);background:var(--removed-bg);padding:10px 14px;font-size:13px}
+  .fix-note.newn{border-left-color:var(--fk);background:var(--fk-bg)}
+  .fix-note b{font-weight:700}
+  .fix-note .old{color:var(--removed);text-decoration:line-through;font-family:var(--mono);font-size:12px}
+  .fix-note .neu{color:var(--added);font-family:var(--mono);font-size:12px;font-weight:600}
+
+  .foot{margin-top:60px;padding-top:18px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px;font-family:var(--mono)}
+  strong.rem{color:var(--removed)} strong.add{color:var(--added)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="kicker">MathTutor AI · Kiểm chứng từ mã nguồn</div>
+    <h1>ERD &amp; Core Flow — bản đúng theo code hiện tại</h1>
+    <p class="sub">Đối chiếu với entity &amp; controller thật trong <span style="font-family:var(--mono);font-size:13px">BE_KLTN</span> (.NET 9, Clean Architecture). Dùng thay cho các sơ đồ vẽ theo thiết kế docx cũ. Field ở dạng <span style="font-family:var(--mono);font-size:13px">mono</span> = tên thuộc tính thật trong Domain.</p>
+    <div class="verify">
+      <span><b>2 DbContext:</b> MainDb (math_tutor_main_db3) · QuestionBankDb (fptu_mathai_final)</span>
+      <span><b>Role:</b> Admin · Teacher · Student</span>
+      <span><b>Embedding:</b> bge-m3 · VECTOR(1024)</span>
+    </div>
+  </header>
+
+  <div class="alert">
+    <h2>Vì sao các slide ERD hiện tại sai</h2>
+    <p>Dự án đã refactor lớn sang mô hình <b>tự học thuần</b>: đã <strong class="rem">bỏ hẳn</strong>
+    <code>Campus</code> <code>Semester</code> <code>Course</code> <code>Class</code> <code>Lesson</code>
+    <code>Assignment</code> <code>Submission</code> <code>CourseMaterial</code> <code>Enrollment</code> <code>Cohort</code>.
+    Không có SuperAdmin/AdminCampus — chỉ 3 role. Question Bank là <b>1 bảng JSONB</b> với embedding là <b>cột vector</b> (không phải bảng riêng, không phải 1536 chiều).</p>
+  </div>
+
+  <!-- ══════════ PART 1 · ERD ══════════ -->
+  <div class="part"><span class="num">PART 1</span><h2>ERD tổng hợp — theo module thật</h2><span class="tag">18 module · MainDb + QuestionBankDb</span></div>
+
+  <div class="legend">
+    <div class="lg"><div class="lt">Loại field</div><div class="row">
+      <span><i class="b pk">PK</i> khóa chính</span><span><i class="b fk">FK</i> khóa ngoại</span>
+      <span><i class="b en">ENUM</i> trạng thái</span><span><i class="b js">JSON</i> jsonb</span><span><i class="b vc">VEC</i> vector</span>
+    </div></div>
+    <div class="lg"><div class="lt">Quy ước quan hệ</div><div class="row">
+      <span><b style="font-family:var(--mono);color:var(--accent)">1:N</b> một–nhiều</span>
+      <span><b style="font-family:var(--mono);color:var(--accent)">1:1</b> một–một</span>
+      <span style="color:var(--muted)">Mọi entity kế thừa <b style="font-family:var(--mono)">Id · CreatedAt · UpdatedAt</b></span>
+    </div></div>
+  </div>
+
+  <!-- MODULE: Identity & Academic (thay slide 28,29) -->
+  <div class="module">
+    <h3>1 · Identity &amp; Academic <span class="db">MainDb</span></h3>
+    <p class="note">Thay cho slide “Core Infrastructure” &amp; “Admin/SuperAdmin”. <strong class="rem">Không có</strong> Campus / Course / Class / Semester / Lesson. User không có <span style="font-family:var(--mono)">campus_id</span>; phân quyền bằng <span style="font-family:var(--mono)">Role</span>.</p>
+    <div class="grid">
+      <div class="ent core">
+        <div class="eh"><span class="nm">User</span><span class="tb">users</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">Email · FEID? · FullName</span></div>
+          <div class="fld"><span class="k">PasswordHash · AvatarUrl?</span></div>
+          <div class="fld"><span class="k">Role <span class="ty">Admin/Teacher/Student</span></span><i class="b en">EN</i></div>
+          <div class="fld"><span class="k">Status <span class="ty">Active/Inactive/Suspended</span></span><i class="b en">EN</i></div>
+          <div class="fld"><span class="k">IsGoogleAccount · EmailVerified</span></div>
+          <div class="fld"><span class="k">TwoFactorEnabled · TwoFactorSecret?</span></div>
+          <div class="fld"><span class="k">AcademicTitle? · Bio? · CoverImageUrl?</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">Subject</span><span class="tb">subjects</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">Code <span class="ty">"MAD" / "MAE"</span></span></div>
+          <div class="fld"><span class="k">Name · Description?</span></div>
+          <div class="fld"><span class="k">CurriculumOutlineUrl?</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">Chapter</span><span class="tb">chapters</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">SubjectId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Code · Title · OrderIndex</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">Syllabus</span><span class="tb">syllabi</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">SubjectId <span class="ty">(1:1)</span></span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">SyllabusName · NoCredit? · PreRequisite?</span></div>
+          <div class="fld"><span class="k">+ Clos · Sessions · Materials <span class="ty">(con)</span></span></div>
+        </div>
+      </div>
+      <div class="ent small">
+        <div class="eh"><span class="nm">RefreshToken · OtpToken · LoginHistory</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">UserId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">RefreshToken: Token · ExpiresAt · Device?</span></div>
+          <div class="fld"><span class="k">OtpToken: Code · Purpose(EN) · IsUsed</span></div>
+          <div class="fld"><span class="k">LoginHistory: LoginAt · Location? · Device?</span></div>
+        </div>
+      </div>
+      <div class="ent small">
+        <div class="eh"><span class="nm">AuditLog · SystemSetting · ImportLog</span><span class="tb">admin</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">AuditLog: UserId? · Action(EN) · EntityType · Old/NewJson</span></div>
+          <div class="fld"><span class="k">SystemSetting: Key · Value · DataType?</span></div>
+          <div class="fld"><span class="k">ImportLog: FileName · Total/Success/Failed</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rels"><div class="rt">Quan hệ chính</div><ul>
+      <li><b>User</b><span class="c">1:N</span>RefreshToken · OtpToken · LoginHistory · AuditLog</li>
+      <li><b>Subject</b><span class="c">1:N</span>Chapter</li>
+      <li><b>Subject</b><span class="c">1:1</span>Syllabus</li>
+    </ul></div>
+  </div>
+
+  <!-- MODULE: AI & Question Bank (thay slide 27) -->
+  <div class="module">
+    <h3>2 · AI &amp; Question Bank <span class="db">QuestionBankDb + MainDb</span></h3>
+    <p class="note">Thay slide “AI &amp; Question Bank View”. <strong class="rem">Không có</strong> bảng <span style="font-family:var(--mono)">QuestionEmbeddings</span> hay <span style="font-family:var(--mono)">AssignmentQuestions</span> riêng — <strong class="add">embedding là cột VECTOR(1024)</strong> ngay trong <span style="font-family:var(--mono)">math_question_bank</span> (DB do AI quản, dạng JSONB). Log AI &amp; hội thoại nằm ở MainDb.</p>
+    <div class="grid">
+      <div class="ent core">
+        <div class="eh"><span class="nm">MathQuestion</span><span class="tb">math_question_bank · QBDb</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id <span class="ty">string</span></span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">Subject · Course · Chapter · Topic · Subtopic</span></div>
+          <div class="fld"><span class="k">QuestionType · AssestFormat?</span></div>
+          <div class="fld"><span class="k">QuestionJson · SolutionJson · DifficultyJson</span><i class="b js">JSON</i></div>
+          <div class="fld"><span class="k">Hints/Evaluation/Metadata Json</span><i class="b js">JSON</i></div>
+          <div class="fld"><span class="k">Embedding <span class="ty">float[1024]</span></span><i class="b vc">VEC</i></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">AiConversation</span><span class="tb">ai_conversations</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">UserId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Type <span class="ty">SolveProblem/TutorChat</span></span><i class="b en">EN</i></div>
+          <div class="fld"><span class="k">Title? · IsActive · LastMessageAt?</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">AiMessage</span><span class="tb">ai_messages</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">ConversationId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Role <span class="ty">User/Assistant</span></span><i class="b en">EN</i></div>
+          <div class="fld"><span class="k">Content · ImageUrl? · TokensUsed?</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">AiInteractionLog</span><span class="tb">ai_interaction_logs</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">UserId · ConversationId?</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Type(EN) · RequestPayloadJson</span><i class="b js">JSON</i></div>
+          <div class="fld"><span class="k">ResponsePayloadJson? · IsSuccess</span></div>
+          <div class="fld"><span class="k">TokensUsed? · LatencyMs? · ErrorMessage?</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rels"><div class="rt">Quan hệ chính</div><ul>
+      <li><b>User</b><span class="c">1:N</span>AiConversation<span class="c">1:N</span>AiMessage</li>
+      <li><b>User</b><span class="c">1:N</span>AiInteractionLog<span class="c">N:1</span>AiConversation</li>
+      <li><b>MathQuestion</b> đứng riêng ở QBDb — BE truy vấn trực tiếp + gọi AI để embed</li>
+    </ul></div>
+  </div>
+
+  <!-- MODULE: Self-Study (thay slide 26 Teacher View) -->
+  <div class="module">
+    <h3>3 · Self-Study &amp; Content <span class="db">MainDb</span></h3>
+    <p class="note">Thay slide “Teacher View”. Đây mới là mô hình dạy–học thật: tự học <b>đa giáo viên</b> khóa theo <span style="font-family:var(--mono)">SelfStudyProgress(Student+Subject+Teacher)</span>. <strong class="rem">Không có</strong> Classes / Assignments / Submissions / CourseMaterials.</p>
+    <div class="grid">
+      <div class="ent core">
+        <div class="eh"><span class="nm">SelfStudyProgress</span><span class="tb">self_study_progresses</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">StudentId · SubjectId · TeacherId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Status(EN) · CompletionPercent</span></div>
+          <div class="fld"><span class="k">LearningStreakDays · CompletedVideoCount</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">ChapterProgress</span><span class="tb">chapter_progresses</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">SelfStudyProgressId · ChapterId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">CompletionPercent · IsCompleted</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">LectureVideo</span><span class="tb">lecture_videos</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">TeacherId · SubjectId · ChapterId?</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Title · YoutubeUrl? · DurationSeconds</span></div>
+          <div class="fld"><span class="k">VideoSource(EN) · IsPublished</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">Document</span><span class="tb">documents · nguồn RAG</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">SubjectId · TeacherId? · UploadedById</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">DocumentType(EN) · StorageKey · FileExtension</span></div>
+          <div class="fld"><span class="k">IsAiSearchable · AiIndexStatus(EN) · AiChunkCount?</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">SelfStudyExamPool</span><span class="tb">self_study_exam_pools</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">SubjectId · ChapterId? · TeacherId?</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Kind(EN) · DrawEasy/Medium/Hard</span></div>
+          <div class="fld"><span class="k">AntiCheatEnabled · TimeLimitMinutes?</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">SelfStudyExamPoolQuestion</span><span class="tb">…_pool_questions</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">PoolId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Difficulty(EN) · QuestionContent · OptionsJson</span></div>
+          <div class="fld"><span class="k">CorrectOptionKey · Solution?</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">SelfStudyExamAttempt</span><span class="tb">…_exam_attempts</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">StudentId · PoolId? · GroupAssignmentId?</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Kind(EN) · Status(EN) · ScorePercent</span></div>
+          <div class="fld"><span class="k">CorrectCount · RiskScore · IsFlaggedForReview</span></div>
+        </div>
+      </div>
+      <div class="ent small">
+        <div class="eh"><span class="nm">+ phụ trợ</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">SelfStudyExamAttemptAnswer (AttemptId FK)</span></div>
+          <div class="fld"><span class="k">VideoWatchHistory · StudentNote · StudentDocumentProgress</span></div>
+          <div class="fld"><span class="k">LectureMaterial · TeacherRating (Stars)</span></div>
+          <div class="fld"><span class="k">FlashcardDeck 1:N FlashcardItem</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rels"><div class="rt">Quan hệ chính</div><ul>
+      <li><b>User(SV)</b><span class="c">1:N</span>SelfStudyProgress<span class="c">N:1</span>User(GV) · Subject</li>
+      <li><b>SelfStudyProgress</b><span class="c">1:N</span>ChapterProgress · VideoWatchHistory</li>
+      <li><b>SelfStudyExamPool</b><span class="c">1:N</span>PoolQuestion</li>
+      <li><b>SelfStudyExamAttempt</b><span class="c">1:N</span>AttemptAnswer</li>
+    </ul></div>
+  </div>
+
+  <!-- MODULE: Study Group (slide 25 sửa) -->
+  <div class="module">
+    <h3>4 · Study Group <span class="db">MainDb</span></h3>
+    <p class="note">Sửa slide 25: <strong class="rem">bỏ entity Semester</strong> và <span style="font-family:var(--mono)">semester_id</span>. <span style="font-family:var(--mono)">StudyGroupMember</span> <strong class="rem">không có</strong> trường <span style="font-family:var(--mono)">role</span>. Bài tập nhóm tái dùng <span style="font-family:var(--mono)">SelfStudyExamPool</span>. <em>(Lưu ý: FE của Study Group đã bị gỡ/gộp — cân nhắc trước khi để làm luồng chính.)</em></p>
+    <div class="grid">
+      <div class="ent core">
+        <div class="eh"><span class="nm">StudyGroup</span><span class="tb">study_groups</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">TeacherId · SubjectId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Name · InviteCode · EndDate?</span></div>
+          <div class="fld"><span class="k">Status(EN)</span><i class="b en">EN</i></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">StudyGroupMember</span><span class="tb">study_group_members</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">GroupId · StudentId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">JoinedAt · Status(EN)</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">GroupAssignment</span><span class="tb">group_assignments</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">GroupId · ExamPoolId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Title · DueDate? · AttemptsAllowed</span></div>
+          <div class="fld"><span class="k">Status(EN) · PublishedAt?</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rels"><div class="rt">Quan hệ chính</div><ul>
+      <li><b>StudyGroup</b><span class="c">1:N</span>StudyGroupMember</li>
+      <li><b>StudyGroup</b><span class="c">1:N</span>GroupAssignment<span class="c">N:1</span>SelfStudyExamPool</li>
+    </ul></div>
+  </div>
+
+  <!-- MODULE: Arena -->
+  <div class="module">
+    <h3>5 · Đấu trường (Arena) <span class="db">MainDb</span></h3>
+    <p class="note">Hệ thi đấu ELO 3 bậc (MAE/MAD/MAS). Mỗi user có 3 hồ sơ ELO độc lập. Câu hỏi snapshot vào <span style="font-family:var(--mono)">ArenaMatchQuestion</span>/<span style="font-family:var(--mono)">ArenaContestQuestion</span> (AI chưa nối xong → hiện fallback rút từ Question Bank).</p>
+    <div class="grid">
+      <div class="ent core">
+        <div class="eh"><span class="nm">ArenaProfile</span><span class="tb">unique(UserId,Track)</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">UserId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Track <span class="ty">MAE/MAD/MAS</span></span><i class="b en">EN</i></div>
+          <div class="fld"><span class="k">Elo · PeakElo · Wins/Losses/Draws</span></div>
+          <div class="fld"><span class="k">CurrentStreak · Xp · MatchesPlayed</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">ArenaMatch</span><span class="tb">arena_matches · 1v1</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">Track · PlayerAId · PlayerBId?</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Status(EN) · QuestionSource(EN)</span></div>
+          <div class="fld"><span class="k">WinnerId? · A/B EloBefore/After · EloDelta</span></div>
+        </div>
+      </div>
+      <div class="ent">
+        <div class="eh"><span class="nm">ArenaContest</span><span class="tb">arena_contests</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Id</span><i class="b pk">PK</i></div>
+          <div class="fld"><span class="k">Track · SubjectId? · CreatedByAdminId</span><i class="b fk">FK</i></div>
+          <div class="fld"><span class="k">Status(EN) · QuestionSource(EN)</span></div>
+          <div class="fld"><span class="k">Registration/Start/End At · MaxEloReward</span></div>
+        </div>
+      </div>
+      <div class="ent small">
+        <div class="eh"><span class="nm">+ vệ tinh Arena</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">ArenaUserSettings (SelectedTrack) · ArenaEloHistory</span></div>
+          <div class="fld"><span class="k">ArenaMatchQuestion · ArenaMatchAnswer</span></div>
+          <div class="fld"><span class="k">ArenaContestQuestion · ContestParticipant · ContestAssignment</span></div>
+          <div class="fld"><span class="k">ArenaMission 1:N ArenaMissionProgress</span></div>
+          <div class="fld"><span class="k">ArenaSeason · ArenaReport</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rels"><div class="rt">Quan hệ chính</div><ul>
+      <li><b>User</b><span class="c">1:N</span>ArenaProfile <span style="color:var(--faint)">(3 dòng/user)</span> · ArenaEloHistory</li>
+      <li><b>ArenaMatch</b><span class="c">1:N</span>MatchQuestion · MatchAnswer</li>
+      <li><b>ArenaContest</b><span class="c">1:N</span>ContestQuestion · Participant · Assignment</li>
+      <li><b>ArenaMission</b><span class="c">1:N</span>ArenaMissionProgress</li>
+    </ul></div>
+  </div>
+
+  <!-- MODULE: Supporting -->
+  <div class="module">
+    <h3>6 · Các module hỗ trợ <span class="db">MainDb</span></h3>
+    <p class="note">Các phân hệ còn lại (không có trong slide nhưng tồn tại trong code).</p>
+    <div class="grid">
+      <div class="ent small">
+        <div class="eh"><span class="nm">Forum</span><span class="tb">diễn đàn Toán</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">ForumPost (AuthorId, PostType, ImageUrlsJson)</span></div>
+          <div class="fld"><span class="k">↳ 1:N ForumComment · ForumVote</span></div>
+          <div class="fld"><span class="k">ForumReport · ForumBan · ForumPostSave</span></div>
+        </div>
+      </div>
+      <div class="ent small">
+        <div class="eh"><span class="nm">Community</span><span class="tb">Resource Hub</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">CommunityResource (OwnerId, ResourceType)</span></div>
+          <div class="fld"><span class="k">↳ ResourceRating · ResourceSave · ResourceQuiz</span></div>
+          <div class="fld"><span class="k">ResourceCollection 1:N CollectionItem</span></div>
+        </div>
+      </div>
+      <div class="ent small">
+        <div class="eh"><span class="nm">Communication</span><span class="tb">chat / hỗ trợ</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">ChatRoom 1:N ChatMessage · ChatParticipant</span></div>
+          <div class="fld"><span class="k">SupportRequest (StudentId, TeacherId, ChatRoomId?)</span></div>
+        </div>
+      </div>
+      <div class="ent small">
+        <div class="eh"><span class="nm">StudyPath</span><span class="tb">lộ trình + SRS</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">StudyGoal 1:N StudyPlanItem</span></div>
+          <div class="fld"><span class="k">ReviewCard (SM-2: Ease, IntervalDays, DueDate)</span></div>
+        </div>
+      </div>
+      <div class="ent small">
+        <div class="eh"><span class="nm">Handbook</span><span class="tb">sổ tay công thức</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">FormulaEntry (FormulaLatex, Importance)</span></div>
+          <div class="fld"><span class="k">StudentFocusFormula (SV ghim)</span></div>
+        </div>
+      </div>
+      <div class="ent small">
+        <div class="eh"><span class="nm">Gamification · Notification</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">Badge 1:N StudentBadge</span></div>
+          <div class="fld"><span class="k">NotificationItem · Broadcast</span></div>
+        </div>
+      </div>
+      <div class="ent small">
+        <div class="eh"><span class="nm">Assessment</span><span class="tb">chống gian lận</span></div>
+        <div class="flds">
+          <div class="fld"><span class="k">AntiCheatLog (ViolationType, Status)</span></div>
+          <div class="fld"><span class="k">QuestionReport (QBQuestionId, ReasonType)</span></div>
+          <div class="fld"><span class="k">VideoSecurityEvent</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ PART 2 · FLOWS ══════════ -->
+  <div class="part"><span class="num">PART 2</span><h2>Core Flow — bản đã sửa</h2><span class="tag">actor: SV · FE · BE · AI · DB · GV</span></div>
+
+  <div class="legend">
+    <div class="lg"><div class="lt">Actor</div><div class="row">
+      <span><i class="actor sv">SV</i> Sinh viên</span><span><i class="actor gv">GV</i> Giáo viên</span>
+      <span><i class="actor fe">FE</i> Next.js</span><span><i class="actor be">BE</i> .NET</span>
+      <span><i class="actor ai">AI</i> FastAPI</span><span><i class="actor db">DB</i> Postgres</span>
+    </div></div>
+    <div class="lg"><div class="lt">Trạng thái flow</div><div class="row">
+      <span><i class="st ok" style="padding:2px 8px">Đúng</i> khớp code</span>
+      <span><i class="st fix" style="padding:2px 8px">Sửa</i> có chỗ sai</span>
+      <span><i class="st new" style="padding:2px 8px">Thiếu</i> nên thêm</span>
+    </div></div>
+  </div>
+
+  <!-- FLOW 1 -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 1</span><h4>Giải bài với AI Tutor</h4><span class="st ok">Đúng · bổ sung</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Mở AI Tutor → nhập đề (text) <b>hoặc</b> upload ảnh / file (PDF·DOCX) → chọn chế độ <code>Full</code> / <code>Hint</code></span></div>
+      <div class="step"><i class="actor fe">FE</i><span class="tx"><code>POST /api/ai/solve</code> · <code>{ problem_text?, image_base64?, file_base64?, mode, language }</code></span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Tạo <code>AiConversation</code>+<code>AiMessage</code> · ghi <code>AiInteractionLog</code>(Pending) → gọi <code>IAiServiceClient.SolveProblemAsync</code></span></div>
+      <div class="step"><i class="actor ai">AI</i><span class="tx">Nếu có ảnh/file → <b>OCR / trích text (LaTeX)</b> → LLM DeepSeek-R1 suy luận → trả JSON <code>{ final_answer, steps[], answer_check }</code> <b>theo đúng ngôn ngữ câu hỏi</b></span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Cập nhật log (<code>IsSuccess, LatencyMs, TokensUsed</code>) → trả FE</span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Xem lời giải từng bước / gợi ý → hỏi tiếp (conversation) → học từ lỗi sai</span></div>
+    </div>
+    <div class="fix-note"><b>Bổ sung so với slide:</b> ngoài ảnh còn nhận <span class="neu">file PDF/DOCX</span>; câu trả lời <span class="neu">tự khớp ngôn ngữ (VI/EN)</span>; lưu hội thoại <span class="neu">AiConversation + AiMessage</span> (không chỉ AiInteractionLog).</div>
+  </div>
+
+  <!-- FLOW 3 -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 2</span><h4>AI Service Interaction (BE → AI)</h4><span class="st ok">Đúng</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor be">BE</i><span class="tx">Nhận request → tạo <code>AiInteractionLog</code> (Type, RequestPayloadJson, status = Pending)</span></div>
+      <div class="step"><i class="actor db">DB</i><span class="tx">Lưu log Pending</span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Gọi <code>IAiServiceClient</code> (timeout + retry)</span></div>
+      <div class="step"><i class="actor ai">AI</i><span class="tx">Xử lý tác vụ: <code>Generate · Solve · Grade · RAG · OCR · Embed</code> → trả JSON</span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Thành công → cập nhật <code>ResponsePayloadJson, IsSuccess=true, Latency, Tokens</code>; lỗi → <code>IsSuccess=false, ErrorMessage</code></span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Xử lý business (lưu Attempt / cập nhật progress…) → trả FE</span></div>
+    </div>
+  </div>
+
+  <!-- FLOW 4 -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 3</span><h4>Tự học (Đăng ký → Làm bài → Progress)</h4><span class="st fix">Sửa bước đăng ký</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Vào My Study → chọn <b>Môn + Giáo viên</b> → đăng ký học</span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Tạo <code>SelfStudyProgress (StudentId + SubjectId + TeacherId)</code> → lưu DB</span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Xem <code>LectureVideo</code> + <code>Document</code> theo chương → xem video cập nhật <code>VideoWatchHistory</code></span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Làm bài rút từ <code>SelfStudyExamPool</code></span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Tạo <code>SelfStudyExamAttempt</code> → chấm MCQ tự động → cập nhật <code>ScorePercent</code></span></div>
+      <div class="step"><i class="actor db">DB</i><span class="tx">Cập nhật <code>ChapterProgress</code> + <code>SelfStudyProgress</code> (%, streak)</span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Xem tiến độ % hoàn thành + streak</span></div>
+    </div>
+    <div class="fix-note"><b>Sai ở slide:</b> đăng ký <span class="old">tạo StudyGroupMember (role = SelfStudy)</span> → thực tế phải là <span class="neu">tạo SelfStudyProgress(Student + Subject + Teacher)</span>. Tự học là mô hình đa-giáo-viên, <b>không đi qua Study Group</b>; <code>StudyGroupMember</code> cũng không có trường <code>role</code>.</div>
+  </div>
+
+  <!-- FLOW 6 -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 4</span><h4>Đấu trường — Trận 1v1 / Cuộc thi</h4><span class="st ok">Đúng · lưu ý AI</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Vào Arena → chọn tham gia 1v1 hoặc Cuộc thi</span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Gọi <code>ArenaQuestionClient</code> / <code>ArenaContestService</code> sinh câu theo ELO</span></div>
+      <div class="step"><i class="actor ai">AI</i><span class="tx">Sinh câu hỏi → snapshot vào <code>ArenaMatchQuestion</code> / <code>ArenaContestQuestion</code></span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Tạo <code>ArenaMatch</code> / <code>ArenaContestParticipant</code> + bản ghi làm bài</span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Làm bài (có anti-cheat) → BE chấm MCQ tự động, ghi <code>AntiCheatLog</code> nếu vi phạm</span></div>
+      <div class="step"><i class="actor db">DB</i><span class="tx">Cập nhật điểm + tính lại <b>ELO</b> → ghi <code>ArenaEloHistory</code> · <code>ArenaProfile</code></span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Xem kết quả + Ranking → xem lại câu sai (deep-link Hỏi AI Tutor)</span></div>
+    </div>
+    <div class="fix-note newn"><b>Lưu ý thực trạng:</b> AI sinh câu hỏi <span class="neu">chưa nối xong → hiện fallback rút MCQ từ Question Bank</span>. <code>ArenaGeneratedQuestion</code> chỉ là DTO, không phải bảng.</div>
+  </div>
+
+  <!-- MISSING FLOWS -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 5</span><h4>Đăng nhập &amp; Bảo mật (2FA)</h4><span class="st new">Thiếu · nên thêm</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Đăng ký bằng <b>Email + OTP</b> hoặc <b>Google</b> (GV/Admin do quản trị tạo)</span></div>
+      <div class="step"><i class="actor fe">FE</i><span class="tx"><code>POST /api/auth/login</code> — nhập <b>FEID hoặc Email</b> + mật khẩu</span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Khớp <code>FEID || Email</code> → nếu bật 2FA → trả pending-token (chưa cấp JWT)</span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Nhập mã <b>TOTP</b> (Google Authenticator) — bắt buộc Admin, tùy chọn GV/SV</span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Xác thực TOTP → cấp <code>JWT + RefreshToken</code> · ghi <code>LoginHistory</code> (location/device)</span></div>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 6</span><h4>RAG — Hỏi đáp tài liệu &amp; Ra đề bằng AI</h4><span class="st new">Thiếu · nên thêm</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor gv">GV</i><span class="tx">Admin/GV upload tài liệu → lưu R2 → <code>DocumentController</code> gọi ai-index</span></div>
+      <div class="step"><i class="actor ai">AI</i><span class="tx"><code>/documents/ingest</code> → chunk + embed → <code>AiIndexStatus = Indexed</code></span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Hỏi tài liệu: <code>POST /api/ai-search/ask</code></span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Lọc <code>Document</code> hợp lệ (Published + IsAiSearchable + Indexed) → gửi <code>allowed_document_ids</code></span></div>
+      <div class="step"><i class="actor ai">AI</i><span class="tx">Retrieve chunk theo vector → trả lời <b>kèm trích nguồn</b></span></div>
+      <div class="step"><i class="actor gv">GV</i><span class="tx"><b>Ra đề tự do:</b> nhập prompt → <code>SelfStudyExamController.Generate</code> → AI <code>generate_questions</code> → tạo <code>SelfStudyExamPool</code></span></div>
+    </div>
+  </div>
+
+  <div class="part" style="margin-top:40px"><span class="num">PART 2B</span><h2>Luồng chính khác trong dự án</h2><span class="tag">có trong code · slide chưa vẽ</span></div>
+
+  <!-- FLOW 7 Study Path -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 7</span><h4>Lộ trình học (Study Path + ôn SRS)</h4><span class="st new">Thiếu · nên thêm</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Vào <code>/study-path</code> → đặt mục tiêu (môn, chương, ngày, điểm mong muốn)</span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx"><code>POST goals</code> + <code>ai-suggest</code> → gom điểm yếu thật</span></div>
+      <div class="step"><i class="actor ai">AI</i><span class="tx"><code>StudyPathAsync</code> sinh milestone → tạo <code>StudyGoal</code> + <code>StudyPlanItem</code></span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Xem tab <b>“Hôm nay”</b>: việc cần làm + hàng đợi ôn tập</span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx"><code>review/session</code> → lấy <code>ReviewCard</code> đến hạn (SM-2 sinh từ câu sai)</span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Ôn → <code>review/grade</code> → cập nhật <code>Ease · IntervalDays · DueDate</code>; xem Mastery map</span></div>
+    </div>
+  </div>
+
+  <!-- FLOW 8 Forum -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 8</span><h4>Diễn đàn Toán (Forum)</h4><span class="st new">Thiếu · nên thêm</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Đăng bài <code>POST posts</code> — LaTeX <code>$…$</code> + ảnh/file, ẩn danh tùy chọn</span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Bình luận + vote up/down → <code>Score</code>; tác giả <code>accept</code> câu trả lời đúng</span></div>
+      <div class="step"><i class="actor gv">GV</i><span class="tx">Xác thực tài liệu/bài của SV (Forum verification)</span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Ai đó <code>report</code> vi phạm → vào hàng chờ kiểm duyệt</span></div>
+      <div class="step"><i class="actor gv">GV</i><span class="tx">Admin kiểm duyệt: xóa bài/comment + <code>ForumBan</code> (tạm thời / vĩnh viễn)</span></div>
+    </div>
+  </div>
+
+  <!-- FLOW 9 Resource Hub -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 9</span><h4>Kho học liệu cộng đồng (Resource Hub)</h4><span class="st new">Thiếu · nên thêm</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor sv">SV</i><span class="tx"><code>POST /resource-hub/upload</code> → lưu R2 → tạo <code>CommunityResource</code></span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">SV khác: khám phá → <code>save</code> / <code>rate</code> (sao) / <code>report</code></span></div>
+      <div class="step"><i class="actor gv">GV</i><span class="tx">GV/Admin kiểm duyệt: gắn badge Verified/Recommended, ẩn/xóa, xử lý report</span></div>
+      <div class="step"><i class="actor ai">AI</i><span class="tx">Nếu <code>AllowQuizGeneration</code> → sinh quiz từ tài liệu → <code>ResourceQuiz</code></span></div>
+    </div>
+  </div>
+
+  <!-- FLOW 10 Admin accounts -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 10</span><h4>Admin tạo tài khoản (đơn / hàng loạt)</h4><span class="st new">Thiếu · nên thêm</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor gv">Admin</i><span class="tx">Vào User Roles → tạo <b>đơn lẻ</b>, <b>bulk Excel</b>, hoặc <b>zip ảnh GV</b></span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx"><code>POST users</code> · <code>users/bulk-excel</code> (parse .xlsx qua OpenXml) · <code>users/photos</code></span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Hash mật khẩu (BCrypt); ảnh trong zip có tên = <code>FEID</code> → upload Cloudinary làm avatar</span></div>
+      <div class="step"><i class="actor db">DB</i><span class="tx">Tạo tài khoản GV/SV + trả báo cáo từng dòng (thành công / lỗi)</span></div>
+    </div>
+  </div>
+
+  <!-- FLOW 11 Support chat -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 11</span><h4>Hỏi Giáo viên &amp; Chat realtime</h4><span class="st new">Thiếu · nên thêm</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor sv">SV</i><span class="tx"><code>POST support/requests</code> — chọn GV + môn + nội dung cần hỗ trợ</span></div>
+      <div class="step"><i class="actor gv">GV</i><span class="tx"><code>requests/incoming</code> → <code>accept</code> → tạo <code>ChatRoom</code> (<code>SupportRequest.ChatRoomId</code>)</span></div>
+      <div class="step"><i class="actor sv">SV</i><span class="tx">Hai bên nhắn tin <b>realtime (SignalR)</b> → <code>ChatMessage</code>; phiên có hạn <code>SessionExpiresAt</code></span></div>
+    </div>
+  </div>
+
+  <!-- FLOW 12 QB embed -->
+  <div class="flow">
+    <div class="fh"><span class="fn">FLOW 12</span><h4>Quản lý Question Bank + tự embed</h4><span class="st ok">Đúng</span></div>
+    <div class="steps">
+      <div class="step"><i class="actor gv">Admin</i><span class="tx">Thêm câu hỏi (chọn <code>AssestFormat</code>: trắc nghiệm / tự luận)</span></div>
+      <div class="step"><i class="actor be">BE</i><span class="tx">Lưu vào <code>math_question_bank</code> (QuestionBankDb)</span></div>
+      <div class="step"><i class="actor ai">AI</i><span class="tx"><b>Tự gọi</b> <code>POST /questions/embed</code> → bge-m3 → <code>UPDATE embedding = vector</code></span></div>
+      <div class="step"><i class="actor db">DB</i><span class="tx">Câu mới sẵn sàng cho RAG / Arena / ra đề (đã có vector 1024)</span></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Nguồn: BE_KLTN/MathTutorAI.Domain/Entities/* · Controllers/* — .NET 9. Field ở dạng mono là tên thuộc tính thật.
+    Study Group (module 4) &amp; các flow liên quan còn ở BE nhưng FE đã gỡ/gộp — xác nhận phạm vi trước khi trình bày.
+  </div>
+</div>

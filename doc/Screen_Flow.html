@@ -1,0 +1,325 @@
+<style>
+:root{
+  --paper:#f4f7fb; --panel:#ffffff; --ink:#0f172a; --muted:#5b6b82; --faint:#8695ab;
+  --line:#e4e9f2; --line2:#eef2f8;
+  --stu:#0d9488; --stu-bg:#d9f5f0; --tea:#4f46e5; --tea-bg:#e5e5fb; --adm:#e11d48; --adm-bg:#fde3ea;
+  --auth:#0284c7; --auth-bg:#dceffb;
+  --mono:ui-monospace,"Cascadia Code","JetBrains Mono",Consolas,monospace;
+  --sans:ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#0a1018; --panel:#111c2e; --ink:#e7edf6; --muted:#9fb0c7; --faint:#66788f;
+  --line:#1e2c44; --line2:#182238;
+  --stu:#2dd4bf; --stu-bg:#0c342f; --tea:#a5b4fc; --tea-bg:#1d2350; --adm:#fb7185; --adm-bg:#42101f;
+  --auth:#38bdf8; --auth-bg:#0b2f45;
+}}
+:root[data-theme="dark"]{
+  --paper:#0a1018; --panel:#111c2e; --ink:#e7edf6; --muted:#9fb0c7; --faint:#66788f;
+  --line:#1e2c44; --line2:#182238;
+  --stu:#2dd4bf; --stu-bg:#0c342f; --tea:#a5b4fc; --tea-bg:#1d2350; --adm:#fb7185; --adm-bg:#42101f;
+  --auth:#38bdf8; --auth-bg:#0b2f45;
+}
+:root[data-theme="light"]{
+  --paper:#f4f7fb; --panel:#ffffff; --ink:#0f172a; --muted:#5b6b82; --faint:#8695ab;
+  --line:#e4e9f2; --line2:#eef2f8;
+  --stu:#0d9488; --stu-bg:#d9f5f0; --tea:#4f46e5; --tea-bg:#e5e5fb; --adm:#e11d48; --adm-bg:#fde3ea;
+  --auth:#0284c7; --auth-bg:#dceffb;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1320px;margin:0 auto;padding:34px 24px 90px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--stu);font-weight:800}
+h1{font-size:30px;margin:.35em 0 .15em;letter-spacing:-.02em;text-wrap:balance}
+.sub{color:var(--muted);max-width:74ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:18px 0 6px;font-size:12px;color:var(--muted);
+  align-items:center}
+.legend b{color:var(--ink)}
+.lg{display:inline-flex;align-items:center;gap:7px}
+.dot{width:22px;height:14px;border-radius:5px;border:1px solid var(--line);display:inline-block}
+.dot.main{background:var(--panel);border-width:2px}
+.dot.child{background:var(--line2)}
+.dot.dyn{background:repeating-linear-gradient(45deg,var(--line2),var(--line2) 4px,var(--panel) 4px,var(--panel) 8px)}
+.dot.modal{background:var(--panel);border-style:dashed}
+code{font-family:var(--mono)}
+
+/* AUTH band */
+.auth{margin:26px 0 8px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
+.band-h{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.band-h .tag{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--auth);
+  background:var(--auth-bg);padding:3px 9px;border-radius:6px}
+.band-h h2{font-size:16px;margin:0}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.arrow{color:var(--faint);font-weight:800;font-size:16px;padding:0 2px;user-select:none}
+.node{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px 12px;min-width:118px}
+.node .nm{font-weight:700;font-size:13px;display:block}
+.node .rt{font-family:var(--mono);font-size:10.5px;color:var(--faint);display:block;margin-top:1px}
+.node.au{border-color:color-mix(in oklab,var(--auth) 55%,var(--line))}
+.node.au .nm{color:var(--auth)}
+.split{font-size:12px;color:var(--muted);font-weight:600;padding:6px 10px;border:1px dashed var(--line);border-radius:10px}
+
+/* ROLE columns */
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+@media(max-width:1040px){.roles{grid-template-columns:1fr}}
+.role{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 16px 18px;
+  border-top:5px solid var(--rc)}
+.role.stu{--rc:var(--stu);--rcbg:var(--stu-bg)}
+.role.tea{--rc:var(--tea);--rcbg:var(--tea-bg)}
+.role.adm{--rc:var(--adm);--rcbg:var(--adm-bg)}
+.role-h{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.role-h .ic{width:34px;height:34px;border-radius:10px;background:var(--rcbg);color:var(--rc);
+  display:grid;place-items:center;font-size:19px}
+.role-h h2{font-size:17px;margin:0}
+.role-h .cnt{margin-left:auto;font-size:11px;color:var(--faint);font-family:var(--mono)}
+.role-guard{font-size:11px;color:var(--muted);margin:0 0 12px;padding:5px 9px;background:var(--rcbg);
+  border-radius:8px;display:inline-block}
+.role-guard code{color:var(--rc);font-weight:700}
+.grp{margin-top:12px}
+.grp-t{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--rc);
+  margin:0 0 8px;padding-left:2px}
+.screens{display:flex;flex-direction:column;gap:7px}
+.scr{border:1px solid var(--line);border-radius:11px;padding:7px 11px;background:var(--panel);position:relative}
+.scr .top{display:flex;align-items:baseline;gap:8px}
+.scr .nm{font-weight:700;font-size:13px}
+.scr .rt{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-left:auto;white-space:nowrap}
+.scr .ds{font-size:11.5px;color:var(--muted);margin-top:2px;display:block}
+.kids{margin:8px 0 1px;padding-left:12px;border-left:2px dashed color-mix(in oklab,var(--rc) 40%,var(--line));
+  display:flex;flex-direction:column;gap:6px}
+.kid{background:var(--line2);border-radius:9px;padding:5px 10px}
+.kid .top{display:flex;align-items:baseline;gap:8px}
+.kid .nm{font-weight:600;font-size:12px}
+.kid .rt{font-family:var(--mono);font-size:10px;color:var(--faint);margin-left:auto;white-space:nowrap}
+.kid.dyn{background:repeating-linear-gradient(45deg,transparent,transparent 7px,
+  color-mix(in oklab,var(--rc) 5%,transparent) 7px,color-mix(in oklab,var(--rc) 5%,transparent) 14px),var(--line2)}
+.tagm{font-size:9px;font-weight:800;color:var(--rc);background:var(--rcbg);border-radius:5px;
+  padding:1px 5px;letter-spacing:.03em}
+.cross{margin-top:14px;font-size:11px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.cross b{color:var(--ink)}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);color:var(--faint);font-size:12px}
+</style>
+<title>Screen Flow — FPTU Math AI</title>
+
+<div class="wrap">
+  <div class="eyebrow">Sơ đồ luồng màn hình · Screen Flow</div>
+  <h1>FPT Math AI — Screen Flow</h1>
+  <p class="sub">Bản đồ điều hướng toàn hệ thống theo 3 vai trò. Từ luồng xác thực chung, người dùng được
+  định tuyến vào không gian riêng của Sinh viên, Giáo viên hoặc Quản trị. Node có route thật (Next.js App Router);
+  <code>[param]</code> là trang động.</p>
+
+  <div class="legend">
+    <span class="lg"><span class="dot main"></span><b>Trang chính</b> (mục điều hướng)</span>
+    <span class="lg"><span class="dot child"></span><b>Trang con</b> (đi sâu)</span>
+    <span class="lg"><span class="dot dyn"></span><b>Trang động</b> <code>[param]</code></span>
+    <span class="lg"><span class="dot modal"></span><b>Modal / overlay</b></span>
+    <span class="lg">→ điều hướng · ⇄ hai chiều</span>
+  </div>
+
+  <!-- AUTH -->
+  <div class="auth">
+    <div class="band-h"><span class="tag">Chung</span><h2>Xác thực &amp; Định tuyến vai trò</h2></div>
+    <div class="flow">
+      <div class="node au"><span class="nm">Landing</span><span class="rt">/</span></div>
+      <span class="arrow">→</span>
+      <div class="node au"><span class="nm">Đăng nhập</span><span class="rt">/login</span></div>
+      <span class="arrow">⇄</span>
+      <div class="node au"><span class="nm">Đăng ký (SV)</span><span class="rt">/register</span></div>
+      <span class="arrow">→</span>
+      <div class="node au"><span class="nm">2FA (TOTP)</span><span class="rt">/2fa</span></div>
+      <span class="arrow">→</span>
+      <div class="node au"><span class="nm">Đổi MK lần đầu</span><span class="rt">/first-login</span></div>
+      <span class="arrow">→</span>
+      <div class="split">Định tuyến theo vai trò ↓</div>
+    </div>
+  </div>
+
+  <div class="roles">
+    <!-- STUDENT -->
+    <div class="role stu">
+      <div class="role-h"><span class="ic">🎓</span><h2>Sinh viên</h2><span class="cnt">Student</span></div>
+      <div class="role-guard">Guard <code>role = Student (4)</code> · route-group <code>(student)</code></div>
+
+      <div class="grp">
+        <div class="grp-t">Học tập</div>
+        <div class="screens">
+          <div class="scr"><div class="top"><span class="nm">Bảng điều khiển</span><span class="rt">/dashboard</span></div>
+            <span class="ds">Tổng quan tiến độ, nhắc nhở, số liệu.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Lộ trình học</span><span class="rt">/study-path</span></div>
+            <span class="ds">Mục tiêu → kế hoạch "Hôm nay" + ôn tập SRS (SM-2), bản đồ thành thạo.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Học theo Giáo viên</span><span class="rt">/learn</span></div>
+            <span class="ds">Danh bạ GV → trang GV công khai, chọn track.</span>
+            <div class="kids"><div class="kid dyn"><div class="top"><span class="nm">Trang giáo viên</span><span class="rt">/learn/[teacherId]</span></div></div></div>
+          </div>
+
+          <div class="scr"><div class="top"><span class="nm">Tự học</span><span class="rt">/self-study</span></div>
+            <span class="ds">Danh sách track đã đăng ký.</span>
+            <div class="kids">
+              <div class="kid dyn"><div class="top"><span class="nm">Chi tiết track</span><span class="rt">/self-study/[progressId]</span></div></div>
+              <div class="kid dyn"><div class="top"><span class="nm">Học chương</span><span class="rt">…/chapters/[chapterId]</span></div></div>
+              <div class="kid dyn"><div class="top"><span class="nm">Làm bài thi</span><span class="rt">…/attempt/[attemptId]</span></div></div>
+            </div>
+          </div>
+
+          <div class="scr"><div class="top"><span class="nm">Luyện tập</span><span class="rt">/practice</span></div>
+            <span class="ds">Bộ đề tự luyện + đề thi các năm.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Cẩm nang học tập</span><span class="rt">/handbook</span></div>
+            <span class="ds">Tra công thức + sổ lỗi (ôn lại câu sai).</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Phân tích học tập</span><span class="rt">/analytics</span></div>
+            <span class="ds">Thống kê điểm mạnh/yếu theo chủ đề.</span></div>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="grp-t">Thi đấu &amp; Cộng đồng</div>
+        <div class="screens">
+          <div class="scr"><div class="top"><span class="nm">Đấu trường Toán</span><span class="rt">/arena</span></div>
+            <span class="ds">Tổng quan bậc đấu · ELO · rank. <span class="tagm">SignalR realtime</span></span>
+            <div class="kids">
+              <div class="kid"><div class="top"><span class="nm">Đấu 1v1</span><span class="rt">/arena/duel</span></div></div>
+              <div class="kid"><div class="top"><span class="nm">Nhiệm vụ</span><span class="rt">/arena/missions</span></div></div>
+              <div class="kid"><div class="top"><span class="nm">Bảng xếp hạng</span><span class="rt">/arena/leaderboard</span></div></div>
+              <div class="kid"><div class="top"><span class="nm">Cuộc thi</span><span class="rt">/arena/contests</span></div></div>
+              <div class="kid dyn"><div class="top"><span class="nm">Vào thi</span><span class="rt">/arena/contests/[id]</span></div></div>
+              <div class="kid"><div class="top"><span class="nm">Cài đặt bậc đấu</span><span class="rt">/arena/settings</span></div></div>
+            </div>
+          </div>
+
+          <div class="scr"><div class="top"><span class="nm">AI Tutor</span><span class="rt">/chat</span></div>
+            <span class="ds">Giải bài · gợi ý · tìm tài liệu (RAG) · OCR ảnh. <span class="tagm">AI service</span></span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Diễn đàn Toán học</span><span class="rt">/forum</span></div>
+            <span class="ds">Hỏi đáp LaTeX + ảnh, ẩn danh, vote.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Tin nhắn</span><span class="rt">/messages</span></div>
+            <span class="ds">Chat 1-1 với GV. <span class="tagm">SignalR</span></span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Thành tích &amp; BXH</span><span class="rt">/leaderboard</span></div>
+            <span class="ds">Điểm tự học, huy hiệu, xếp hạng.</span></div>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="grp-t">Tài khoản</div>
+        <div class="screens">
+          <div class="scr"><div class="top"><span class="nm">Hồ sơ</span><span class="rt">/profile</span></div></div>
+          <div class="scr"><div class="top"><span class="nm">Cài đặt</span><span class="rt">/settings</span></div>
+            <span class="ds">Ngôn ngữ (VI/EN), giao diện, 2FA, đổi mật khẩu.</span></div>
+          <div class="scr"><div class="top"><span class="nm">Lịch sử</span><span class="rt">/history</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEACHER -->
+    <div class="role tea">
+      <div class="role-h"><span class="ic">👨‍🏫</span><h2>Giáo viên</h2><span class="cnt">Teacher</span></div>
+      <div class="role-guard">Guard <code>role = Teacher (3)</code> · prefix <code>/teacher</code></div>
+
+      <div class="grp">
+        <div class="grp-t">Giảng dạy</div>
+        <div class="screens">
+          <div class="scr"><div class="top"><span class="nm">Bảng điều khiển</span><span class="rt">/teacher</span></div>
+            <span class="ds">Tổng quan lớp, nội dung, đánh giá.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Bài giảng &amp; Nội dung</span><span class="rt">/teacher/content</span></div>
+            <span class="ds">Video/tài liệu tự học, ra đề (QB / AI / docx / tự luận), flashcards, bộ đề.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Hiệu quả học liệu</span><span class="rt">/teacher/study-path</span></div>
+            <span class="ds">Analytics theo dõi học sinh (6 tab), lớp học ảo.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Kho học liệu</span><span class="rt">/teacher/resource-hub</span></div>
+            <span class="ds">Duyệt/gắn nhãn học liệu cộng đồng.</span></div>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="grp-t">Thi đấu &amp; Cộng đồng</div>
+        <div class="screens">
+          <div class="scr"><div class="top"><span class="nm">Đấu trường (GV)</span><span class="rt">/teacher/arena</span></div>
+            <span class="ds">Cuộc thi được phân công · ra đề · chấm tự luận · khiếu nại.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">AI Tutor (soạn giảng)</span><span class="rt">/teacher/chat</span></div>
+            <span class="ds">Tìm tài liệu · lập kế hoạch bài giảng (.docx) · chat AI. <span class="tagm">AI service</span></span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Diễn đàn</span><span class="rt">/teacher/forum</span></div>
+            <span class="ds">Trả lời &amp; xác thực tài liệu SV.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Tin nhắn</span><span class="rt">/teacher/messages</span></div>
+            <span class="ds">Chat với sinh viên. <span class="tagm">SignalR</span></span></div>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="grp-t">Tài khoản</div>
+        <div class="screens">
+          <div class="scr"><div class="top"><span class="nm">Cài đặt</span><span class="rt">/teacher/settings</span></div>
+            <span class="ds">Hồ sơ công khai, ngôn ngữ, 2FA (tuỳ chọn).</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN -->
+    <div class="role adm">
+      <div class="role-h"><span class="ic">🛡️</span><h2>Quản trị</h2><span class="cnt">Admin</span></div>
+      <div class="role-guard">Guard <code>role = Admin (1)</code> · 2FA bắt buộc · prefix <code>/super-admin</code></div>
+
+      <div class="grp">
+        <div class="grp-t">Vận hành</div>
+        <div class="screens">
+          <div class="scr"><div class="top"><span class="nm">Dashboard</span><span class="rt">/super-admin</span></div>
+            <span class="ds">Số liệu người dùng, lượt dùng theo tuần, tổng QB.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Người dùng &amp; Vai trò</span><span class="rt">/super-admin/user-roles</span></div>
+            <span class="ds">Tạo (đơn/Excel/ZIP ảnh), đổi vai trò, khoá/mở, sửa hồ sơ, reset mật khẩu.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Bảo mật &amp; Giám sát</span><span class="rt">/super-admin/monitoring</span></div>
+            <span class="ds">Nhật ký đăng nhập, audit, chống gian lận.</span></div>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="grp-t">Học thuật &amp; Nội dung</div>
+        <div class="screens">
+          <div class="scr"><div class="top"><span class="nm">Ngân hàng câu hỏi</span><span class="rt">/super-admin/question-bank</span></div>
+            <span class="ds">Lọc theo asset_format (trắc nghiệm/tự luận), CRUD, MathLive, embedding AI.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Cấu hình học thuật</span><span class="rt">/super-admin/academic</span></div>
+            <span class="ds">Môn/chương, đề cương, tài liệu chuẩn (R2), bộ đề tự học, flashcards, leaderboard.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Kiểm duyệt nội dung GV</span><span class="rt">/super-admin/teacher-content</span></div>
+            <span class="ds">Duyệt/ẩn/xoá video &amp; tài liệu của giáo viên.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Kiểm duyệt kho học liệu</span><span class="rt">/super-admin/resource-hub</span></div>
+            <span class="ds">Xác minh, ẩn/xoá, xử lý báo cáo, badge.</span></div>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="grp-t">Cộng đồng &amp; Thi đấu</div>
+        <div class="screens">
+          <div class="scr"><div class="top"><span class="nm">Đấu trường (Admin)</span><span class="rt">/super-admin/arena</span></div>
+            <span class="ds">8 tab: mùa giải/rank, cuộc thi, phân công GV, nhiệm vụ, BXH, khiếu nại, cài đặt.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Kiểm duyệt diễn đàn</span><span class="rt">/super-admin/forum</span></div>
+            <span class="ds">Xoá bài, cấm có thời hạn/vĩnh viễn.</span></div>
+
+          <div class="scr"><div class="top"><span class="nm">Hồ sơ</span><span class="rt">/super-admin/profile</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cross" style="margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px">
+    <b>Luồng xuyên vai trò &amp; dịch vụ ngoài</b> —
+    AI Tutor / sinh câu hỏi Arena / RAG / OCR gọi <b>AI service</b> (FastAPI trên RunPod: vLLM DeepSeek-R1 + embed bge-m3 + OCR).
+    · Tài liệu &amp; ảnh lưu <b>Cloudflare R2</b>. · Realtime (Đấu trường, tin nhắn, thông báo) qua <b>SignalR hub</b>.
+    · Đăng nhập chấp nhận <b>Email hoặc FEID</b>; SV tự đăng ký bằng email (không có FEID).
+  </div>
+
+  <footer>
+    Nguồn: cây route Next.js App Router (<code>src/app</code>) + cấu hình sidebar 3 vai trò. Trang động ký hiệu <code>[param]</code>.
+    Thiết kế để chụp từng phần đưa vào báo cáo.
+  </footer>
+</div>

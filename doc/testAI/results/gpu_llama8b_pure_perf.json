@@ -1,0 +1,20 @@
+{
+ "model": "llama8b",
+ "mode": "pure",
+ "kind": "perf",
+ "load_time_s": 85.0,
+ "idle_vram_mib": 30514.0,
+ "card_vram_at_idle_mib": 83129.0,
+ "idle_power_w": 86.27,
+ "vram_mean": 83135.0,
+ "vram_peak": 83135.0,
+ "model_vram_mean": 30520.0,
+ "model_vram_peak": 30520.0,
+ "util_mean": 93.57894736842105,
+ "util_peak": 94.0,
+ "power_mean": 382.2595789473685,
+ "power_peak": 403.75,
+ "duration_s": 101.96085231099278,
+ "energy_wh": 0.3943779602855251,
+ "incremental_vram_mib": 6.0
+}

@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đánh giá & lựa chọn mô hình AI — MathTutor AI</title>
+<style>
+:root{
+  color-scheme: light;
+  --plane:#ecebe6; --surface:#ffffff; --surface-2:#f7f6f2;
+  --ink:#141310; --ink-2:#514f49; --muted:#8a877f;
+  --line:#e4e2da; --line-2:#d3d0c6;
+  --brand:#2a78d6; --brand-ink:#184f95; --brand-wash:#eaf2fc;
+  --accent:#eb6834;
+  --good:#0ca30c; --good-ink:#0a7a0a; --good-wash:#e9f7e9;
+  --warn:#c98500; --warn-wash:#fbf1dc; --bad:#d03b3b; --bad-wash:#fbeaea;
+  --series-pure:#eb6834; --series-rag:#2a78d6;
+  --shadow:0 1px 2px rgba(20,19,16,.04),0 8px 30px rgba(20,19,16,.08);
+  --radius:14px;
+}
+@media (prefers-color-scheme:dark){
+  :root:where(:not([data-theme="light"])){
+    color-scheme:dark;
+    --plane:#0c0c0b; --surface:#191917; --surface-2:#211f1c;
+    --ink:#f6f5f0; --ink-2:#c3c2b7; --muted:#8f8d85;
+    --line:#2c2b28; --line-2:#3a3833;
+    --brand:#3987e5; --brand-ink:#8fbdf2; --brand-wash:#12233a;
+    --accent:#e0713f;
+    --good:#33b833; --good-ink:#79d879; --good-wash:#13260f;
+    --warn:#e0a12a; --warn-wash:#2a2110; --bad:#e05656; --bad-wash:#2c1414;
+    --series-pure:#d95926; --series-rag:#3987e5;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 34px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --plane:#0c0c0b; --surface:#191917; --surface-2:#211f1c;
+  --ink:#f6f5f0; --ink-2:#c3c2b7; --muted:#8f8d85;
+  --line:#2c2b28; --line-2:#3a3833;
+  --brand:#3987e5; --brand-ink:#8fbdf2; --brand-wash:#12233a;
+  --accent:#e0713f;
+  --good:#33b833; --good-ink:#79d879; --good-wash:#13260f;
+  --warn:#e0a12a; --warn-wash:#2a2110; --bad:#e05656; --bad-wash:#2c1414;
+  --series-pure:#d95926; --series-rag:#3987e5;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 34px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--plane); color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+.deck{max-width:1120px;margin:0 auto;padding:28px 20px 120px}
+.lead{padding:22px 6px 6px;color:var(--ink-2)}
+.lead h2{margin:0 0 6px;color:var(--ink);font-size:15px;letter-spacing:.14em;text-transform:uppercase}
+.lead p{margin:0;font-size:14px;max-width:80ch}
+
+/* ── slide frame ─────────────────────────────────────────────── */
+.slide{
+  position:relative;background:var(--surface);
+  border:1px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  aspect-ratio:16/9; width:100%; margin:20px 0 0;
+  padding:34px 40px 44px; overflow:hidden;
+  display:flex; flex-direction:column;
+  container-type:inline-size;
+}
+.slide::before{content:"";position:absolute;left:0;top:0;height:6px;width:100%;
+  background:linear-gradient(90deg,var(--brand),var(--brand-ink))}
+.kicker{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--brand-ink)}
+.kicker .n{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;
+  background:var(--brand);color:#fff;border-radius:6px;font-size:12px;letter-spacing:0}
+h1.title{margin:8px 0 2px;font-size:29px;line-height:1.12;letter-spacing:-.01em;text-wrap:balance}
+.instruction{margin:2px 0 0;color:var(--ink-2);font-size:14.5px;max-width:92ch}
+.slide-body{flex:1;min-height:0;display:grid;gap:22px;margin-top:16px}
+.two{grid-template-columns:1.06fr .94fr}
+.wide{grid-template-columns:1fr}
+.col{min-width:0;display:flex;flex-direction:column;gap:14px}
+.footer{position:absolute;left:40px;right:40px;bottom:14px;display:flex;justify-content:space-between;
+  align-items:center;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+.footer b{color:var(--ink-2);font-weight:600}
+
+/* ── panels ──────────────────────────────────────────────────── */
+.panel{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.panel h3{margin:0 0 8px;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.read{background:var(--surface);border:1px solid var(--line-2)}
+.read h3{color:var(--brand-ink)}
+.read p{margin:0 0 7px;font-size:13.5px;color:var(--ink-2)}
+.read p:last-child{margin-bottom:0}
+.read strong{color:var(--ink)}
+
+/* interpretation callouts */
+.callout{border-radius:12px;padding:12px 15px;font-size:13.5px;display:flex;gap:10px;align-items:flex-start}
+.callout .ic{flex:none;width:20px;height:20px;margin-top:1px}
+.callout.good{background:var(--good-wash);border:1px solid color-mix(in srgb,var(--good) 34%,transparent);color:var(--good-ink)}
+.callout.warn{background:var(--warn-wash);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);color:var(--ink)}
+.callout.bad{background:var(--bad-wash);border:1px solid color-mix(in srgb,var(--bad) 38%,transparent);color:var(--ink)}
+.callout b{font-weight:700}
+.note{font-size:11.5px;color:var(--muted);background:var(--surface-2);border:1px dashed var(--line-2);
+  border-radius:9px;padding:8px 12px}
+
+/* stat tiles */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat .v{font-size:34px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.stat .v.brand{color:var(--brand)} .stat .v.good{color:var(--good-ink)}
+.stat .v.bad{color:var(--bad)} .stat .v.accent{color:var(--accent)}
+.stat .l{font-size:12px;color:var(--ink-2);margin-top:6px}
+.stat .s{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* comparison table */
+table.cmp{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+table.cmp th,table.cmp td{padding:7px 9px;text-align:right;border-bottom:1px solid var(--line)}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp thead th{background:var(--brand);color:#fff;border-bottom:none;font-weight:600;font-size:11.5px}
+table.cmp thead th:first-child{border-top-left-radius:8px}
+table.cmp thead th:last-child{border-top-right-radius:8px}
+table.cmp tbody tr:nth-child(even){background:var(--surface-2)}
+table.cmp tr.hl td{background:var(--brand-wash);font-weight:700}
+table.cmp tr.sum td{border-top:2px solid var(--line-2);font-weight:700}
+.up{color:var(--good-ink);font-weight:600}.down{color:var(--bad);font-weight:600}
+.chip{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10.5px;font-weight:600}
+.chip.win{background:var(--good-wash);color:var(--good-ink)}
+.chip.lose{background:var(--bad-wash);color:var(--bad)}
+.chip.neu{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.best{color:var(--good-ink);font-weight:700}
+
+/* legend */
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-bottom:4px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+/* chart */
+.chart{width:100%;flex:1;min-height:0}
+.chart svg{width:100%;height:100%;display:block;overflow:visible}
+.bar-val{font-size:11px;font-weight:600;fill:var(--ink)}
+.axis-lbl{font-size:11px;fill:var(--muted)}
+.grid{stroke:var(--line);stroke-width:1}
+.baseline{stroke:var(--line-2);stroke-width:1.5}
+.cat-lbl{font-size:11.5px;fill:var(--ink-2);font-weight:500}
+
+/* architecture / flow diagram */
+.flow{display:flex;flex-direction:column;gap:9px}
+.frow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+.node{flex:1;min-width:0;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;
+  padding:9px 11px;font-size:12.5px}
+.node .t{font-weight:600;font-size:12.5px}
+.node .d{font-size:11px;color:var(--muted);margin-top:2px}
+.node.brand{background:var(--brand-wash);border-color:color-mix(in srgb,var(--brand) 34%,transparent)}
+.node.db{background:var(--good-wash);border-color:color-mix(in srgb,var(--good) 30%,transparent)}
+.arrow{align-self:center;color:var(--muted);font-size:16px;flex:none}
+.down-arrow{align-self:center;color:var(--brand);font-size:18px;line-height:.4;text-align:center}
+
+.taglist{display:flex;gap:7px;flex-wrap:wrap}
+.tag{font-size:11.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:20px;padding:3px 10px;color:var(--ink-2)}
+.tag b{color:var(--ink)}
+
+ul.tight{margin:2px 0 0;padding-left:18px;font-size:13px;color:var(--ink-2)}
+ul.tight li{margin-bottom:5px}
+ul.tight b{color:var(--ink)}
+.mono{font-family:ui-monospace,"Cascadia Code",Consolas,monospace;font-size:12px;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+
+/* problem-definition cards */
+.pdefs{display:flex;flex-direction:column;gap:11px}
+.pcard{display:flex;gap:13px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.pcard .pn{flex:none;width:38px;height:38px;border-radius:10px;background:var(--brand);color:#fff;
+  display:grid;place-items:center;font-size:17px;font-weight:700}
+.pcard .pt{font-size:14.5px;font-weight:700;margin-bottom:1px}
+.pcard .pd{font-size:12.5px;color:var(--ink-2)}
+.pcard .pm{font-size:11.5px;color:var(--muted);margin-top:4px}
+.pcard .pm b{color:var(--brand-ink);font-weight:600}
+
+/* numbered reasons */
+ol.reasons{margin:0;padding:0;list-style:none;counter-reset:r;display:flex;flex-direction:column;gap:8px}
+ol.reasons li{counter-increment:r;position:relative;padding:9px 12px 9px 40px;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:10px;font-size:12.8px;color:var(--ink-2)}
+ol.reasons li::before{content:counter(r);position:absolute;left:10px;top:9px;width:22px;height:22px;
+  border-radius:6px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+ol.reasons li b{color:var(--ink)}
+
+/* title slide */
+.cover{justify-content:center;align-items:flex-start;text-align:left;
+  background:radial-gradient(120% 120% at 100% 0%,var(--brand-wash),transparent 55%),var(--surface)}
+.cover h1{font-size:44px;line-height:1.05;margin:14px 0 10px;max-width:20ch}
+.cover .sub{font-size:17px;color:var(--ink-2);max-width:62ch}
+.cover .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.cover .badge{font-size:12.5px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:20px;padding:6px 13px;color:var(--ink-2)}
+.cover .badge b{color:var(--ink)}
+.cover .big{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
+.cover .big div{font-size:12.5px;color:var(--muted)}
+.cover .big b{display:block;font-size:30px;color:var(--brand);font-weight:700;letter-spacing:-.02em}
+
+/* nav */
+.navbar{position:fixed;right:16px;bottom:16px;display:flex;gap:8px;z-index:30}
+.navbar button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line-2);
+  background:var(--surface);color:var(--ink);box-shadow:var(--shadow);cursor:pointer;font-size:17px}
+.navbar button:hover{background:var(--surface-2)}
+.navbar .lbl{align-self:center;font-size:12px;color:var(--muted);
+  background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:0 10px;height:40px;
+  display:flex;align-items:center;box-shadow:var(--shadow)}
+.hint{max-width:1120px;margin:6px auto 0;padding:0 22px;color:var(--muted);font-size:12px}
+
+@container (max-width:760px){
+  h1.title{font-size:23px}.slide-body{gap:14px}.two{grid-template-columns:1fr}
+  .stat .v{font-size:26px}
+}
+@media print{
+  @page{size:1280px 720px;margin:0}
+  body{background:#fff}
+  .deck{max-width:none;margin:0;padding:0}
+  .lead,.hint,.navbar{display:none}
+  .slide{margin:0;border-radius:0;border:none;box-shadow:none;page-break-after:always;
+    width:1280px;height:720px;aspect-ratio:auto}
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <div class="lead">
+    <h2>Báo cáo đánh giá &amp; lựa chọn mô hình AI</h2>
+    <p>Trình bày kết quả benchmark <b>5 mô hình × 2 chế độ × 526 tác vụ = 5.260 lượt sinh</b>, đo thật trên
+       hạ tầng triển khai. Điều hướng bằng phím ← →; xuất PDF bằng Ctrl/Cmd + P (khổ ngang).</p>
+  </div>
+
+  <!-- ===== SLIDE 0 — COVER ===== -->
+  <section class="slide cover">
+    <div class="kicker"><span>ĐỒ ÁN TỐT NGHIỆP · MATHTUTOR AI</span></div>
+    <h1>Đánh giá và lựa chọn mô hình AI cho hệ trợ giảng toán</h1>
+    <p class="sub">Kết luận: chọn <b style="color:var(--brand)">Prompt + RAG + DeepSeek&#8209;R1&#8209;32B</b>.
+       Quyết định dựa trên số đo thực nghiệm cho bốn bài toán nghiệp vụ — ra đề, giải toán, chấm bài,
+       đánh giá năng lực — trên ba môn MAE101, MAD101, MAS291.</p>
+    <div class="big">
+      <div><b>5.935</b>lượt chấm (4 bài toán)</div>
+      <div><b>5</b>mô hình so sánh</div>
+      <div><b>4</b>bài toán nghiệp vụ</div>
+      <div><b>7</b>trục chấm ở bài năng lực</div>
+    </div>
+    <div class="meta">
+      <span class="badge"><b>Phần cứng:</b> RTX PRO 6000 Blackwell 96GB</span>
+      <span class="badge"><b>Phần mềm:</b> vLLM 0.10.2 · CUDA 13</span>
+      <span class="badge"><b>Ngày chạy:</b> 15/07/2026</span>
+    </div>
+    <div class="footer"><b>MathTutor AI</b><span>Số liệu đo trực tiếp trên hạ tầng triển khai, không lấy từ tài liệu nhà sản xuất.</span></div>
+  </section>
+
+  <!-- ===== SLIDE 1 — BA BÀI TOÁN (ĐỊNH NGHĨA) ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">01</span><span>Phạm vi đánh giá</span></div>
+    <h1 class="title">Bốn bài toán nghiệp vụ và cách chấm điểm</h1>
+    <p class="instruction">Báo cáo đánh giá năng lực mô hình trên bốn bài toán dưới đây. Mỗi bài toán có cách chấm và ngưỡng đạt riêng, cố định trước khi xem kết quả.</p>
+    <div class="slide-body wide">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1">
+        <div class="pcard">
+          <div class="pn">1</div>
+          <div>
+            <div class="pt">Ra đề toán</div>
+            <div class="pd">Mô hình tự sinh câu hỏi (trắc nghiệm/tự luận) theo môn, chương, độ khó yêu cầu.</div>
+            <div class="pm"><b>Chấm:</b> rubric 4 tiêu chí (giải được · đúng chủ đề · đáp án đúng · đề rõ nghĩa). &nbsp;<b>Ngưỡng: ≥ 70%.</b></div>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pn">2</div>
+          <div>
+            <div class="pt">Giải bài tập toán</div>
+            <div class="pd">Mô hình giải một bài toán, trình bày các bước và đáp án cuối.</div>
+            <div class="pm"><b>Chấm:</b> so đáp án cuối với đáp án chuẩn (đối chiếu bằng code), trên hai bộ đề chuẩn và khó. &nbsp;<b>Ngưỡng: ≥ 70%.</b></div>
+          </div>
+        </div>
+        <div class="pcard">
+          <div class="pn">3</div>
+          <div>
+            <div class="pt">Chấm bài sinh viên</div>
+            <div class="pd">Mô hình đọc bài làm sinh viên, kết luận đúng/sai và chỉ ra lỗi.</div>
+            <div class="pm"><b>Chấm:</b> so phán quyết với nhãn biết trước do code sinh — khách quan tuyệt đối. &nbsp;<b>Ngưỡng: ≥ 85%.</b></div>
+          </div>
+        </div>
+        <div class="pcard" style="border-color:color-mix(in srgb,var(--brand) 34%,transparent)">
+          <div class="pn">4</div>
+          <div>
+            <div class="pt">Đánh giá năng lực toán học</div>
+            <div class="pd">Đọc bài tự luận + log xin gợi ý AI, chấm đồng thời nhiều trục để dựng hồ sơ năng lực.</div>
+            <div class="pm"><b>Chấm:</b> <b>7 phán quyết/câu</b> (đáp án · phạm vi phương pháp · kỹ năng · độc lập · dải điểm · cờ xác nhận · lỗi). Đo: TB 7 phép + chỉ số chống oan. &nbsp;<b>Khắt khe hơn 1–3.</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="callout good"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+        <div>Bài toán 1–3 chấm một trục đúng/sai. Bài toán 4 (năng lực) là <b>suy luận nhiều trục cùng lúc</b> — con số tuyệt đối không so trực tiếp với ba bài trước, được trình bày riêng ở phần sau.</div></div>
+    </div>
+    <div class="footer"><b>Slide 01</b><span>Định nghĩa bốn bài toán nghiệp vụ</span></div>
+  </section>
+
+  <!-- ===== SLIDE 2 — KIẾN TRÚC ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">02</span><span>Kiến trúc hệ thống</span></div>
+    <h1 class="title">Local RAG Pipeline — dữ liệu sinh viên không rời hạ tầng trường</h1>
+    <p class="instruction">Toàn bộ mô hình chạy cục bộ. Trước khi hỏi LLM, hệ truy hồi lý thuyết và bài mẫu liên quan để mô hình bám sát giáo trình.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="panel" style="flex:1">
+          <div class="flow">
+            <div class="frow">
+              <div class="node"><div class="t">📄 Tài liệu (PDF/DOCX)</div><div class="d">giáo trình, đề</div></div>
+              <div class="node"><div class="t">🏦 Ngân hàng câu hỏi</div><div class="d">14.512 bài đã giải</div></div>
+            </div>
+            <div class="down-arrow">▾</div>
+            <div class="frow"><div class="node">OCR (RapidOCR) · chia đoạn (chunk) · chuẩn hoá schema</div></div>
+            <div class="down-arrow">▾</div>
+            <div class="frow"><div class="node brand"><div class="t">Embedding — BAAI/bge-m3</div><div class="d">1024 chiều · vLLM :8001</div></div></div>
+            <div class="down-arrow">▾</div>
+            <div class="frow"><div class="node db"><div class="t">🗄️ PostgreSQL + pgvector</div>
+              <div class="d">2.175 đoạn lý thuyết · 14.512 bài mẫu — trên VM riêng, nối qua SSH tunnel</div></div></div>
+            <div class="down-arrow">▾</div>
+            <div class="frow"><div class="node">Truy hồi (cosine, lọc theo môn) → top-3 lý thuyết + top-3 bài mẫu</div></div>
+            <div class="down-arrow">▾</div>
+            <div class="frow"><div class="node brand"><div class="t">LLM cục bộ — DeepSeek-R1 (vLLM)</div>
+              <div class="d">System (vai giáo viên + suy luận từng bước) + Ngữ cảnh + Câu hỏi</div></div></div>
+            <div class="down-arrow">▾</div>
+            <div class="frow"><div class="node">Hậu xử lý: bóc đáp án · kiểm định dạng · đối chiếu bằng sympy</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="panel read">
+          <h3>Nhận xét</h3>
+          <p><strong>Toàn bộ AI chạy tại chỗ.</strong> LLM, embedding, OCR đặt trên GPU của nhóm; cơ sở dữ liệu trên VM riêng. Bài làm và dữ liệu học tập của sinh viên không gửi ra dịch vụ bên ngoài.</p>
+          <p><strong>RAG là truy hồi trước, sinh sau.</strong> Hệ lấy đúng định lý, công thức và bài mẫu từ kho rồi ghép vào prompt, giúp mô hình giảm bịa và bám giáo trình.</p>
+          <p><strong>Có lớp kiểm tra bằng code.</strong> Đáp án cuối được đối chiếu bằng sympy khi tính được — tầng an toàn độc lập với độ tự tin của mô hình.</p>
+        </div>
+        <div class="panel">
+          <h3>Độ phủ corpus theo môn (đo từ DB)</h3>
+          <table class="cmp"><thead><tr><th>Môn</th><th>Đoạn lý thuyết</th><th>Bài giải mẫu</th></tr></thead>
+          <tbody>
+            <tr><td>MAE101</td><td>550</td><td>4.404</td></tr>
+            <tr><td>MAD101</td><td>1.427</td><td>6.752</td></tr>
+            <tr><td>MAS291</td><td>198</td><td>3.356</td></tr>
+          </tbody></table>
+        </div>
+        <div class="callout warn"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 3l7 13H3z"/><path d="M10 8v4M10 14.5v.5"/></svg>
+          <div>Lý thuyết phân bố không đều: môn nhiều nhất gấp ~7 lần môn ít nhất (MAS291). Đây là nguồn gốc phần lớn lỗi truy hồi.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 02</b><span>Kiến trúc Local RAG Pipeline</span></div>
+  </section>
+
+  <!-- ===== SLIDE — CẤU HÌNH SẢN PHẨM ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">03</span><span>Cấu hình sản phẩm</span></div>
+    <h1 class="title">Cấu hình mô hình trong hệ thống đang chạy</h1>
+    <p class="instruction">Hệ thống không dùng tham số mặc định. Nhiệt độ, top-p, ngân sách token và system prompt đều được thiết kế riêng cho miền toán.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="panel">
+          <h3>Tham số sinh — thiết kế hai giai đoạn</h3>
+          <table class="cmp"><thead><tr><th>Giai đoạn</th><th>Nhiệt độ</th><th>Top-P</th><th style="text-align:left">Vai trò</th></tr></thead>
+          <tbody>
+            <tr><td>1 — Suy luận (&lt;think&gt;)</td><td>0.2</td><td>0.9</td><td style="text-align:left;font-size:11px">bám tài liệu, hạn chế sáng tạo</td></tr>
+            <tr class="hl"><td>2 — Ép JSON / đáp án cuối</td><td>0.0</td><td>1.0</td><td style="text-align:left;font-size:11px">đáp án cuối tất định, không ngẫu nhiên</td></tr>
+          </tbody></table>
+        </div>
+        <div class="panel">
+          <h3>Cấu hình khác</h3>
+          <table class="cmp"><tbody>
+            <tr><td>Mô hình</td><td>DeepSeek-R1-Distill-Qwen-32B</td></tr>
+            <tr><td>Backend suy luận</td><td>vLLM (OpenAI-compatible)</td></tr>
+            <tr><td>Embedding</td><td>bge-m3 · 1024 chiều</td></tr>
+            <tr><td>Truy hồi</td><td>top-k cosine, lọc theo môn</td></tr>
+            <tr><td>Ngân sách token</td><td>riêng theo tác vụ (giải toán: 5.500)</td></tr>
+          </tbody></table>
+        </div>
+        <div class="note">Trong benchmark, R1 chạy ở nhiệt độ 0.6 theo khuyến nghị nhà sản xuất để so sánh công bằng giữa các mô hình. Trong sản phẩm, thiết kế hai giai đoạn cho phép suy luận ở giai đoạn 1 và ép đáp án cuối tất định (nhiệt độ 0) ở giai đoạn 2.</div>
+      </div>
+      <div class="col">
+        <div class="panel read">
+          <h3>Vì sao cấu hình như vậy</h3>
+          <p><strong>Nhiệt độ thấp.</strong> Miền toán cần suy luận tất định theo định lý, không cần sáng tạo. Nhiệt độ thấp hạn chế việc mô hình tự bịa số liệu (ảo giác).</p>
+          <p><strong>Đáp án cuối ở nhiệt độ 0.</strong> Giai đoạn ép JSON chạy tất định hoàn toàn, nên đáp án người dùng nhận được không có yếu tố ngẫu nhiên.</p>
+          <p><strong>Top-P 0.9.</strong> Giới hạn mô hình vào nhóm từ có xác suất cao, giữ các bước giải mạch lạc.</p>
+        </div>
+        <div class="panel">
+          <h3>System Prompt — thiết kế "đóng vai"</h3>
+          <div style="font-family:ui-monospace,Consolas,monospace;font-size:11px;line-height:1.6;
+              background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:11px 13px;color:var(--ink-2)">
+            <b style="color:var(--brand-ink)">Bạn là FPTU_MATHAI</b>, trợ lý AI chuyên đọc hiểu tài liệu toán, sinh đề, giải bài toán và chấm bài sinh viên cho các môn toán ở FPT University.<br><br>
+            <b style="color:var(--ink)">Quy tắc bắt buộc:</b><br>
+            • Chỉ trả về JSON hợp lệ, không markdown.<br>
+            • <b style="color:var(--ink)">KHÔNG bịa</b> định lý/công thức/dữ kiện ngoài đề &amp; tài liệu.<br>
+            • Ưu tiên tiếng Việt, dùng thuật ngữ toán chính xác.<br>
+            • Bắt buộc <b style="color:var(--ink)">kiểm lại đáp án cuối</b> và các bước.<br>
+            • Trắc nghiệm: đúng 1 đáp án, nhiễu hợp lý nhưng không nhập nhằng.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 03</b><span>Cấu hình mô hình trong sản phẩm</span></div>
+  </section>
+
+  <!-- ===== SLIDE 3 — 5 MÔ HÌNH ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">03</span><span>Đối tượng so sánh</span></div>
+    <h1 class="title">Năm mô hình — hai nhóm đối chứng, ba cỡ suy luận</h1>
+    <p class="instruction">Danh sách được thiết kế để trả lời hai câu hỏi then chốt: mô hình có suy luận có hơn mô hình thường không, và cỡ nào là đủ.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="panel" style="flex:1">
+          <table class="cmp"><thead><tr><th>Mô hình</th><th>Loại</th><th>Tham số</th><th style="text-align:left">Vai trò</th></tr></thead>
+          <tbody>
+            <tr><td>Qwen2.5-7B-Instruct</td><td>Instruct</td><td>7.6B</td><td style="text-align:left;font-size:11.5px">Đối chứng cùng họ</td></tr>
+            <tr><td>Llama-3.1-8B-Instruct</td><td>Instruct</td><td>8.0B</td><td style="text-align:left;font-size:11.5px">Đối chứng khác họ</td></tr>
+            <tr><td>R1-Distill-Qwen-7B</td><td>Reasoning</td><td>7.6B</td><td style="text-align:left;font-size:11.5px">Suy luận cỡ nhỏ</td></tr>
+            <tr><td>R1-Distill-Qwen-14B</td><td>Reasoning</td><td>14.8B</td><td style="text-align:left;font-size:11.5px">Suy luận cỡ trung gian</td></tr>
+            <tr class="hl"><td>R1-Distill-Qwen-32B</td><td>Reasoning</td><td>32.8B</td><td style="text-align:left;font-size:11.5px">Cấu hình mạnh nhất chạy được</td></tr>
+          </tbody></table>
+        </div>
+        <div class="note">Dùng bản mirror <span class="mono">NousResearch/Meta-Llama-3.1-8B</span> vì repo gốc của Meta là gated. Đây là bản sao nguyên trọng số, không fine-tune.</div>
+      </div>
+      <div class="col">
+        <div class="panel read">
+          <h3>Nhận xét</h3>
+          <p><strong>Hai nhóm đối chứng.</strong> Cả ba mô hình R1-Distill đều chưng cất từ Qwen. Khi so với Qwen2.5-7B, khác biệt quy về đúng một yếu tố: có suy luận hay không. Thêm Llama-3.1-8B (nền khác hẳn) để kiểm tra kết luận có tổng quát ngoài họ Qwen không.</p>
+          <p><strong>Ba cỡ suy luận.</strong> Chỉ có 7B và 32B thì kết luận "phải dùng 32B" là suy diễn từ hai điểm mút. Bổ sung 14B để xác định đường cong chất lượng bão hoà ở đâu.</p>
+        </div>
+        <div class="callout good"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Thiết kế này trả lời trước hai câu hỏi hội đồng thường đặt ra, bằng số đo thay vì lập luận.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 03</b><span>Năm mô hình được so sánh</span></div>
+  </section>
+
+  <!-- ===== SLIDE 4 — THIẾT KẾ THÍ NGHIỆM ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">04</span><span>Phương pháp</span></div>
+    <h1 class="title">Thiết kế thí nghiệm và bảo đảm công bằng</h1>
+    <p class="instruction">Mỗi mô hình chạy ở cấu hình tốt nhất của chính nó; mọi yếu tố ngoài "năng lực mô hình" đều được cố định để không làm sai lệch so sánh.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="panel">
+          <h3>Quy mô thí nghiệm</h3>
+          <table class="cmp"><tbody>
+            <tr><td>Bài toán 1 — Ra đề</td><td>27 lượt / mô hình / chế độ</td></tr>
+            <tr><td>Bài toán 2 — Giải toán (bộ chuẩn)</td><td>180</td></tr>
+            <tr><td>Bài toán 2 — Giải toán (bộ khó)</td><td>180</td></tr>
+            <tr><td>Bài toán 3 — Chấm bài</td><td>139</td></tr>
+            <tr class="sum"><td>Tổng lượt sinh</td><td>5.260</td></tr>
+          </tbody></table>
+        </div>
+        <div class="panel">
+          <h3>Hai pha đo tách biệt</h3>
+          <ul class="tight">
+            <li><b>Đo hiệu năng — chạy tuần tự (concurrency = 1).</b> Nếu chạy song song, thời gian phản hồi sẽ gồm cả thời gian chờ hàng đợi, không còn phản ánh tốc độ thật của mô hình.</li>
+            <li><b>Đo chất lượng — chạy song song.</b> Mỗi câu hỏi độc lập nên nội dung câu trả lời không đổi; nhờ đó tiết kiệm khoảng 9 giờ GPU mà vẫn công bằng.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <div class="panel read" style="flex:1">
+          <h3>Các yếu tố nhiễu đã loại bỏ</h3>
+          <p>Ngữ cảnh RAG được truy hồi trước một lần và lưu ra file, nên cả năm mô hình đọc cùng một chuỗi; thời gian tìm kiếm không tính vào thời gian phản hồi.</p>
+          <p>Chỉ mục để trong bộ nhớ (numpy) thay vì gọi DB qua mạng, loại bỏ biến động mạng.</p>
+          <p>Không mô hình nào dùng <span class="mono">--enforce-eager</span>: nếu chỉ riêng 32B chạy chế độ này, tốc độ của nó bị giảm 10–15% một cách không công bằng.</p>
+          <p>Cả năm mô hình dùng chung một System Prompt, chung một corpus RAG, cùng một seed cố định.</p>
+        </div>
+        <div class="callout good"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Kết quả so sánh phản ánh <b>năng lực mô hình ở trạng thái tốt nhất</b>, không phải mô hình bị ép cùng một tham số.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 04</b><span>Thiết kế thí nghiệm và tính công bằng</span></div>
+  </section>
+
+  <!-- ===== SLIDE 5 — THAM SỐ ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">05</span><span>Tham số cấu hình</span></div>
+    <h1 class="title">Tham số sinh và cơ sở lựa chọn</h1>
+    <p class="instruction">Không ép mọi mô hình cùng một nhiệt độ. Mỗi mô hình dùng cấu hình mà nhà sản xuất khuyến nghị và cũng là cấu hình dùng khi triển khai thật.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="panel" style="flex:1">
+          <table class="cmp"><thead><tr><th>Mô hình</th><th>Nhiệt độ</th><th>Top-P</th><th>Max token</th></tr></thead>
+          <tbody>
+            <tr><td>Qwen2.5-7B (Instruct)</td><td>0.1</td><td>0.9</td><td>2.048</td></tr>
+            <tr><td>Llama-3.1-8B (Instruct)</td><td>0.1</td><td>0.9</td><td>2.048</td></tr>
+            <tr><td>R1-7B (Reasoning)</td><td>0.6</td><td>0.95</td><td>6.144</td></tr>
+            <tr><td>R1-14B (Reasoning)</td><td>0.6</td><td>0.95</td><td>6.144</td></tr>
+            <tr class="hl"><td>R1-32B (Reasoning)</td><td>0.6</td><td>0.95</td><td>6.144</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+      <div class="col">
+        <div class="panel read">
+          <h3>Nhận xét</h3>
+          <p><strong>Nhiệt độ.</strong> Tài liệu chính thức của DeepSeek-R1 nêu rõ: nhiệt độ bằng 0 khiến mô hình lặp vô tận hoặc mất mạch lạc, và khuyến nghị dải 0.5–0.7. Qwen-Instruct chạy tốt ở 0.1, đúng cấu hình triển khai thật.</p>
+          <p><strong>Max token 2.048 so với 6.144.</strong> Mô hình suy luận cần không gian lớn để nháp trong thẻ <span class="mono">&lt;think&gt;</span> trước khi chốt đáp án; cấp 6.144 cho Qwen là vô nghĩa vì nó không có pha suy nghĩ.</p>
+          <p><strong>System Prompt chung.</strong> Đóng vai giáo viên toán, bắt buộc suy luận từng bước, cấm bịa định lý, yêu cầu kiểm lại phép tính cuối.</p>
+        </div>
+        <div class="callout good"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Ép R1 về nhiệt độ thấp là cố tình chạy sai khuyến nghị nhà sản xuất, làm so sánh mất công bằng.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 05</b><span>Tham số cấu hình và cơ sở lựa chọn</span></div>
+  </section>
+
+  <!-- ===== SLIDE 6 — BẢNG TỔNG HỢP ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">06</span><span>Kết quả tổng hợp</span></div>
+    <h1 class="title">Bảng so sánh năm mô hình trên mọi chỉ tiêu</h1>
+    <p class="instruction">Độ chính xác đo ở chế độ prompt thuần để so trên cùng một mặt bằng. Ô in đậm là giá trị tốt nhất mỗi cột; hàng tô xanh là mô hình được chọn.</p>
+    <div class="slide-body wide">
+      <div class="panel" style="padding:8px 12px">
+        <table class="cmp"><thead><tr>
+          <th>Mô hình</th><th>Ra đề (%)</th><th>Giải toán<br>bộ chuẩn (%)</th><th>Giải toán<br>bộ khó (%)</th><th>Chấm bài (%)</th><th>Năng lực<br>TB 7 phép (%)</th><th>Tốc độ P50</th><th>VRAM (GiB)</th><th>Rò CJK (%)</th>
+        </tr></thead>
+        <tbody style="font-size:12px">
+          <tr><td>Qwen2.5-7B <span class="chip neu">Instruct</span></td><td>48.1</td><td>94.4</td><td>73.3</td><td>79.9</td><td>72.9</td><td>3.3s</td><td>14.3</td><td>2.2</td></tr>
+          <tr><td>Llama-3.1-8B <span class="chip neu">Instruct</span></td><td>59.3</td><td>71.7</td><td>43.9</td><td>74.8</td><td>65.7</td><td class="best">3.5s</td><td class="best">15.0</td><td class="best">0.2</td></tr>
+          <tr><td>R1-7B <span class="chip neu">Reasoning</span></td><td>59.3</td><td>95.6</td><td>76.1</td><td>75.5</td><td>69.8</td><td>4.9s</td><td>14.3</td><td>17.5</td></tr>
+          <tr><td>R1-14B <span class="chip neu">Reasoning</span></td><td>85.2</td><td class="best">97.2</td><td>85.0</td><td>86.3</td><td>77.5</td><td>12.0s</td><td>27.6</td><td>16.4</td></tr>
+          <tr class="hl"><td>R1-32B <span class="chip neu">Reasoning</span></td><td class="best">88.9</td><td>96.1</td><td class="best">89.4</td><td class="best">92.1</td><td class="best">84.3</td><td>34.7s</td><td>61.1</td><td>20.2</td></tr>
+        </tbody></table>
+      </div>
+      <div class="frow" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div class="callout good" style="margin:0"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div><b>Nhóm suy luận lớn vượt hẳn nhóm nhỏ.</b> Ở ra đề, 14B–32B đạt 85–89% còn nhóm 7–8B chỉ 48–59%. Ở giải toán khó, 85–89% so với 44–76%.</div></div>
+        <div class="callout warn" style="margin:0"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 3l7 13H3z"/><path d="M10 8v4M10 14.5v.5"/></svg>
+          <div><b>Hai baseline đối lập.</b> Qwen mạnh toán (94% bộ chuẩn), Llama yếu toán rõ (bộ khó chỉ 43.9%) — xác nhận kết luận không phải đặc thù một họ mô hình.</div></div>
+        <div class="callout bad" style="margin:0"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10" cy="10" r="7"/><path d="M10 6.5v4.5M10 13.4v.4"/></svg>
+          <div><b>32B dẫn đầu 4/5 cột chất lượng</b> (kể cả năng lực 80.6%), đổi lại chậm nhất và nặng nhất. Đây là đánh đổi được xử lý ở slide kết luận.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 06</b><span>Bảng so sánh tổng hợp — prompt thuần</span></div>
+  </section>
+
+  <!-- ===== SLIDE 7 — CHẤT LƯỢNG 3 BÀI TOÁN ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">07</span><span>Chất lượng theo bài toán</span></div>
+    <h1 class="title">Độ chính xác ba bài toán — thứ hạng ổn định qua mọi mô hình</h1>
+    <p class="instruction">Điểm lấy ở chế độ tốt nhất của mỗi bài toán. Bài toán 2 lấy kết quả trên bộ đề khó, vì bộ chuẩn không phân biệt được các mô hình (xem slide sau).</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="legend" id="legend-quality"></div>
+        <div class="chart" id="chart-quality"></div>
+      </div>
+      <div class="col">
+        <div class="panel read" style="flex:1">
+          <h3>Nhận xét</h3>
+          <p><strong>Thứ hạng không đổi qua cả ba bài toán:</strong> R1-32B ≥ R1-14B, và cả hai vượt xa nhóm 7–8B. Khoảng cách rõ nhất ở ra đề (32B 88.9% so với R1-7B 66.7%) và giải toán khó (89.4% so với 76.7%).</p>
+          <p><strong>Llama yếu toán thật.</strong> Ở giải toán khó chỉ đạt 43.9%, kém Qwen khoảng 30 điểm. Đã kiểm chứng không phải lỗi giám khảo (đối chiếu bằng code cho cùng kết quả); phù hợp với việc Qwen2.5 được huấn luyện nặng về toán.</p>
+          <p><strong>Cỡ nhỏ đủ cho bài dễ nhưng đuối ở bài khó</strong> — đây là lý do phải tách riêng bộ đề khó ở slide tiếp theo.</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="v good">92.1%</div><div class="l">R1-32B — chấm bài</div><div class="s">cao nhất toàn bảng</div></div>
+          <div class="stat"><div class="v accent">43.9%</div><div class="l">Llama-3.1-8B — giải toán khó</div><div class="s">yếu toán, không phải nhiễu</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 07</b><span>Chất lượng ba bài toán</span></div>
+  </section>
+
+  <!-- ===== SLIDE 8 — BỘ ĐỀ DỄ vs KHÓ ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">08</span><span>Bài toán 2 — hai bộ đề</span></div>
+    <h1 class="title">Bộ đề chuẩn bị "trần điểm" — bộ đề khó mới phân biệt được mô hình</h1>
+    <p class="instruction">Cùng bài toán giải toán, chạy trên hai bộ đề khác nhau. Bộ khó làm giãn khoảng cách điểm gấp 1.7 lần, lộ ra khác biệt thật giữa các mô hình.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="legend"><span><i style="background:var(--series-pure)"></i>Bộ đề chuẩn</span><span><i style="background:var(--series-rag)"></i>Bộ đề khó</span></div>
+        <div class="chart" id="chart-hard"></div>
+      </div>
+      <div class="col">
+        <div class="stats">
+          <div class="stat"><div class="v" style="color:var(--muted)">28.3đ</div><div class="l">Khoảng phân tách — bộ chuẩn</div><div class="s">71.7% → 100%</div></div>
+          <div class="stat"><div class="v brand">47.8đ</div><div class="l">Khoảng phân tách — bộ khó</div><div class="s">43.9% → 91.7% · rộng gấp 1.7×</div></div>
+        </div>
+        <div class="panel read" style="flex:1">
+          <h3>Nhận xét</h3>
+          <p>Ở bộ đề chuẩn, gần như mọi mô hình đạt 94–100%. Biểu đồ dính trần, không tách được mô hình này với mô hình kia; chọn "người thắng" ở đây là chọn theo nhiễu ngẫu nhiên.</p>
+          <p>Bộ đề khó kéo dải điểm giãn ra 47.8 điểm: Llama tụt còn 44% trong khi 32B giữ 92%. Đây mới là bộ đề dùng để kết luận cho bài toán giải toán.</p>
+        </div>
+        <div class="callout good"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Bài học phương pháp: một bộ test không phân biệt được các mô hình thì không chứng minh được gì, kể cả khi mọi mô hình đều điểm cao.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 08</b><span>Bài toán 2 — bộ đề chuẩn so với bộ đề khó</span></div>
+  </section>
+
+  <!-- ===== SLIDE 9 — PROMPT vs RAG ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">09</span><span>Prompt thuần so với Prompt + RAG</span></div>
+    <h1 class="title">RAG có lợi cho giải toán nhưng gây hại cho chấm bài</h1>
+    <p class="instruction">Số liệu của R1-32B — mô hình được chọn. RAG không phải lúc nào cũng tốt; hiệu quả phụ thuộc bản chất từng bài toán.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="legend"><span><i style="background:var(--series-pure)"></i>Prompt thuần</span><span><i style="background:var(--series-rag)"></i>Prompt + RAG</span></div>
+        <div class="chart" id="chart-rag"></div>
+      </div>
+      <div class="col">
+        <table class="cmp"><thead><tr><th>Bài toán</th><th>Thuần</th><th>+ RAG</th><th>Chênh</th></tr></thead>
+        <tbody>
+          <tr><td>Ra đề</td><td>88.9%</td><td>85.2%</td><td class="down">−3.7</td></tr>
+          <tr><td>Giải toán (khó)</td><td>89.4%</td><td>91.7%</td><td class="up">+2.3</td></tr>
+          <tr><td>Chấm bài</td><td>92.1%</td><td>87.0%</td><td class="down">−5.1</td></tr>
+          <tr class="sum"><td>Trung bình</td><td>90.1%</td><td>88.0%</td><td class="down">−2.1</td></tr>
+        </tbody></table>
+        <div class="panel read" style="flex:1">
+          <h3>Nhận xét</h3>
+          <p><strong>RAG chỉ có lợi khi mô hình thiếu kiến thức</strong> — tức bài giải toán khó (+2.3 điểm).</p>
+          <p><strong>Với bài chấm điểm, RAG gây hại</strong> (−5.1 điểm): tài liệu bài mẫu tương tự khiến mô hình đối chiếu nhầm bài sinh viên với bài mẫu thay vì với đáp án chuẩn.</p>
+        </div>
+        <div class="callout warn"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 3l7 13H3z"/><path d="M10 8v4M10 14.5v.5"/></svg>
+          <div>Kết luận triển khai: <b>không bật RAG mặc định cho mọi tính năng</b> — chỉ bật cho ra đề và giải toán, tắt cho chấm bài.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 09</b><span>Prompt thuần so với Prompt + RAG (R1-32B)</span></div>
+  </section>
+
+  <!-- ===== SLIDE — RAG TRIAD ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">10</span><span>Đánh giá chất lượng RAG</span></div>
+    <h1 class="title">Bộ ba chỉ số RAG (RAG Triad)</h1>
+    <p class="instruction">Ba tiêu chí kinh điển đánh giá một hệ RAG, đo cho R1-32B ở chế độ có RAG. Cả ba đều đạt từ 96% trở lên.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="panel" style="flex:1;display:flex;align-items:center;justify-content:center;padding:8px">
+          <svg viewBox="0 0 440 340" style="width:100%;max-height:340px" role="img" aria-label="Sơ đồ RAG Triad">
+            <!-- edges -->
+            <line x1="220" y1="46" x2="70" y2="264" stroke="var(--brand)" stroke-width="2.5"/>
+            <line x1="220" y1="46" x2="370" y2="264" stroke="var(--brand)" stroke-width="2.5"/>
+            <line x1="70" y1="264" x2="370" y2="264" stroke="var(--brand)" stroke-width="2.5"/>
+            <!-- edge labels -->
+            <g text-anchor="middle">
+              <text x="96" y="150" font-size="12.5" font-weight="600" fill="var(--ink-2)">Context Relevance</text>
+              <text x="96" y="170" font-size="15" font-weight="700" fill="var(--good-ink)">96.4%</text>
+              <text x="344" y="150" font-size="12.5" font-weight="600" fill="var(--ink-2)">Answer Relevance</text>
+              <text x="344" y="170" font-size="15" font-weight="700" fill="var(--good-ink)">100%</text>
+              <text x="220" y="312" font-size="12.5" font-weight="600" fill="var(--ink-2)">Groundedness</text>
+              <text x="220" y="332" font-size="15" font-weight="700" fill="var(--good-ink)">96.4%</text>
+            </g>
+            <!-- nodes -->
+            <g>
+              <rect x="164" y="20" width="112" height="52" rx="12" fill="var(--brand-wash)" stroke="var(--brand)" stroke-width="2"/>
+              <text x="220" y="42" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--ink)">Câu hỏi</text>
+              <text x="220" y="59" text-anchor="middle" font-size="10.5" fill="var(--muted)">của người dùng</text>
+            </g>
+            <g>
+              <rect x="14" y="240" width="120" height="52" rx="12" fill="var(--good-wash)" stroke="var(--good)" stroke-width="2"/>
+              <text x="74" y="262" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--ink)">Ngữ cảnh</text>
+              <text x="74" y="279" text-anchor="middle" font-size="10.5" fill="var(--muted)">tài liệu truy hồi</text>
+            </g>
+            <g>
+              <rect x="306" y="240" width="120" height="52" rx="12" fill="var(--brand-wash)" stroke="var(--brand)" stroke-width="2"/>
+              <text x="366" y="262" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--ink)">Câu trả lời</text>
+              <text x="366" y="279" text-anchor="middle" font-size="10.5" fill="var(--muted)">của mô hình</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="col">
+        <div class="pdefs">
+          <div class="pcard"><div class="pn" style="background:var(--good)">1</div>
+            <div><div class="pt">Context Relevance — 96.4%</div>
+            <div class="pd">Phần truy hồi có lấy đúng đoạn tài liệu cần để trả lời câu hỏi không.</div></div></div>
+          <div class="pcard"><div class="pn" style="background:var(--good)">2</div>
+            <div><div class="pt">Groundedness — 96.4%</div>
+            <div class="pd">Câu trả lời có dựa hoàn toàn vào ngữ cảnh lấy ra, không tự bịa kiến thức ngoài không.</div></div></div>
+          <div class="pcard"><div class="pn" style="background:var(--good)">3</div>
+            <div><div class="pt">Answer Relevance — 100%</div>
+            <div class="pd">Câu trả lời cuối có giải quyết đúng câu hỏi của người dùng không.</div></div></div>
+        </div>
+        <div class="panel">
+          <h3>Kiểm chứng độc lập (không nhờ AI chấm)</h3>
+          <table class="cmp"><tbody>
+            <tr><td>Context Relevance đo bằng embedding</td><td>0.578 cosine</td></tr>
+            <tr><td>Tỉ lệ truy hồi ra lý thuyết</td><td>100%</td></tr>
+            <tr><td>Trùng lặp dữ liệu (contamination)</td><td>0.0%</td></tr>
+            <tr><td>Tỉ lệ trích dẫn nguồn [n]</td><td>11.7%</td></tr>
+          </tbody></table>
+        </div>
+        <div class="callout good"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Groundedness 96.4% nghĩa là mô hình ít ảo giác; contamination 0% chứng minh RAG không "thắng" nhờ chép sẵn đáp án từ kho.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 10</b><span>Bộ ba chỉ số RAG (RAG Triad)</span></div>
+  </section>
+
+  <!-- ===== SLIDE 10 — HIỆU NĂNG ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">10</span><span>Hiệu năng</span></div>
+    <h1 class="title">Thời gian phản hồi và điện năng — cái giá của suy luận</h1>
+    <p class="instruction">Số liệu ở pha chạy tuần tự (concurrency = 1). Mô hình lớn chậm hơn vì sinh nhiều token suy luận, không phải vì phục vụ chậm.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="legend"><span><i style="background:var(--brand)"></i>Thời gian phản hồi P50 (giây)</span></div>
+        <div class="chart" id="chart-latency"></div>
+      </div>
+      <div class="col">
+        <div class="stats">
+          <div class="stat"><div class="v brand">3.3s</div><div class="l">Qwen2.5-7B — nhanh nhất</div><div class="s">0.38 Wh/câu</div></div>
+          <div class="stat"><div class="v bad">34.7s</div><div class="l">R1-32B — chậm nhất</div><div class="s">4.16 Wh/câu · chậm 10.5 lần</div></div>
+        </div>
+        <div class="panel read" style="flex:1">
+          <h3>Nhận xét</h3>
+          <p><strong>Thời gian phản hồi tăng vọt ở 32B.</strong> Nhóm 7–8B ở mức 3–5 giây, 14B lên 12 giây, 32B đạt 34.7 giây. Với các tính năng tương tác thời gian thực (chat, đấu trường), mức 34.7 giây là không dùng được.</p>
+          <p><strong>Chậm vì sinh nhiều token, không phải phục vụ chậm.</strong> Thời gian sinh mỗi token giữa các mô hình chênh nhau ít; khác biệt đến từ số lượng token phải sinh — 61.8% token của 32B nằm trong phần suy luận.</p>
+          <p><strong>Điện năng đi kèm.</strong> 32B tốn 4.16 Wh mỗi câu, gấp khoảng 11 lần Qwen — là chi phí vận hành thực tế.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 10</b><span>Thời gian phản hồi và điện năng (concurrency = 1)</span></div>
+  </section>
+
+  <!-- ===== SLIDE 11 — LỖI + CJK ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">11</span><span>Phân tích lỗi</span></div>
+    <h1 class="title">Lỗi chủ yếu là tính toán; một lỗi ngoài dự kiến là rò chữ Hán</h1>
+    <p class="instruction">Cơ cấu lỗi tính trên bộ đề khó, nơi có đủ câu sai để phân tích. Rò chữ Hán là đặc tính riêng của dòng R1-Distill, không phải hiện tượng chung của LLM.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="legend"><span><i style="background:var(--series-rag)"></i>Tỉ lệ rò chữ Hán vào đáp án (gộp hai chế độ)</span></div>
+        <div class="chart" id="chart-cjk"></div>
+      </div>
+      <div class="col">
+        <div class="panel read">
+          <h3>Nhận xét</h3>
+          <p><strong>Rò chữ Hán theo dòng mô hình, không theo cỡ.</strong> Llama (khác họ) 0.2%, Qwen 2.2%, nhưng cả ba mô hình R1-Distill đều 16–20%. Nguyên nhân là dữ liệu chưng cất nặng tiếng Trung.</p>
+          <p>Ví dụ thật từ log: <span class="mono">"…có thể他们是 đã tính sai số"</span> — chữ Hán chèn giữa câu tiếng Việt.</p>
+        </div>
+        <div class="panel">
+          <h3>Cơ cấu nguyên nhân lỗi (R1-32B, bộ khó)</h3>
+          <table class="cmp"><tbody>
+            <tr><td>Lỗi tính toán</td><td>73.3%</td></tr>
+            <tr><td>Ảo giác (bịa dữ kiện)</td><td>13.3%</td></tr>
+            <tr><td>Lỗi truy hồi</td><td>6.7%</td></tr>
+            <tr class="sum"><td>Số câu sai (mẫu số)</td><td>15 / 180</td></tr>
+          </tbody></table>
+        </div>
+        <div class="callout bad"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10" cy="10" r="7"/><path d="M10 6.5v4.5M10 13.4v.4"/></svg>
+          <div>Do rò chữ Hán, hệ thống phải có bộ chặn <span class="mono">_has_cjk</span> — nay đã áp cho toàn bộ tính năng (xem slide cuối).</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 11</b><span>Phân tích nguyên nhân lỗi và rò ngôn ngữ</span></div>
+  </section>
+
+  <!-- ===== SLIDE 12 — CHẤM BÀI CHI TIẾT ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">12</span><span>Bài toán 3 — Chấm bài</span></div>
+    <h1 class="title">R1-32B là mô hình chấm bài chính xác và an toàn nhất</h1>
+    <p class="instruction">Bộ đề chấm bài có nhãn biết trước do code sinh, nên đây là bài toán phân loại đo được khách quan, không cần AI chấm.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="legend"><span><i style="background:var(--series-rag)"></i>Độ chính xác chấm bài (prompt thuần)</span></div>
+        <div class="chart" id="chart-v3"></div>
+      </div>
+      <div class="col">
+        <div class="stats">
+          <div class="stat"><div class="v good">1.4%</div><div class="l">Đánh trượt bài ĐÚNG — R1-32B</div><div class="s">tỉ lệ False-Fail</div></div>
+          <div class="stat"><div class="v bad">18.3%</div><div class="l">Đánh trượt bài ĐÚNG — Qwen</div><div class="s">cao gấp khoảng 13 lần</div></div>
+        </div>
+        <div class="panel read" style="flex:1">
+          <h3>Nhận xét</h3>
+          <p><strong>32B đạt 92.1%</strong> trên tập nhãn khách quan, hơn mô hình kế tiếp 5.8 điểm và hơn nhóm 7–8B khoảng 17 điểm. Việc chọn 32B làm giám khảo vì thế dựa trên số đo, không phải giả định.</p>
+          <p><strong>Kiểu sai quan trọng hơn tỉ lệ chung.</strong> 32B hầu như không đánh trượt bài đúng (1.4%) — đúng loại sai mà sinh viên khiếu nại nhiều nhất. Qwen sai loại này tới 18.3%.</p>
+          <p><strong>Độ tin cậy của chính giám khảo cũng được đo:</strong> 94.3% trên các ca bài làm đầy đủ, đúng loại ca xảy ra khi chấm bài toán 2.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 12</b><span>Bài toán 3 — chấm bài và độ tin cậy giám khảo</span></div>
+  </section>
+
+  <!-- ===== V4-A — ĐỊNH NGHĨA VẤN ĐỀ 4 ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">13</span><span>Bài toán 4 — Đánh giá năng lực</span></div>
+    <h1 class="title">Đánh giá năng lực toán học — bài toán suy luận nhiều trục</h1>
+    <p class="instruction">Khác ba bài trước (một trục đúng/sai), mỗi bài làm được chấm đồng thời trên nhiều trục theo hai khung để dựng hồ sơ năng lực.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="panel" style="flex:1">
+          <div class="flow">
+            <div class="frow"><div class="node brand"><div class="t">Bài làm tự luận của SV + log xin gợi ý AI (5 mức)</div></div></div>
+            <div class="down-arrow">▾</div>
+            <div class="frow">
+              <div class="node"><div class="t">Khung SYLLABUS (CLO / kỹ năng)</div><div class="d">nhận diện phương pháp · phạm vi · trạng thái từng kỹ năng · quy phần nhờ AI → không độc lập</div></div>
+              <div class="node"><div class="t">Khung GMC (10 năng lực tổng quát)</div><div class="d">chỉ chấm chiều quan sát được · điểm bằng chứng 0–1 + độ tin cậy</div></div>
+            </div>
+            <div class="down-arrow">▾</div>
+            <div class="frow"><div class="node db"><div class="t">Điểm bài + bằng chứng → BE tổng hợp nhiều bài → hồ sơ năng lực</div><div class="d">BE không chấm lại, chỉ tổng hợp</div></div></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>7 phán quyết mỗi câu (chấm bằng code, nhãn người soạn)</h3>
+          <div class="taglist">
+            <span class="tag">đáp án khớp</span><span class="tag">phạm vi phương pháp</span><span class="tag">trạng thái kỹ năng</span>
+            <span class="tag">độc lập / nhờ AI</span><span class="tag">dải điểm</span><span class="tag">cờ cần xác nhận</span><span class="tag">số lỗi tối thiểu</span>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="panel read" style="flex:1">
+          <h3>Nhận xét</h3>
+          <p><strong>Yêu cầu nghiệp vụ số 1 — chống kết luận oan.</strong> Khi sinh viên giải đúng bằng phương pháp nâng cao (ví dụ dùng L'Hôpital ở chương chưa dạy đạo hàm), hệ thống tuyệt đối không được kết luận "hổng kiến thức". Đây là chỉ số quan trọng nhất, đo riêng bằng <span class="mono">no_false_gap</span>.</p>
+          <p><strong>Khắt khe hơn bài toán 3.</strong> Chấm bài (V3) là phân loại nhị phân nên dễ đạt 90%+. Bài toán 4 phải đúng đồng thời tối đa 7 phán quyết mỗi câu, nên con số tuyệt đối không so trực tiếp với bài toán 3.</p>
+        </div>
+        <div class="panel">
+          <h3>Bộ test</h3>
+          <table class="cmp"><tbody>
+            <tr><td>Số câu</td><td>135 (3 môn × 45)</td></tr>
+            <tr><td>Cấu trúc</td><td>9 kịch bản × 5 câu</td></tr>
+            <tr><td>Tổng lượt chấm</td><td>675 (135 × 5 model)</td></tr>
+            <tr><td>Pipeline</td><td>đúng production · không RAG · 2 call</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 13</b><span>Bài toán 4 — định nghĩa đánh giá năng lực</span></div>
+  </section>
+
+  <!-- ===== V4-B — KẾT QUẢ TỔNG ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">14</span><span>Bài toán 4 — Kết quả</span></div>
+    <h1 class="title">R1-32B dẫn đầu trung bình 7 phép kiểm — đúng bậc thang bốn bài toán</h1>
+    <p class="instruction">Dùng trung bình 7 phép (từng phán quyết riêng lẻ) làm chỉ số chính, không dùng item-pass 7/7 làm tiêu đề. Số liệu là bản đo lại sau khi vá lỗ hổng "đáp án trần" (17/07).</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="legend"><span><i style="background:var(--brand)"></i>Trung bình 7 phép kiểm (%)</span></div>
+        <div class="chart" id="chart-v4-mean"></div>
+      </div>
+      <div class="col">
+        <div class="stats">
+          <div class="stat"><div class="v good">84.3%</div><div class="l">R1-32B — trung bình 7 phép</div><div class="s">hơn 14B +6.8 · hơn baseline ~15–19</div></div>
+          <div class="stat"><div class="v bad">155s</div><div class="l">Độ trễ mỗi lượt chấm (32B)</div><div class="s">chấm bất đồng bộ qua worker</div></div>
+        </div>
+        <div class="panel">
+          <h3>Tỉ lệ đúng các phép KHÓ / phân biệt</h3>
+          <table class="cmp"><thead><tr><th>Phép kiểm</th><th>R1-32B</th><th>R1-14B</th><th>Qwen</th></tr></thead>
+          <tbody>
+            <tr><td>Trạng thái kỹ năng</td><td class="best">80.0</td><td>70.4</td><td>62.2</td></tr>
+            <tr><td>Dải điểm</td><td class="best">74.8</td><td>59.3</td><td>39.3</td></tr>
+            <tr><td>Cờ cần xác nhận</td><td class="best">86.7</td><td>80.7</td><td>80.7</td></tr>
+            <tr><td>Độc lập / nhờ AI</td><td class="best">98.5</td><td>79.3</td><td>70.4</td></tr>
+          </tbody></table>
+        </div>
+        <div class="callout warn"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 3l7 13H3z"/><path d="M10 8v4M10 14.5v.5"/></svg>
+          <div>Llama tách phần tự làm với phần nhờ AI chỉ đạt <b>46.7%</b> — đúng loại lỗi nguy hiểm cho nghiệp vụ này (tính nhầm phần AI tiết lộ thành năng lực sinh viên).</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 14</b><span>Bài toán 4 — kết quả trung bình 7 phép</span></div>
+  </section>
+
+  <!-- ===== V4-C — CHỐNG KẾT LUẬN OAN ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">15</span><span>Bài toán 4 — Chỉ số quan trọng nhất</span></div>
+    <h1 class="title">Chống kết luận oan đạt 100% ở cả năm mô hình</h1>
+    <p class="instruction">Khi sinh viên giải đúng bằng phương pháp nâng cao, không mô hình nào kết luận "hổng kiến thức" — kể cả các mô hình nhỏ vốn suy luận yếu.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="stats" style="grid-template-columns:1fr">
+          <div class="stat"><div class="v good" style="font-size:52px">100%</div><div class="l">no_false_gap — cả 5 mô hình</div><div class="s">21 ca giải đúng bằng phương pháp nâng cao · 0 ca bị gán oan "hổng kiến thức"</div></div>
+        </div>
+        <div class="panel" style="flex:1">
+          <table class="cmp"><thead><tr><th>Mô hình</th><th>Ca nâng cao</th><th>Bị gán oan</th><th>no_false_gap</th></tr></thead>
+          <tbody>
+            <tr><td>R1-32B</td><td>21</td><td>0</td><td class="best">100%</td></tr>
+            <tr><td>R1-14B</td><td>21</td><td>0</td><td class="best">100%</td></tr>
+            <tr><td>Qwen2.5-7B</td><td>21</td><td>0</td><td class="best">100%</td></tr>
+            <tr><td>R1-7B</td><td>21</td><td>0</td><td class="best">100%</td></tr>
+            <tr><td>Llama-3.1-8B</td><td>21</td><td>0</td><td class="best">100%</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+      <div class="col">
+        <div class="panel read" style="flex:1">
+          <h3>Vì sao đạt được kể cả mô hình yếu</h3>
+          <p><strong>Luật này không nằm trong prompt chấm.</strong> Kiểm thử cho thấy khi nhét luật vào prompt dài, mô hình phớt lờ — phương pháp L'Hôpital vẫn bị gán nhầm là kiến thức cốt lõi.</p>
+          <p><strong>Thay vào đó, cưỡng chế bằng code.</strong> Khi tên phương pháp không khớp danh sách được chấp nhận, hệ gọi một call phân loại phạm vi chuyên trách (prompt ngắn, một nhiệm vụ, có sẵn ví dụ L'Hôpital), rồi code ép nhãn "phương pháp nâng cao" và chặn kết luận hổng kiến thức.</p>
+        </div>
+        <div class="callout good"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Bài học phương pháp: <b>luật nghiệp vụ sống còn phải enforce bằng code hoặc call chuyên trách, đừng gửi gắm vào prompt dài.</b> Nhờ tách ra, chỉ số chống oan không phụ thuộc mô hình — đổi từ 32B xuống Qwen-7B vẫn 100%.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 15</b><span>Bài toán 4 — chống kết luận oan (no_false_gap)</span></div>
+  </section>
+
+  <!-- ===== V4-D — ĐIỂM YẾU & HÀNH ĐỘNG ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">16</span><span>Bài toán 4 — Từ đo lường đến hành động</span></div>
+    <h1 class="title">Bài toán 4: lỗ hổng đã được phát hiện, vá bằng code và đo lại</h1>
+    <p class="instruction">Benchmark tìm ra một lỗ hổng thật; nhóm vá bằng code rồi chạy lại toàn bộ 675 lượt để xác nhận hiệu quả — không dừng ở phát hiện.</p>
+    <div class="slide-body wide">
+      <div class="panel" style="padding:10px 12px">
+        <table class="cmp"><thead><tr><th style="width:26px">#</th><th style="text-align:left">Phát hiện</th><th style="text-align:left">Bằng chứng (đo)</th><th style="text-align:left">Hành động → hiệu quả sau khi vá</th><th>Mức</th></tr></thead>
+        <tbody style="font-size:12px">
+          <tr><td>1</td><td style="text-align:left"><b>Đáp án trần không lời giải bị chấm "thành thạo"</b></td><td style="text-align:left">RIGHT_ANSWER_NO_WORK 0% cả 5 mô hình; 32B cho "thành thạo" + 10đ dù bài không có dòng lời giải</td><td style="text-align:left">Luật code chặn + bật cờ cần xác nhận + trần điểm ⇒ <b class="up">0% → 91.7% (32B), đo lại xác nhận</b></td><td><span class="chip win">✅ đã vá</span></td></tr>
+          <tr><td>2</td><td style="text-align:left">Chấm rộng tay ở bài lỗi (dải điểm)</td><td style="text-align:left">Dải điểm là phép rớt nhiều nhất; bài sai số học vẫn được 8.0 (dải kỳ vọng 4–7)</td><td style="text-align:left">Siết trừ điểm + trần theo trạng thái thể hiện ⇒ <b class="up">dải điểm 68.1% → 74.8%</b></td><td><span class="chip win">✅ cải thiện</span></td></tr>
+          <tr><td>3</td><td style="text-align:left">Nhãn HINT_LIGHT lệch thiết kế</td><td style="text-align:left">32B chỉ rớt dải điểm, mọi phép khác đúng — do thiết kế cố ý không trừ điểm gợi ý nhẹ</td><td style="text-align:left">Nới nhãn test cho gợi ý nhẹ — đây là quyết định chính sách, không phải lỗi mô hình</td><td><span class="chip neu">🟢</span></td></tr>
+          <tr><td>4</td><td style="text-align:left"><b>Luật chống oan enforce bằng code là đúng hướng</b></td><td style="text-align:left">no_false_gap 100% cả 5 mô hình dù prompt-only thất bại</td><td style="text-align:left">Giữ nguyên; đã dùng lại đúng mẫu code-enforce này cho phát hiện #1</td><td><span class="chip win">✅</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="frow" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="callout good" style="margin:0"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Vá xong, trung bình 7 phép của 32B tăng <b>80.6% → 84.3%</b> mà chỉ số chống oan vẫn giữ 100% — bằng chứng hiệu chỉnh có hiệu quả, không phá vỡ phần đang đúng.</div></div>
+        <div class="callout good" style="margin:0"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Kịch bản 0% đồng loạt ở mọi mô hình là tín hiệu lỗi hệ thống, không phải mô hình kém — phải mổ xẻ phép nào rớt trước khi kết luận.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 16</b><span>Bài toán 4 — điểm yếu, vá và đo lại</span></div>
+  </section>
+
+  <!-- ===== SLIDE 13 — CHI PHÍ ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">13</span><span>Chi phí</span></div>
+    <h1 class="title">Tự host: chi phí không tăng theo lượng token, dữ liệu ở lại trường</h1>
+    <p class="instruction">Cùng khối lượng 11,36 triệu token của toàn thí nghiệm, quy đổi sang chi phí các API thương mại.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <div class="legend"><span><i style="background:var(--brand)"></i>Chi phí cho 11,36 triệu token (USD)</span></div>
+        <div class="chart" id="chart-cost"></div>
+      </div>
+      <div class="col">
+        <div class="stats">
+          <div class="stat"><div class="v bad">$49.74</div><div class="l">API GPT-4o</div><div class="s">tăng tuyến tính theo token</div></div>
+          <div class="stat"><div class="v good">$0.00</div><div class="l">DeepSeek-R1 tự host (token)</div><div class="s">chỉ tốn ~$2/giờ GPU</div></div>
+        </div>
+        <div class="panel read" style="flex:1">
+          <h3>Nhận xét</h3>
+          <p><strong>Điểm mấu chốt không phải "miễn phí".</strong> GPU RTX PRO 6000 trên RunPod tốn khoảng 2 USD mỗi giờ. Điểm mấu chốt là chi phí không tăng theo lượng token: dùng càng nhiều, chi phí trên mỗi câu càng thấp.</p>
+          <p><strong>Quan trọng hơn chi phí:</strong> bài làm của sinh viên không rời khỏi hạ tầng trường — điều mà API thương mại không bảo đảm được.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 13</b><span>Ước tính chi phí so với API thương mại</span></div>
+  </section>
+
+  <!-- ===== SLIDE 14 — VÌ SAO CHỌN 32B (TỔNG KẾT) ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">14</span><span>Kết luận</span></div>
+    <h1 class="title">Vì sao chọn DeepSeek-R1-32B — tổng kết căn cứ</h1>
+    <p class="instruction">Năm căn cứ đo được, một đánh đổi được nói thẳng, và cách khắc phục đánh đổi đó.</p>
+    <div class="slide-body two">
+      <div class="col">
+        <ol class="reasons">
+          <li><b>Chính xác nhất ở cả bốn bài toán:</b> ra đề 88.9%, giải toán khó 91.7%, chấm bài 92.1%, đánh giá năng lực 84.3% (TB 7 phép) — dẫn đầu tuyệt đối.</li>
+          <li><b>Vượt cả ba ngưỡng đặt trước</b> (88.9 ≥ 70, 91.7 ≥ 70, 92.1 ≥ 85) và dẫn đầu bài toán năng lực.</li>
+          <li><b>Chấm bài an toàn nhất:</b> chỉ 1.4% đánh trượt oan bài đúng, so với 7.0% của 14B và 18.3% của Qwen.</li>
+          <li><b>Hơn 14B chắc chắn ở hai nghiệp vụ chấm:</b> chấm bài +5.8/+6.5 điểm; năng lực +4.1 điểm và tách top ở các phép phân biệt (kỹ năng, dải điểm, cờ xác nhận).</li>
+          <li><b>Tự host:</b> chi phí token bằng 0, dữ liệu sinh viên không rời hạ tầng trường.</li>
+        </ol>
+      </div>
+      <div class="col">
+        <div class="panel">
+          <h3>Đối chiếu với ngưỡng đạt</h3>
+          <table class="cmp"><thead><tr><th>Bài toán</th><th>R1-32B</th><th>Ngưỡng</th><th>Kết luận</th></tr></thead>
+          <tbody>
+            <tr><td>Ra đề</td><td>88.9%</td><td>≥ 70%</td><td><span class="chip win">Đạt</span></td></tr>
+            <tr><td>Giải toán (khó)</td><td>91.7%</td><td>≥ 70%</td><td><span class="chip win">Đạt</span></td></tr>
+            <tr><td>Chấm bài</td><td>92.1%</td><td>≥ 85%</td><td><span class="chip win">Đạt</span></td></tr>
+            <tr><td>Năng lực (TB 7 phép)</td><td>84.3%</td><td>dẫn đầu</td><td><span class="chip win">Nhất</span></td></tr>
+          </tbody></table>
+        </div>
+        <div class="callout warn"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 3l7 13H3z"/><path d="M10 8v4M10 14.5v.5"/></svg>
+          <div><b>Đánh đổi:</b> 32B chậm (34.7s) và nặng (61 GiB). Cách xử lý: 32B đảm nhiệm các tác vụ chạy nền — chấm bài, ra đề; tuyến tương tác (chat, đấu trường) dùng mô hình 7B nhanh.</div></div>
+        <div class="callout good"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Không fine-tune: dữ liệu chưa thẩm định sư phạm; RAG cập nhật tức thì còn fine-tune phải train lại; lỗi chính là tính toán, thêm dữ liệu cùng miền không chữa được.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 14</b><span>Tổng kết căn cứ chọn R1-32B</span></div>
+  </section>
+
+  <!-- ===== SLIDE — CHỐNG MẶC ĐỊNH (TRƯỚC → SAU HIỆU CHỈNH) ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">21</span><span>Hiệu chỉnh &amp; hiệu quả</span></div>
+    <h1 class="title">Hệ thống không dùng tham số mặc định — mỗi thay đổi từ một số đo</h1>
+    <p class="instruction">Tham số sinh và luật nghiệp vụ đều được hiệu chỉnh từ một phát hiện đo được, rồi đo lại để xác nhận. Bảng dưới trải trên cả bốn bài toán.</p>
+    <div class="slide-body wide">
+      <div class="panel" style="padding:9px 12px">
+        <table class="cmp"><thead><tr>
+          <th style="text-align:left">Hạng mục (áp cho)</th><th style="text-align:left">Mặc định / Trước</th><th style="text-align:left">Đã hiệu chỉnh</th><th style="text-align:left">Hiệu quả đo được</th>
+        </tr></thead>
+        <tbody style="font-size:11.6px">
+          <tr><td style="text-align:left">Nhiệt độ sinh <span class="chip neu">mọi bài toán</span></td><td style="text-align:left">một mức chung (0.7–1.0)</td><td style="text-align:left">2 giai đoạn: suy luận 0.2 → ép đáp án 0.0</td><td style="text-align:left">đáp án cuối tất định, giảm ảo giác</td></tr>
+          <tr><td style="text-align:left">Ngân sách token <span class="chip neu">giải toán</span></td><td style="text-align:left">một con số chung 3.500</td><td style="text-align:left">riêng từng tác vụ; solve_full 5.500</td><td style="text-align:left">đề khó hết bị cắt JSON (cần max 4.691 tok)</td></tr>
+          <tr><td style="text-align:left">Chặn chữ Hán <span class="chip neu">mọi output</span></td><td style="text-align:left">chỉ 1/10 hàm có guard</td><td style="text-align:left">gom vào <span class="mono">generate_json</span>, phủ 10/10 hàm</td><td style="text-align:left"><b class="up">chặn rò CJK 20.2%</b> khỏi mọi tính năng SV đọc</td></tr>
+          <tr><td style="text-align:left">RAG khi chấm bài <span class="chip neu">chấm bài</span></td><td style="text-align:left">định bật RAG cho mọi tính năng</td><td style="text-align:left">tắt RAG khi chấm (đo ra RAG gây hại)</td><td style="text-align:left"><b class="up">giữ 92.1%</b> thay vì tụt còn 87.0%</td></tr>
+          <tr><td style="text-align:left">Bóc đáp án cuối <span class="chip neu">giải · chấm</span></td><td style="text-align:left">luật "lấy dòng sau marker"</td><td style="text-align:left">thêm bóc <span class="mono">\boxed{}</span> và <span class="mono">\( \)</span></td><td style="text-align:left"><b class="up">128/180 câu R1 hỏng → 0</b></td></tr>
+          <tr><td style="text-align:left">Chống kết luận oan <span class="chip neu">năng lực</span></td><td style="text-align:left">luật đặt trong prompt (bị phớt lờ)</td><td style="text-align:left">enforce bằng code + call phân loại chuyên trách</td><td style="text-align:left"><b class="up">no_false_gap 0 → 100%</b> cả 5 mô hình</td></tr>
+          <tr><td style="text-align:left">Đáp án trần không lời giải <span class="chip neu">năng lực</span></td><td style="text-align:left">chấm "thành thạo" + 10 điểm</td><td style="text-align:left">luật code chặn + bật cờ cần xác nhận</td><td style="text-align:left"><b class="up">RIGHT_ANSWER 0% → 91.7%</b> (đo lại)</td></tr>
+        </tbody></table>
+      </div>
+      <div class="callout good"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+        <div>Mỗi thay đổi xuất phát từ một phát hiện <b>đo được</b>, không phải phỏng đoán — và được <b>đo lại</b> để xác nhận. Nhờ vá lỗ hổng "đáp án trần", trung bình 7 phép của bài toán năng lực tăng <b>80.6% → 84.3%</b> mà chống oan vẫn 100%.</div></div>
+    </div>
+    <div class="footer"><b>Slide 21</b><span>Hiệu chỉnh tham số &amp; luật — chống mặc định</span></div>
+  </section>
+
+  <!-- ===== SLIDE 15 — 7 FIX ===== -->
+  <section class="slide">
+    <div class="kicker"><span class="n">15</span><span>Từ đo lường đến hành động</span></div>
+    <h1 class="title">Benchmark chỉ ra bảy điểm cần chỉnh trong hệ thống</h1>
+    <p class="instruction">Mỗi phát hiện kèm số đo, vị trí trong code và hành động. Bốn fix thuộc mã nguồn đã được áp dụng.</p>
+    <div class="slide-body wide">
+      <div class="panel" style="padding:10px 12px">
+        <table class="cmp"><thead><tr><th style="width:26px">#</th><th style="text-align:left">Phát hiện</th><th style="text-align:left">Số đo</th><th style="text-align:left">Hành động</th><th>Mức</th><th>Trạng thái</th></tr></thead>
+        <tbody style="font-size:11.8px">
+          <tr><td>1</td><td style="text-align:left">Bộ chặn <span class="mono">_has_cjk</span> chỉ áp cho 1/10 hàm</td><td style="text-align:left">32B rò CJK 20.2% · Llama 0.2%</td><td style="text-align:left">Gom vào <span class="mono">generate_json</span>, áp cho mọi hàm</td><td><span class="chip lose">🔴</span></td><td><span class="chip win">đã áp</span></td></tr>
+          <tr><td>2</td><td style="text-align:left">Ngân sách suy luận quá thấp</td><td style="text-align:left">đề khó cần 4.691 token, trần cũ 3.500</td><td style="text-align:left">Nâng <span class="mono">solve_full</span> lên 5.500</td><td><span class="chip neu">🟡</span></td><td><span class="chip win">đã áp</span></td></tr>
+          <tr><td>3</td><td style="text-align:left">RAG gây hại cho tác vụ đối chiếu</td><td style="text-align:left">chấm bài 92.1% → 87.0% (4/5 mô hình)</td><td style="text-align:left">Thêm cờ <span class="mono">EXPLAIN_MISTAKE_USE_RAG</span></td><td><span class="chip neu">🟡</span></td><td><span class="chip win">đã áp</span></td></tr>
+          <tr><td>4</td><td style="text-align:left">Bóc đáp án không chịu được <span class="mono">\boxed{}</span></td><td style="text-align:left">luật cũ hỏng 128/180 câu R1</td><td style="text-align:left"><span class="mono">extract_final_answer</span> trong utils</td><td><span class="chip neu">🟡</span></td><td><span class="chip win">có sẵn</span></td></tr>
+          <tr><td>5</td><td style="text-align:left">Tài liệu MAD101 bị trùng</td><td style="text-align:left">405 đoạn cũ chưa xoá</td><td style="text-align:left">Script SQL dedup (chạy trên VPS)</td><td><span class="chip neu">🟢</span></td><td><span class="chip neu">script sẵn</span></td></tr>
+          <tr><td>6</td><td style="text-align:left">Lý thuyết MAS291 quá ít</td><td style="text-align:left">198 so với 1.427 đoạn (kém 7 lần)</td><td style="text-align:left">Bổ sung tài liệu MAS291</td><td><span class="chip neu">🟢</span></td><td><span class="chip neu">nội dung</span></td></tr>
+          <tr><td>7</td><td style="text-align:left">32B quá chậm cho chat / đấu trường</td><td style="text-align:left">34.7s so với Qwen 3.3s</td><td style="text-align:left">Tách 7B cho tuyến tương tác</td><td><span class="chip neu">🟢</span></td><td><span class="chip neu">hạ tầng</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="frow" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div class="callout good" style="margin:0"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Một bộ test không phân biệt được mô hình thì không chứng minh được gì — phải có bộ khó.</div></div>
+        <div class="callout good" style="margin:0"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>RAG không phải lúc nào cũng tốt — gây hại khi nhiệm vụ là đối chiếu hai thứ đã có trong prompt.</div></div>
+        <div class="callout good" style="margin:0"><svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+          <div>Phải đo cả hai chế độ cho mọi tính năng, không giả định cấu hình nào tốt hơn.</div></div>
+      </div>
+    </div>
+    <div class="footer"><b>Slide 15</b><span>Bảy phương án chỉnh sửa rút ra từ benchmark</span></div>
+  </section>
+
+</div>
+
+<div class="hint">Điều hướng: phím <b>←</b> / <b>→</b> hoặc nút góc phải · Xuất PDF: Ctrl/Cmd&nbsp;+&nbsp;P (chọn khổ ngang).</div>
+
+<div class="navbar">
+  <button id="prev" title="Slide trước">←</button>
+  <div class="lbl" id="counter">1 / 16</div>
+  <button id="next" title="Slide sau">→</button>
+</div>
+
+<script>
+const CSS = getComputedStyle(document.documentElement);
+const cvar = n => CSS.getPropertyValue(n).trim() || {
+  '--series-pure':'#eb6834','--series-rag':'#2a78d6','--brand':'#2a78d6',
+  '--muted':'#8a877f','--line':'#e4e2da','--ink':'#141310','--bad':'#d03b3b'}[n] || '#2a78d6';
+
+function barChart(elId, {cats, series, max=100, unit='%', w=560, h=330, decimals=0}){
+  const el = document.getElementById(elId); if(!el) return;
+  const padL=40, padR=14, padT=18, padB=46;
+  const iw = w-padL-padR, ih = h-padT-padB;
+  const n = cats.length, m = series.length;
+  const groupW = iw/n, barGap=6, sideGap=groupW*0.16;
+  const barW = (groupW - 2*sideGap - barGap*(m-1))/m;
+  const y = v => padT + ih - (v/max)*ih;
+  const muted=cvar('--muted'), ink=cvar('--ink');
+  let s = `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Biểu đồ cột">`;
+  const step = max<=10?2 : (max<=50?10:20);
+  for(let g=0; g<=max+0.001; g+=step){
+    const yy=y(g);
+    s+=`<line class="grid" x1="${padL}" y1="${yy}" x2="${w-padR}" y2="${yy}"/>`;
+    s+=`<text class="axis-lbl" x="${padL-6}" y="${yy+3}" text-anchor="end">${g}</text>`;
+  }
+  s+=`<line class="baseline" x1="${padL}" y1="${y(0)}" x2="${w-padR}" y2="${y(0)}"/>`;
+  cats.forEach((c,i)=>{
+    const gx = padL + i*groupW + sideGap;
+    series.forEach((se,j)=>{
+      const v = se.values[i]; if(v==null) return;
+      const bx = gx + j*(barW+barGap);
+      const by = y(v), bh = y(0)-by;
+      s+=`<rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(0,bh).toFixed(1)}" rx="4" fill="${se.color}"><title>${c} · ${se.name}: ${v}${unit}</title></rect>`;
+      s+=`<text class="bar-val" x="${(bx+barW/2).toFixed(1)}" y="${(by-6).toFixed(1)}" text-anchor="middle" fill="${ink}">${v.toFixed(decimals)}</text>`;
+    });
+    const cx=(padL+i*groupW+groupW/2).toFixed(1);
+    let ct=`<text class="cat-lbl" x="${cx}" y="${h-padB+20}" text-anchor="middle">`;
+    String(c).split('\n').forEach((ln,k)=>{ ct+=`<tspan x="${cx}" dy="${k===0?0:13}">${ln}</tspan>`; });
+    s+=ct+`</text>`;
+  });
+  s+=`</svg>`;
+  el.innerHTML = s;
+}
+
+const PURE=cvar('--series-pure'), RAG=cvar('--series-rag'), BRAND=cvar('--brand');
+
+// Slide 7 — quality grouped (3 problems), 5 models best-mode
+document.getElementById('legend-quality').innerHTML =
+  ['#2a78d6:R1-32B','#5598e7:R1-14B','#93b7e6:R1-7B','#eb6834:Qwen2.5-7B','#f0a07f:Llama-3.1-8B']
+  .map(x=>{const[c,n]=x.split(':');return `<span><i style="background:${c}"></i>${n}</span>`}).join('');
+barChart('chart-quality',{
+  cats:['Ra đề','Giải toán khó','Chấm bài'],
+  max:100, unit:'%',
+  series:[
+    {name:'R1-32B', color:'#2a78d6', values:[88.9,91.7,92.1]},
+    {name:'R1-14B', color:'#5598e7', values:[85.2,86.1,86.3]},
+    {name:'R1-7B',  color:'#93b7e6', values:[66.7,76.7,75.5]},
+    {name:'Qwen',   color:'#eb6834', values:[63.0,76.1,79.9]},
+    {name:'Llama',  color:'#f0a07f', values:[59.3,50.0,78.4]},
+  ]
+});
+
+// Slide 8 — easy vs hard (giải toán), 5 models
+barChart('chart-hard',{
+  cats:['Qwen','Llama','R1-7B','R1-14B','R1-32B'],
+  max:100, unit:'%',
+  series:[
+    {name:'Bộ chuẩn', color:PURE, values:[94.4,71.7,95.6,97.2,96.1]},
+    {name:'Bộ khó',   color:RAG,  values:[73.3,43.9,76.1,85.0,89.4]},
+  ]
+});
+
+// Slide 9 — prompt vs RAG (32B), 3 problems
+barChart('chart-rag',{
+  cats:['Ra đề','Giải toán khó','Chấm bài'],
+  max:100, unit:'%',
+  series:[
+    {name:'Prompt thuần', color:PURE, values:[88.9,89.4,92.1]},
+    {name:'Prompt + RAG', color:RAG,  values:[85.2,91.7,87.0]},
+  ]
+});
+
+// Slide 10 — latency
+barChart('chart-latency',{
+  cats:['Qwen\n7B','Llama\n8B','R1-7B','R1-14B','R1-32B'],
+  max:40, unit:'s', decimals:1,
+  series:[{name:'Thời gian phản hồi P50', color:BRAND, values:[3.3,3.5,4.9,12.0,34.7]}]
+});
+
+// Slide 11 — CJK leak
+barChart('chart-cjk',{
+  cats:['Llama\n8B','Qwen\n7B','R1-14B','R1-7B','R1-32B'],
+  max:25, unit:'%', decimals:1,
+  series:[{name:'Rò chữ Hán vào đáp án', color:RAG, values:[0.2,2.2,16.4,17.5,20.2]}]
+});
+
+// Slide 12 — V3 accuracy
+barChart('chart-v3',{
+  cats:['R1-7B','Llama','Qwen','R1-14B','R1-32B'],
+  max:100, unit:'%', decimals:1,
+  series:[{name:'Chấm bài', color:RAG, values:[75.5,74.8,79.9,86.3,92.1]}]
+});
+
+// Slide 13 — cost
+barChart('chart-cost',{
+  cats:['GPT-4o','deepseek\nchat','gpt-4o\nmini','Tự host'],
+  max:50, unit:'$', decimals:2,
+  series:[{name:'Chi phí', color:BRAND, values:[49.74,5.43,2.98,0.0]}]
+});
+
+// V4 — trung bình 7 phép (5 models, sau khi vá RIGHT_ANSWER_NO_WORK)
+barChart('chart-v4-mean',{
+  cats:['Llama\n8B','R1-7B','Qwen\n7B','R1-14B','R1-32B'],
+  max:100, unit:'%', decimals:1,
+  series:[{name:'TB 7 phép', color:BRAND, values:[65.7,69.8,72.9,77.5,84.3]}]
+});
+
+// ── đánh số slide động (chèn/bỏ slide không phải sửa số tay) ──
+const slides=[...document.querySelectorAll('.slide')];
+slides.forEach((s,i)=>{
+  const kn=s.querySelector('.kicker .n');
+  if(kn) kn.textContent=String(i).padStart(2,'0');
+  const fb=s.querySelector('.footer b');
+  if(fb && /^Slide/i.test(fb.textContent)) fb.textContent='Slide '+String(i).padStart(2,'0');
+});
+
+// ── navigation ──
+const counter=document.getElementById('counter');
+let idx=0;
+counter.textContent=`1 / ${slides.length}`;
+function go(i){ idx=Math.max(0,Math.min(slides.length-1,i));
+  slides[idx].scrollIntoView({behavior:'smooth',block:'center'});
+  counter.textContent=`${idx+1} / ${slides.length}`; }
+document.getElementById('next').onclick=()=>go(idx+1);
+document.getElementById('prev').onclick=()=>go(idx-1);
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();go(idx+1);}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(idx-1);}
+});
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  idx=slides.indexOf(e.target); counter.textContent=`${idx+1} / ${slides.length}`;}})},
+  {threshold:.6});
+slides.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

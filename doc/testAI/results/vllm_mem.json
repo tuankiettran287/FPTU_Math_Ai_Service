@@ -1,0 +1,42 @@
+{
+ "qwen7b": {
+  "weights_gib": 14.2488,
+  "load_seconds_engine": 26.159578,
+  "kv_cache_gib": 13.39,
+  "kv_cache_tokens": 250736,
+  "cuda_graph_gib": 0.45,
+  "total_reserved_gib": 28.09
+ },
+ "r1_7b": {
+  "weights_gib": 14.2717,
+  "load_seconds_engine": 34.720736,
+  "kv_cache_gib": 13.37,
+  "kv_cache_tokens": 250304,
+  "cuda_graph_gib": 0.45,
+  "total_reserved_gib": 28.09
+ },
+ "r1_32b": {
+  "weights_gib": 61.0609,
+  "load_seconds_engine": 161.219201,
+  "kv_cache_gib": 18.78,
+  "kv_cache_tokens": 76928,
+  "cuda_graph_gib": 0.82,
+  "total_reserved_gib": 80.66
+ },
+ "llama8b": {
+  "weights_gib": 14.9889,
+  "load_seconds_engine": 28.14301,
+  "kv_cache_gib": 8.75,
+  "kv_cache_tokens": 71712,
+  "cuda_graph_gib": 0.47,
+  "total_reserved_gib": 24.21
+ },
+ "r1_14b": {
+  "weights_gib": 27.5916,
+  "load_seconds_engine": 92.47588,
+  "kv_cache_gib": 14.27,
+  "kv_cache_tokens": 77904,
+  "cuda_graph_gib": 0.62,
+  "total_reserved_gib": 42.48
+ }
+}

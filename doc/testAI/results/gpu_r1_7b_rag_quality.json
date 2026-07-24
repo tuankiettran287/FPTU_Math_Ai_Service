@@ -1,0 +1,15 @@
+{
+ "model": "r1_7b",
+ "mode": "rag",
+ "kind": "quality",
+ "vram_mean": 73266.30588235294,
+ "vram_peak": 73825.0,
+ "model_vram_mean": 35400.0,
+ "model_vram_peak": 35400.0,
+ "util_mean": 93.23529411764706,
+ "util_peak": 100.0,
+ "power_mean": 376.38876470588235,
+ "power_peak": 608.94,
+ "duration_s": 179.52091286610812,
+ "energy_wh": 0.10373567781952783
+}

@@ -1,0 +1,15 @@
+{
+ "model": "qwen7b",
+ "mode": "rag",
+ "kind": "quality",
+ "vram_mean": 73257.03389830509,
+ "vram_peak": 73259.0,
+ "model_vram_mean": 35376.03389830508,
+ "model_vram_peak": 35378.0,
+ "util_mean": 92.53389830508475,
+ "util_peak": 100.0,
+ "power_mean": 385.94372881355935,
+ "power_peak": 599.36,
+ "duration_s": 124.67633230006322,
+ "energy_wh": 0.07359062105669381
+}

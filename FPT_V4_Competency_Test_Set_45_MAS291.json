@@ -1,0 +1,2554 @@
+{
+  "_spec": {
+    "version": "1.0",
+    "muc_dich": "Bộ test Vấn đề 4 — đánh giá năng lực chấm bài của model qua endpoint /api/v1/competency/grade. Mỗi item = 1 câu hỏi + 1 bài làm sinh viên VIẾT SẴN + nhãn ĐÚNG biết trước (expected). Harness gửi (question, student_answer, hint_events) cho AI chấm, rồi SO NHÃN BẰNG CODE — không cần LLM giám khảo, không ai vặn được (bài học V3).",
+    "so_file": "FPT_V4_Competency_Test_Set_45_MAS291.json",
+    "so_cau_moi_file": "45 câu, phân bố đúng theo _distribution_per_file",
+    "quy_tac_soan": [
+      "skill_id/clo_id phải là id THẬT trong FPT_Math_Competency_Framework_MAE101_MAD101_MAS291_v1.json (vd MAE-CLO1-S02).",
+      "student_answer phải viết như bài làm THẬT của sinh viên: trình bày TỪNG BƯỚC, có thể dùng LaTeX $..$; ca sai số thì con số sai phải truy được (vd 3×7=24).",
+      "Ca ADVANCED: phương pháp phải THẬT SỰ ngoài syllabus/nâng cao hơn (vd dùng L'Hôpital khi unit chỉ mới học giới hạn cơ bản; dùng đạo hàm tìm min/max thay vì bất đẳng thức; MAD dùng hàm sinh thay vì truy hồi; MAS dùng MGF thay vì tính trực tiếp) — và bài giải phải ĐÚNG.",
+      "difficulty đa số medium/hard (framework yêu cầu bằng chứng medium/hard cho mastery); easy tối đa 1/5 số câu.",
+      "accepted_methods CỐ Ý chỉ liệt kê phương pháp trong syllabus — để kiểm tra model có nhận ra phương pháp ngoài danh sách vẫn hợp lệ hay không.",
+      "expected.method_scope_level cho phép MẢNG khi ranh giới mờ (BEYOND_FPT_VALID vs ADVANCED_GENERALIZATION đều chấp nhận).",
+      "score_band là khoảng điểm chấp nhận trên thang points của câu — nới tay (±2/10) vì chấm tự luận có dao động hợp lý.",
+      "hint_events chỉ có ở 2 kịch bản HINT_*; revealed phải khai trung thực AI đã lộ gì; draft_at_request là bài làm dở TRƯỚC khi xin hint."
+    ],
+    "_distribution_per_file": {
+      "CORE_CORRECT": "5 câu — giải đúng, đủ bước, đúng phương pháp chuẩn syllabus",
+      "ALT_CORRECT": "5 câu — giải đúng bằng phương pháp thay thế hợp lệ trong mức môn",
+      "ADVANCED_CORRECT": "7 câu — giải ĐÚNG bằng phương pháp ngoài syllabus/nâng cao (trọng tâm chống kết luận oan: expect ADVANCED_BYPASS, CẤM KNOWLEDGE_GAP)",
+      "CALC_SLIP": "6 câu — phương pháp đúng nhưng sai phép tính giữa chừng → đáp số sai (expect PARTIALLY + chỉ ra được lỗi)",
+      "CONCEPT_WRONG": "6 câu — sai bản chất khái niệm / phương pháp không hợp lệ (expect KNOWLEDGE_GAP + INVALID_OR_UNJUSTIFIED)",
+      "RIGHT_ANSWER_NO_WORK": "4 câu — đáp số đúng nhưng nhảy bước/không lập luận (expect PARTIALLY, không được DEMONSTRATED trọn)",
+      "OFF_TOPIC": "3 câu — làm lạc đề/không liên quan (expect NOT_DEMONSTRATED, KHÔNG phải KNOWLEDGE_GAP)",
+      "HINT_HEAVY": "5 câu — có hint_events mức 4-5 (Dàn ý/Lời giải đầy đủ) rồi mới làm đúng (expect independent=false toàn bộ + must_flag_confirmation=true)",
+      "HINT_LIGHT": "4 câu — có hint mức 1-2 (Khái niệm/Phương pháp) nhưng phần tính toán tự làm (expect skill chính vẫn independent=true)"
+    },
+    "cham_bang_code": "So expected với response: answers_match == syllabus_frame.answers_match; method_scope_level ∈ expected (mảng); từng skill: status ∈ expected.status (mảng cho phép), independent == expected; question_score ∈ score_band; needs_confirmation == must_flag_confirmation; số mistakes ≥ min_mistakes. Mỗi phép so = 1 chỉ số, báo cáo % đạt theo kịch bản."
+  },
+  "items": [
+    {
+      "test_id": "V4_MAS291_001",
+      "subject": "MAS291",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_001",
+        "question_text": "Một bệnh có prevalence 2%. Test có sensitivity 95% và specificity 90%. Tính $P(D\\mid +)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$P(+)=0.95(0.02)+0.10(0.98)=0.117$; Bayes cho $0.019/0.117\\approx0.1624$.",
+        "final_answer": "$0.1624$",
+        "accepted_methods": [
+          {
+            "name": "Định lý Bayes",
+            "scope_level": "FPT_CORE",
+            "outline": "Lập xác suất dương toàn phần rồi tính xác suất hậu nghiệm."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO2-S07",
+          "name": "Áp dụng định lý Bayes"
+        }
+      ],
+      "student_answer": "Gọi D là mắc bệnh. $P(+)=P(+|D)P(D)+P(+|D^c)P(D^c)=0.95\\cdot0.02+0.10\\cdot0.98=0.117$. Do đó $P(D|+)=0.019/0.117\\approx0.1624$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO2-S07",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_002",
+      "subject": "MAS291",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_002",
+        "question_text": "$X\\sim Bin(8,0.3)$. Tính $P(X=2)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\binom82(0.3)^2(0.7)^6\\approx0.2965$.",
+        "final_answer": "$0.2965$",
+        "accepted_methods": [
+          {
+            "name": "Công thức nhị thức",
+            "scope_level": "FPT_CORE",
+            "outline": "Chọn 2 thành công và nhân xác suất."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO3-S05",
+          "name": "Áp dụng phân phối đều rời rạc và nhị thức"
+        }
+      ],
+      "student_answer": "$P(X=2)=\\binom82(0.3)^2(0.7)^6=28\\cdot0.09\\cdot0.117649\\approx0.2965$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO3-S05",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_003",
+      "subject": "MAS291",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_003",
+        "question_text": "$X\\sim N(100,15^2)$. Tính z-score của $x=130$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$z=(130-100)/15=2$.",
+        "final_answer": "$z=2$",
+        "accepted_methods": [
+          {
+            "name": "Chuẩn hóa phân phối chuẩn",
+            "scope_level": "FPT_CORE",
+            "outline": "Dùng z=(x-mu)/sigma."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO4-S06",
+          "name": "Chuẩn hóa và áp dụng phân phối chuẩn"
+        }
+      ],
+      "student_answer": "$z=\\frac{130-100}{15}=\\frac{30}{15}=2$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO4-S06",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_004",
+      "subject": "MAS291",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_004",
+        "question_text": "Mẫu $n=64$, $\\bar x=50$, biết $\\sigma=8$. Lập khoảng tin cậy 95% cho $\\mu$, dùng $z^*=1.96$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$SE=8/8=1$; khoảng $50\\pm1.96=(48.04,51.96)$.",
+        "final_answer": "$(48.04,51.96)$",
+        "accepted_methods": [
+          {
+            "name": "Khoảng Z cho trung bình",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính SE và sai số biên."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO7-S02",
+          "name": "Lập khoảng cho trung bình khi biết phương sai"
+        }
+      ],
+      "student_answer": "Vì biết $\\sigma$, dùng khoảng Z. $SE=\\sigma/\\sqrt n=8/8=1$. Sai số biên $E=1.96$. Khoảng là $(50-1.96,50+1.96)=(48.04,51.96)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO7-S02",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_005",
+      "subject": "MAS291",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_005",
+        "question_text": "Biết $\\sigma=12,n=36,\\bar x=104$. Kiểm định $H_0:\\mu=100$ so với $H_1:\\mu>100$. Tính z.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$SE=12/6=2$, $z=(104-100)/2=2$.",
+        "final_answer": "$z=2$",
+        "accepted_methods": [
+          {
+            "name": "Z-test một mẫu",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính sai số chuẩn và thống kê kiểm định."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO8-S04",
+          "name": "Tính và diễn giải thống kê kiểm định"
+        }
+      ],
+      "student_answer": "$SE=12/\\sqrt{36}=2$. Do đó $z=(104-100)/2=2$. Đây là thống kê kiểm định phía phải.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO8-S04",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_006",
+      "subject": "MAS291",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_006",
+        "question_text": "M1 sản xuất 60% với lỗi 2%; M2 sản xuất 40% với lỗi 5%. Sản phẩm bị lỗi. Tính xác suất từ M2.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$P(L)=0.6(0.02)+0.4(0.05)=0.032$; $P(M2|L)=0.625$.",
+        "final_answer": "$0.625$",
+        "accepted_methods": [
+          {
+            "name": "Bayes bằng công thức",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính xác suất toàn phần rồi Bayes."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO2-S07",
+          "name": "Áp dụng định lý Bayes"
+        }
+      ],
+      "student_answer": "Em dùng cây xác suất. Nhánh M1-lỗi có xác suất 0.012, nhánh M2-lỗi có 0.020. Trong tổng khối lượng xác suất lỗi 0.032, phần thuộc M2 là $0.020/0.032=0.625$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO2-S07",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_007",
+      "subject": "MAS291",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_007",
+        "question_text": "$X\\sim Bin(10,0.2)$. Tính $P(X\\ge1)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$1-P(X=0)=1-0.8^{10}\\approx0.8926$.",
+        "final_answer": "$0.8926$",
+        "accepted_methods": [
+          {
+            "name": "Biến cố bù",
+            "scope_level": "FPT_CORE",
+            "outline": "Dùng 1 trừ xác suất không thành công."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO3-S05",
+          "name": "Áp dụng phân phối đều rời rạc và nhị thức"
+        }
+      ],
+      "student_answer": "Thay vì cộng từ 1 đến 10, em lấy biến cố bù: $P(X\\ge1)=1-P(X=0)=1-(0.8)^{10}\\approx1-0.107374=0.892626$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO3-S05",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_008",
+      "subject": "MAS291",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_008",
+        "question_text": "$Z\\sim N(0,1)$. Biết $\\Phi(1.5)=0.9332$. Tính $P(-1.5<Z<1.5)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$2\\Phi(1.5)-1=0.8664$.",
+        "final_answer": "$0.8664$",
+        "accepted_methods": [
+          {
+            "name": "Đối xứng chuẩn",
+            "scope_level": "FPT_CORE",
+            "outline": "Dùng Phi(1.5)-Phi(-1.5)."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO4-S06",
+          "name": "Chuẩn hóa và áp dụng phân phối chuẩn"
+        }
+      ],
+      "student_answer": "Do phân phối chuẩn đối xứng, hai đuôi ngoài $[-1.5,1.5]$ bằng nhau. Đuôi phải là $1-0.9332=0.0668$, nên xác suất giữa là $1-2(0.0668)=0.8664$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO4-S06",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_009",
+      "subject": "MAS291",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_009",
+        "question_text": "Mẫu $n=100,\\bar x=20,\\sigma=5$. Lập khoảng tin cậy 95% cho $\\mu$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$SE=0.5$, khoảng $20\\pm0.98=(19.02,20.98)$.",
+        "final_answer": "$(19.02,20.98)$",
+        "accepted_methods": [
+          {
+            "name": "Khoảng Z",
+            "scope_level": "FPT_CORE",
+            "outline": "Dùng xbar±1.96 sigma/sqrt(n)."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO7-S02",
+          "name": "Lập khoảng cho trung bình khi biết phương sai"
+        }
+      ],
+      "student_answer": "Em chuẩn hóa bất đẳng thức $P(-1.96\\le(\\bar X-\\mu)/(5/10)\\le1.96)=0.95$, rồi giải theo $\\mu$. Kết quả $20\\pm1.96(0.5)$, tức $(19.02,20.98)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO7-S02",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_010",
+      "subject": "MAS291",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_010",
+        "question_text": "Cho dữ liệu $(1,2),(2,3),(3,5)$. Tính slope hồi quy y theo x.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\bar x=2,\\bar y=10/3$, $S_{xy}=3,S_{xx}=2$, slope=1.5.",
+        "final_answer": "$b_1=1.5$",
+        "accepted_methods": [
+          {
+            "name": "Công thức least squares",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính Sxy/Sxx."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO9-S03",
+          "name": "Tính hoặc đọc hệ số góc và hệ số chặn"
+        }
+      ],
+      "student_answer": "Em lập hệ phương trình chuẩn của bình phương tối thiểu. $\\sum y=3b_0+b_1\\sum x$ cho $10=3b_0+6b_1$. $\\sum xy=b_0\\sum x+b_1\\sum x^2$ cho $23=6b_0+14b_1$. Nhân phương trình đầu với 2 rồi trừ phương trình sau: $20-23=12b_0-6b_0+12b_1-14b_1$, suy ra $-3=6b_0-2b_1$. Kết hợp với phương trình đầu, giải được $b_1=1.5$ và $b_0=1/3$. Vậy slope bằng 1.5.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO9-S03",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_011",
+      "subject": "MAS291",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_011",
+        "question_text": "$X\\sim Bin(n,p)$. Tìm $E(X)$ và $Var(X)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Xem X là tổng Bernoulli hoặc dùng công thức; $E=np$, $Var=np(1-p)$.",
+        "final_answer": "$E=np,\\ Var=np(1-p)$",
+        "accepted_methods": [
+          {
+            "name": "Tổng các Bernoulli",
+            "scope_level": "FPT_CORE",
+            "outline": "Viết X là tổng biến chỉ báo độc lập."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO3-S04",
+          "name": "Tính kỳ vọng và phương sai"
+        }
+      ],
+      "student_answer": "Dùng MGF $M_X(t)=(1-p+pe^t)^n$. Ta có $M'_X(0)=np$. Tính $M''_X(0)=n(n-1)p^2+np$, nên $Var(X)=M''(0)-[M'(0)]^2=np(1-p)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO3-S04",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAS291_012",
+      "subject": "MAS291",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_012",
+        "question_text": "Nếu $X\\sim Pois(2)$, $Y\\sim Pois(3)$ độc lập, tìm phân phối của $X+Y$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Tổng Poisson độc lập là Poisson với tham số 5.",
+        "final_answer": "$X+Y\\sim Pois(5)$",
+        "accepted_methods": [
+          {
+            "name": "Tính chập hoặc định lý tổng Poisson",
+            "scope_level": "FPT_CORE",
+            "outline": "Chứng minh PMF hoặc dùng tính chất đã học."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO3-S08",
+          "name": "Áp dụng phân phối Poisson"
+        }
+      ],
+      "student_answer": "Dùng probability generating function: $G_X(s)=e^{2(s-1)}$, $G_Y(s)=e^{3(s-1)}$. Độc lập nên $G_{X+Y}=G_XG_Y=e^{5(s-1)}$, là PGF của $Pois(5)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO3-S08",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAS291_013",
+      "subject": "MAS291",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_013",
+        "question_text": "Dữ liệu $8,9,10,11,12$. Hãy đưa ra một khoảng ước lượng 95% cho trung bình bằng một phương pháp hợp lệ.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Phương pháp syllabus: khoảng t với $\\bar x=10,s=\\sqrt{2.5},df=4$.",
+        "final_answer": "Một khoảng 95% hợp lệ kèm phương pháp",
+        "accepted_methods": [
+          {
+            "name": "Khoảng t",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính xbar±t*s/sqrt(n)."
+          }
+        ],
+        "grading_notes": "accepted_methods chỉ ghi khoảng t; bootstrap đúng nhưng ngoài syllabus."
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO7-S03",
+          "name": "Lập khoảng cho trung bình khi chưa biết phương sai"
+        }
+      ],
+      "student_answer": "Em dùng bootstrap percentile. Từ 10.000 mẫu bootstrap, các phân vị 2.5% và 97.5% của trung bình lần lượt là 8.8 và 11.2. Vì vậy khoảng bootstrap 95% là $(8.8,11.2)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO7-S03",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAS291_014",
+      "subject": "MAS291",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_014",
+        "question_text": "Với $n=10,x=9$ thành công, kiểm định $H_0:p=0.5$ hai phía ở mức 5%.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Phương pháp syllabus dùng z-test tỉ lệ nếu điều kiện phù hợp; với mẫu nhỏ có thể cần thận trọng.",
+        "final_answer": "Bác bỏ $H_0$",
+        "accepted_methods": [
+          {
+            "name": "Kiểm định tỉ lệ theo xấp xỉ chuẩn",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính z và p-value nếu điều kiện cho phép."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO8-S04",
+          "name": "Tính và diễn giải thống kê kiểm định"
+        }
+      ],
+      "student_answer": "Em dùng exact binomial test vì n nhỏ. Dưới $H_0$, xác suất quan sát ít nhất 9 thành công là $(\\binom{10}{9}+\\binom{10}{10})/2^{10}=11/1024$. Hai phía cho $p=22/1024\\approx0.0215<0.05$, nên bác bỏ $H_0$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO8-S04",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAS291_015",
+      "subject": "MAS291",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_015",
+        "question_text": "Biết $\\sigma=4,n=16,\\bar x=12$. Kiểm định $H_0:\\mu=10$ hai phía.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Z-test: $z=(12-10)/(4/4)=2$, p≈0.0455, bác bỏ ở 5%.",
+        "final_answer": "Bác bỏ $H_0$ ở mức 5%",
+        "accepted_methods": [
+          {
+            "name": "Z-test một mẫu",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính z và so p-value/critical value."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO8-S04",
+          "name": "Tính và diễn giải thống kê kiểm định"
+        }
+      ],
+      "student_answer": "Em dùng likelihood-ratio test cho mô hình chuẩn biết phương sai. Thống kê $-2\\log\\Lambda=n(\\bar x-\\mu_0)^2/\\sigma^2=16\\cdot4/16=4$. Theo $\\chi^2_1$, p-value bằng khoảng 0.0455, nên bác bỏ $H_0$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO8-S04",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAS291_016",
+      "subject": "MAS291",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_016",
+        "question_text": "$X_i$ độc lập có $E(X_i)=4,Var(X_i)=9$. Với n=100, xấp xỉ phân phối của $\\log\\bar X$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Trong syllabus có thể trước hết áp dụng CLT cho xbar; phương pháp nâng cao cho log dùng delta method.",
+        "final_answer": "$\\log\\bar X\\approx N(\\log4,9/(100\\cdot16))$",
+        "accepted_methods": [
+          {
+            "name": "CLT cho trung bình mẫu",
+            "scope_level": "FPT_CORE",
+            "outline": "Xấp xỉ xbar rồi biến đổi cẩn thận."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO6-S06",
+          "name": "Áp dụng CLT"
+        }
+      ],
+      "student_answer": "Theo CLT, $\\sqrt n(\\bar X-4)\\Rightarrow N(0,9)$. Dùng delta method với $g(x)=\\log x$, $g'(4)=1/4$, suy ra $\\log\\bar X\\approx N(\\log4,(1/4)^2\\cdot9/100)=N(\\log4,9/1600)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO6-S06",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAS291_017",
+      "subject": "MAS291",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_017",
+        "question_text": "Với các điểm $(1,2),(2,4),(3,6),(4,8),(5,100)$, hãy ước lượng xu hướng tuyến tính bền vững trước ngoại lệ.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Phương pháp syllabus là least squares; có thể nhận xét outlier trước khi fit.",
+        "final_answer": "Slope bền vững bằng 2",
+        "accepted_methods": [
+          {
+            "name": "Least squares sau kiểm tra ngoại lệ",
+            "scope_level": "FPT_CORE",
+            "outline": "Nhận diện outlier và ước lượng slope."
+          }
+        ],
+        "grading_notes": "Theil-Sen ngoài syllabus nhưng hợp lệ cho yêu cầu robust."
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO9-S03",
+          "name": "Tính hoặc đọc hệ số góc và hệ số chặn"
+        }
+      ],
+      "student_answer": "Em dùng Theil-Sen estimator. Có 10 slope theo từng cặp; 6 slope giữa bốn điểm đầu đều bằng 2, còn 4 slope nối với điểm $(5,100)$ lớn hơn nhiều. Khi sắp 10 slope, hai giá trị giữa (thứ 5 và thứ 6) đều bằng 2, nên median slope bằng 2. Vì vậy xu hướng bền vững có slope 2.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO9-S03",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAS291_018",
+      "subject": "MAS291",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_018",
+        "question_text": "Prevalence 10%, sensitivity 80%, specificity 90%. Tính $P(D|+)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$0.08/(0.08+0.09)=0.4706$.",
+        "final_answer": "$0.4706$",
+        "accepted_methods": [
+          {
+            "name": "Bayes",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính true positive và false positive."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO2-S07",
+          "name": "Áp dụng định lý Bayes"
+        }
+      ],
+      "student_answer": "$P(+)=0.8\\cdot0.1+0.1\\cdot0.9=0.17$. Em tính $P(D|+)=0.8/0.17=4.7059$, nên xác suất là 4.7059.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO2-S07",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_019",
+      "subject": "MAS291",
+      "scenario": "CALC_SLIP",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_019",
+        "question_text": "$X\\sim Bin(5,0.4)$. Tính $P(X=2)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\binom52(0.4)^2(0.6)^3=0.3456$.",
+        "final_answer": "$0.3456$",
+        "accepted_methods": [
+          {
+            "name": "Nhị thức",
+            "scope_level": "FPT_CORE",
+            "outline": "C(n,k)p^k(1-p)^(n-k)."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO3-S05",
+          "name": "Áp dụng phân phối đều rời rạc và nhị thức"
+        }
+      ],
+      "student_answer": "$P=\\binom52(0.4)^2(0.6)^3=10\\cdot0.16\\cdot0.216$. Em nhân được $0.3645$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO3-S05",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_020",
+      "subject": "MAS291",
+      "scenario": "CALC_SLIP",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_020",
+        "question_text": "Tổng thể có $\\sigma=20$, mẫu n=100. Tính standard error của $\\bar X$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$20/\\sqrt{100}=2$.",
+        "final_answer": "$2$",
+        "accepted_methods": [
+          {
+            "name": "Sai số chuẩn trung bình mẫu",
+            "scope_level": "FPT_CORE",
+            "outline": "sigma/sqrt(n)."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO6-S04",
+          "name": "Tính sai số chuẩn"
+        }
+      ],
+      "student_answer": "$SE=\\sigma/n=20/100=0.2$. Vậy sai số chuẩn là 0.2.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO6-S04",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_021",
+      "subject": "MAS291",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_021",
+        "question_text": "$n=25,\\bar x=40,\\sigma=10$. Lập CI 95% dùng 1.96.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$SE=2$, margin=3.92, CI=(36.08,43.92).",
+        "final_answer": "$(36.08,43.92)$",
+        "accepted_methods": [
+          {
+            "name": "Khoảng Z",
+            "scope_level": "FPT_CORE",
+            "outline": "xbar±1.96 sigma/sqrt(n)."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO7-S02",
+          "name": "Lập khoảng cho trung bình khi biết phương sai"
+        }
+      ],
+      "student_answer": "$SE=10/5=2$. Em tính margin $1.96\\cdot2=3.29$. Do đó khoảng là $(36.71,43.29)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO7-S02",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_022",
+      "subject": "MAS291",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_022",
+        "question_text": "$\\sigma=6,n=36,\\bar x=52$, kiểm định $H_0:\\mu=50$. Tính z.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$SE=1$, z=2.",
+        "final_answer": "$z=2$",
+        "accepted_methods": [
+          {
+            "name": "Z-test",
+            "scope_level": "FPT_CORE",
+            "outline": "(xbar-mu0)/(sigma/sqrt n)."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO8-S04",
+          "name": "Tính và diễn giải thống kê kiểm định"
+        }
+      ],
+      "student_answer": "$SE=6/6=1$. Em tính $z=(52-50)/1=3$. Vậy z=3.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO8-S04",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_023",
+      "subject": "MAS291",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_023",
+        "question_text": "Cho $S_{xy}=18,S_{xx}=12$. Tính slope least squares.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$b_1=18/12=1.5$.",
+        "final_answer": "$1.5$",
+        "accepted_methods": [
+          {
+            "name": "Slope least squares",
+            "scope_level": "FPT_CORE",
+            "outline": "Sxy/Sxx."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO9-S03",
+          "name": "Tính hoặc đọc hệ số góc và hệ số chặn"
+        }
+      ],
+      "student_answer": "$b_1=S_{xy}/S_{xx}=18/12$. Em rút gọn thành $2/3\\approx0.667$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO9-S03",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_024",
+      "subject": "MAS291",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_024",
+        "question_text": "Cho $P(A)=0.4,P(B)=0.5,P(A\\cap B)=0.2$. A,B có độc lập không?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Vì 0.4·0.5=0.2 nên độc lập.",
+        "final_answer": "Có",
+        "accepted_methods": [
+          {
+            "name": "Kiểm tra độc lập",
+            "scope_level": "FPT_CORE",
+            "outline": "So sánh giao với tích xác suất."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO2-S08",
+          "name": "Mô hình hóa tình huống xác suất"
+        }
+      ],
+      "student_answer": "Không độc lập vì $P(A\\cap B)$ phải bằng $P(A)+P(B)=0.9$ mới độc lập.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO2-S08",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_025",
+      "subject": "MAS291",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_025",
+        "question_text": "Đếm số lỗi trên 1 mét cáp khi lỗi xảy ra độc lập với rate trung bình 0.5. Chọn phân phối.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Poisson với lambda=0.5.",
+        "final_answer": "$Pois(0.5)$",
+        "accepted_methods": [
+          {
+            "name": "Chọn phân phối rời rạc",
+            "scope_level": "FPT_CORE",
+            "outline": "Biến đếm sự kiện theo rate."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO3-S09",
+          "name": "Chọn phân phối rời rạc phù hợp"
+        }
+      ],
+      "student_answer": "Dùng phân phối nhị thức với $n=1,p=0.5$ vì đang xét một mét cáp.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO3-S09",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_026",
+      "subject": "MAS291",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_026",
+        "question_text": "$X\\sim N(50,10^2)$. Tính z của x=70.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$z=2$.",
+        "final_answer": "$2$",
+        "accepted_methods": [
+          {
+            "name": "Chuẩn hóa",
+            "scope_level": "FPT_CORE",
+            "outline": "Trừ mean chia SD."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO4-S06",
+          "name": "Chuẩn hóa và áp dụng phân phối chuẩn"
+        }
+      ],
+      "student_answer": "Tham số thứ hai là phương sai nên em dùng $z=(70-50)/100=0.2$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO4-S06",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_027",
+      "subject": "MAS291",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_027",
+        "question_text": "Diễn giải khoảng tin cậy 95% đã tính là (40,48).",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Quy trình tạo khoảng sẽ chứa mu trong 95% lần lặp.",
+        "final_answer": "Diễn giải theo tần suất dài hạn",
+        "accepted_methods": [
+          {
+            "name": "Diễn giải CI",
+            "scope_level": "FPT_CORE",
+            "outline": "Không gán xác suất hậu nghiệm cho mu cố định."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO7-S08",
+          "name": "Diễn giải khoảng tin cậy đúng"
+        }
+      ],
+      "student_answer": "Có 95% xác suất trung bình tổng thể $\\mu$ nằm trong khoảng (40,48), và 5% xác suất $\\mu$ nằm ngoài khoảng.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO7-S08",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_028",
+      "subject": "MAS291",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_028",
+        "question_text": "p-value=0.03 có nghĩa gì?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Xác suất dữ liệu ít nhất cực đoan như quan sát nếu H0 đúng.",
+        "final_answer": "Định nghĩa p-value",
+        "accepted_methods": [
+          {
+            "name": "Diễn giải kiểm định",
+            "scope_level": "FPT_CORE",
+            "outline": "Điều kiện H0 đúng."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO8-S04",
+          "name": "Tính và diễn giải thống kê kiểm định"
+        }
+      ],
+      "student_answer": "p-value=0.03 nghĩa là xác suất $H_0$ đúng bằng 3%, nên xác suất $H_1$ đúng bằng 97%.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO8-S04",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_029",
+      "subject": "MAS291",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_029",
+        "question_text": "Biết tương quan giữa doanh số kem và say nắng là 0.9. Có kết luận kem gây say nắng không?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Không; tương quan không chứng minh nhân quả, nhiệt độ là confounder.",
+        "final_answer": "Không thể kết luận nhân quả",
+        "accepted_methods": [
+          {
+            "name": "Diễn giải tương quan/hồi quy",
+            "scope_level": "FPT_CORE",
+            "outline": "Phân biệt association và causation."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO9-S04",
+          "name": "Diễn giải hệ số góc và hệ số chặn"
+        }
+      ],
+      "student_answer": "Có. r=0.9 rất gần 1 nên doanh số kem tăng là nguyên nhân trực tiếp làm số ca say nắng tăng.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO9-S04",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAS291_030",
+      "subject": "MAS291",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_030",
+        "question_text": "X nhận 0,2 với xác suất mỗi giá trị 0.5. Tính Var(X).",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "E=1,E2=2, Var=1.",
+        "final_answer": "$1$",
+        "accepted_methods": [
+          {
+            "name": "Moment",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính E và E2."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO3-S04",
+          "name": "Tính kỳ vọng và phương sai"
+        }
+      ],
+      "student_answer": "$Var(X)=1$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO3-S04",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_031",
+      "subject": "MAS291",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_031",
+        "question_text": "$X\\sim N(100,15^2)$. z-score của 115?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$1$.",
+        "final_answer": "$1$",
+        "accepted_methods": [
+          {
+            "name": "Chuẩn hóa",
+            "scope_level": "FPT_CORE",
+            "outline": "(115-100)/15."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO4-S06",
+          "name": "Chuẩn hóa và áp dụng phân phối chuẩn"
+        }
+      ],
+      "student_answer": "$z=1$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO4-S06",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_032",
+      "subject": "MAS291",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_032",
+        "question_text": "$n=100,\\bar x=10,\\sigma=5$. CI 95%?",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$10\\pm0.98=(9.02,10.98)$.",
+        "final_answer": "$(9.02,10.98)$",
+        "accepted_methods": [
+          {
+            "name": "Khoảng Z",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính SE và margin."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO7-S02",
+          "name": "Lập khoảng cho trung bình khi biết phương sai"
+        }
+      ],
+      "student_answer": "$(9.02,10.98)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO7-S02",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_033",
+      "subject": "MAS291",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_033",
+        "question_text": "$\\sigma=10,n=100,\\bar x=102,\\mu_0=100$. Tính z.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$2$.",
+        "final_answer": "$2$",
+        "accepted_methods": [
+          {
+            "name": "Z-test",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính SE rồi z."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO8-S04",
+          "name": "Tính và diễn giải thống kê kiểm định"
+        }
+      ],
+      "student_answer": "$z=2$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO8-S04",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_034",
+      "subject": "MAS291",
+      "scenario": "OFF_TOPIC",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_034",
+        "question_text": "Tính xác suất hậu nghiệm bằng Bayes từ sensitivity, specificity và prevalence.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dùng Bayes.",
+        "final_answer": "Xác suất hậu nghiệm",
+        "accepted_methods": [
+          {
+            "name": "Bayes",
+            "scope_level": "FPT_CORE",
+            "outline": "Lập tử và mẫu."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO2-S07",
+          "name": "Áp dụng định lý Bayes"
+        }
+      ],
+      "student_answer": "Đạo hàm của $x^3$ là $3x^2$ theo quy tắc lũy thừa.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO2-S07",
+            "status": [
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          2
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_035",
+      "subject": "MAS291",
+      "scenario": "OFF_TOPIC",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_035",
+        "question_text": "Chuẩn hóa quan sát x trong phân phối chuẩn.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$z=(x-\\mu)/\\sigma$.",
+        "final_answer": "z-score",
+        "accepted_methods": [
+          {
+            "name": "Chuẩn hóa",
+            "scope_level": "FPT_CORE",
+            "outline": "Trừ mean chia SD."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO4-S06",
+          "name": "Chuẩn hóa và áp dụng phân phối chuẩn"
+        }
+      ],
+      "student_answer": "Đồ thị là cây nếu liên thông và không có chu trình.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO4-S06",
+            "status": [
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          2
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_036",
+      "subject": "MAS291",
+      "scenario": "OFF_TOPIC",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_036",
+        "question_text": "Chọn Z-test hay t-test khi sigma chưa biết và n=16 từ tổng thể chuẩn.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Chọn t-test.",
+        "final_answer": "t-test",
+        "accepted_methods": [
+          {
+            "name": "Chọn kiểm định",
+            "scope_level": "FPT_CORE",
+            "outline": "Dựa vào sigma chưa biết."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO8-S03",
+          "name": "Chọn Z-test hoặc t-test"
+        }
+      ],
+      "student_answer": "Luật De Morgan: $\\neg(P\\land Q)=\\neg P\\lor\\neg Q$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO8-S03",
+            "status": [
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          2
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_037",
+      "subject": "MAS291",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_037",
+        "question_text": "Prevalence 5%, sensitivity 90%, specificity 95%. Tính P(D|+).",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$0.045/(0.045+0.0475)\\approx0.4865$.",
+        "final_answer": "$0.4865$",
+        "accepted_methods": [
+          {
+            "name": "Bayes",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính true positive và false positive."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO2-S07",
+          "name": "Áp dụng định lý Bayes"
+        }
+      ],
+      "student_answer": "$P(+)=0.9(0.05)+0.05(0.95)=0.0925$. Do đó $P(D|+)=0.045/0.0925\\approx0.4865$.",
+      "hint_events": [
+        {
+          "level": 4,
+          "hint_text": "Dàn ý đầy đủ: xác định false-positive=1-specificity=0.05; tính P(+)=0.9·0.05+0.05·0.95; lấy 0.045 chia tổng.",
+          "revealed": {
+            "concepts": [
+              "Bayes theorem"
+            ],
+            "methods": [
+              "total probability then Bayes"
+            ],
+            "steps": [
+              "false positive",
+              "P(+)",
+              "posterior"
+            ]
+          },
+          "draft_at_request": "Em mới ghi P(D)=0.05."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO2-S07",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_038",
+      "subject": "MAS291",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_038",
+        "question_text": "$X\\sim Bin(6,0.5)$. Tính P(X=3).",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\binom63/64=20/64=0.3125$.",
+        "final_answer": "$0.3125$",
+        "accepted_methods": [
+          {
+            "name": "Nhị thức",
+            "scope_level": "FPT_CORE",
+            "outline": "C(6,3)0.5^6."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO3-S05",
+          "name": "Áp dụng phân phối đều rời rạc và nhị thức"
+        }
+      ],
+      "student_answer": "$P=\\binom63(0.5)^3(0.5)^3=20/64=0.3125$.",
+      "hint_events": [
+        {
+          "level": 5,
+          "hint_text": "Lời giải: dùng công thức nhị thức C(6,3)p³(1-p)³; với p=0.5 thành C(6,3)/64=20/64.",
+          "revealed": {
+            "concepts": [
+              "binomial PMF"
+            ],
+            "methods": [
+              "binomial formula"
+            ],
+            "steps": [
+              "choose coefficient",
+              "probability powers"
+            ]
+          },
+          "draft_at_request": "Em biết X là nhị thức nhưng chưa nhớ công thức."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO3-S05",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_039",
+      "subject": "MAS291",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_039",
+        "question_text": "$n=36,\\bar x=30,\\sigma=6$. CI 95%.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$SE=1$, CI=(28.04,31.96).",
+        "final_answer": "$(28.04,31.96)$",
+        "accepted_methods": [
+          {
+            "name": "Khoảng Z",
+            "scope_level": "FPT_CORE",
+            "outline": "xbar±1.96SE."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO7-S02",
+          "name": "Lập khoảng cho trung bình khi biết phương sai"
+        }
+      ],
+      "student_answer": "$SE=6/6=1$, margin=1.96. Khoảng là $(28.04,31.96)$.",
+      "hint_events": [
+        {
+          "level": 4,
+          "hint_text": "Dàn ý: vì biết sigma dùng Z; SE=6/sqrt36=1; E=1.96; lấy 30±1.96.",
+          "revealed": {
+            "concepts": [
+              "Z confidence interval"
+            ],
+            "methods": [
+              "known-sigma interval"
+            ],
+            "steps": [
+              "SE",
+              "margin",
+              "endpoints"
+            ]
+          },
+          "draft_at_request": "Em đã xác định dùng khoảng Z."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO7-S02",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_040",
+      "subject": "MAS291",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_040",
+        "question_text": "$\\sigma=8,n=64,\\bar x=54$, kiểm định $H_0:\\mu=50$ phía phải. Tính z và kết luận với critical 1.645.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$SE=1,z=4$, bác bỏ H0.",
+        "final_answer": "$z=4$, bác bỏ $H_0$",
+        "accepted_methods": [
+          {
+            "name": "Z-test",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính z và so ngưỡng."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO8-S04",
+          "name": "Tính và diễn giải thống kê kiểm định"
+        }
+      ],
+      "student_answer": "$SE=8/8=1$, $z=(54-50)/1=4$. Vì 4>1.645 nên bác bỏ $H_0$.",
+      "hint_events": [
+        {
+          "level": 5,
+          "hint_text": "Lời giải gần đầy đủ: dùng z=(xbar-mu0)/(sigma/sqrt n); SE=1; z=4; so với 1.645 và bác bỏ.",
+          "revealed": {
+            "concepts": [
+              "right-tailed Z test"
+            ],
+            "methods": [
+              "critical value"
+            ],
+            "steps": [
+              "SE",
+              "z",
+              "compare"
+            ]
+          },
+          "draft_at_request": "Em mới viết H0 và H1."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO8-S04",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_041",
+      "subject": "MAS291",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_041",
+        "question_text": "Cho $S_{xy}=30,S_{xx}=20$, tính slope.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$1.5$.",
+        "final_answer": "$1.5$",
+        "accepted_methods": [
+          {
+            "name": "Least-squares slope",
+            "scope_level": "FPT_CORE",
+            "outline": "Sxy/Sxx."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO9-S03",
+          "name": "Tính hoặc đọc hệ số góc và hệ số chặn"
+        }
+      ],
+      "student_answer": "$b_1=S_{xy}/S_{xx}=30/20=1.5$.",
+      "hint_events": [
+        {
+          "level": 4,
+          "hint_text": "Dàn ý và công thức: hệ số góc least squares b1=Sxy/Sxx; thay 30/20; rút gọn 1.5.",
+          "revealed": {
+            "concepts": [
+              "least squares slope"
+            ],
+            "methods": [
+              "Sxy/Sxx"
+            ],
+            "steps": [
+              "substitute",
+              "divide"
+            ]
+          },
+          "draft_at_request": "Em chưa nhớ công thức slope."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO9-S03",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_042",
+      "subject": "MAS291",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_042",
+        "question_text": "Một hộp được chọn với prior 0.4 và 0.6; xác suất đỏ lần lượt 0.2 và 0.5. Biết lấy đỏ, tính P(H2|đỏ).",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$0.6·0.5/(0.4·0.2+0.6·0.5)=0.3/0.38=0.7895$.",
+        "final_answer": "$0.7895$",
+        "accepted_methods": [
+          {
+            "name": "Bayes",
+            "scope_level": "FPT_CORE",
+            "outline": "Posterior proportional prior×likelihood."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO2-S07",
+          "name": "Áp dụng định lý Bayes"
+        }
+      ],
+      "student_answer": "$P(Đ)=0.4(0.2)+0.6(0.5)=0.38$. Do đó $P(H2|Đ)=0.30/0.38\\approx0.7895$.",
+      "hint_events": [
+        {
+          "level": 1,
+          "hint_text": "Hãy lập xác suất toàn phần của biến cố lấy được bi đỏ.",
+          "revealed": {
+            "concepts": [
+              "total probability"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em đã tính nhánh H2 và đỏ là 0.3."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO2-S07",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_043",
+      "subject": "MAS291",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAS291_043",
+        "question_text": "$X\\sim Pois(2)$. Tính P(X=0).",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$e^{-2}$.",
+        "final_answer": "$e^{-2}\\approx0.1353$",
+        "accepted_methods": [
+          {
+            "name": "PMF Poisson",
+            "scope_level": "FPT_CORE",
+            "outline": "e^-lambda lambda^x/x!."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO3-S08",
+          "name": "Áp dụng phân phối Poisson"
+        }
+      ],
+      "student_answer": "$P(X=0)=e^{-2}2^0/0!=e^{-2}\\approx0.1353$.",
+      "hint_events": [
+        {
+          "level": 1,
+          "hint_text": "Nhớ dạng tổng quát của PMF Poisson.",
+          "revealed": {
+            "concepts": [
+              "Poisson PMF"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em đã xác định lambda=2."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO3-S08",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_044",
+      "subject": "MAS291",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_044",
+        "question_text": "$\\sigma=18,n=81$. Tính SE của $\\bar X$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$18/9=2$.",
+        "final_answer": "$2$",
+        "accepted_methods": [
+          {
+            "name": "Sai số chuẩn",
+            "scope_level": "FPT_CORE",
+            "outline": "sigma/sqrt n."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO6-S04",
+          "name": "Tính sai số chuẩn"
+        }
+      ],
+      "student_answer": "$SE=\\sigma/\\sqrt n=18/9=2$.",
+      "hint_events": [
+        {
+          "level": 1,
+          "hint_text": "Sai số chuẩn dùng căn bậc hai của cỡ mẫu.",
+          "revealed": {
+            "concepts": [
+              "standard error"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em đang phân vân chia cho n hay căn n."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO6-S04",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAS291_045",
+      "subject": "MAS291",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAS291_045",
+        "question_text": "Mẫu n=20 từ tổng thể chuẩn, sigma chưa biết. Chọn Z hay t để kiểm định trung bình.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Chọn one-sample t-test với df=19.",
+        "final_answer": "t-test, df=19",
+        "accepted_methods": [
+          {
+            "name": "Chọn Z/t",
+            "scope_level": "FPT_CORE",
+            "outline": "Sigma chưa biết và mẫu nhỏ chuẩn."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAS-CLO8-S03",
+          "name": "Chọn Z-test hoặc t-test"
+        }
+      ],
+      "student_answer": "Vì $\\sigma$ chưa biết và n=20 từ tổng thể chuẩn, em dùng one-sample t-test. Bậc tự do là $n-1=19$.",
+      "hint_events": [
+        {
+          "level": 2,
+          "hint_text": "Hãy xét xem độ lệch chuẩn tổng thể có được biết hay không.",
+          "revealed": {
+            "concepts": [
+              "Z versus t"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em đã thấy mẫu nhỏ và tổng thể chuẩn."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAS-CLO8-S03",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    }
+  ]
+}

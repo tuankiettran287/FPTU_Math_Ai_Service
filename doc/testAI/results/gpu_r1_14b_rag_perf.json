@@ -1,0 +1,20 @@
+{
+ "model": "r1_14b",
+ "mode": "rag",
+ "kind": "perf",
+ "load_time_s": 155.0,
+ "idle_vram_mib": 50130.0,
+ "card_vram_at_idle_mib": 83135.0,
+ "idle_power_w": 91.66,
+ "vram_mean": 83137.0,
+ "vram_peak": 83137.0,
+ "model_vram_mean": 50132.0,
+ "model_vram_peak": 50132.0,
+ "util_mean": 95.28963414634147,
+ "util_peak": 100.0,
+ "power_mean": 406.64701219512193,
+ "power_peak": 468.47,
+ "duration_s": 349.64519539056346,
+ "energy_wh": 1.4584114474325842,
+ "incremental_vram_mib": 2.0
+}

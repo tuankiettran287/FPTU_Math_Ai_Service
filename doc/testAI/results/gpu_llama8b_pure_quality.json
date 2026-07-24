@@ -1,0 +1,15 @@
+{
+ "model": "llama8b",
+ "mode": "pure",
+ "kind": "quality",
+ "vram_mean": 83135.0,
+ "vram_peak": 83135.0,
+ "model_vram_mean": 30520.0,
+ "model_vram_peak": 30520.0,
+ "util_mean": 92.18333333333334,
+ "util_peak": 94.0,
+ "power_mean": 338.6355,
+ "power_peak": 385.18,
+ "duration_s": 191.95942329987884,
+ "energy_wh": 0.035940676346113865
+}

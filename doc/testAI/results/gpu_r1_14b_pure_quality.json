@@ -1,0 +1,15 @@
+{
+ "model": "r1_14b",
+ "mode": "pure",
+ "kind": "quality",
+ "vram_mean": 83137.77624309392,
+ "vram_peak": 83699.0,
+ "model_vram_mean": 50132.0,
+ "model_vram_peak": 50132.0,
+ "util_mean": 94.78591160220995,
+ "util_peak": 96.0,
+ "power_mean": 348.02048342541434,
+ "power_peak": 397.46,
+ "duration_s": 771.3590585691854,
+ "energy_wh": 0.1490686818005355
+}

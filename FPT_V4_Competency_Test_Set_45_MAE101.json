@@ -1,0 +1,2558 @@
+{
+  "_spec": {
+    "version": "1.0",
+    "muc_dich": "Bộ test Vấn đề 4 — đánh giá năng lực chấm bài của model qua endpoint /api/v1/competency/grade. Mỗi item = 1 câu hỏi + 1 bài làm sinh viên VIẾT SẴN + nhãn ĐÚNG biết trước (expected). Harness gửi (question, student_answer, hint_events) cho AI chấm, rồi SO NHÃN BẰNG CODE — không cần LLM giám khảo, không ai vặn được (bài học V3).",
+    "so_file": "FPT_V4_Competency_Test_Set_45_MAE101.json",
+    "so_cau_moi_file": "45 câu, phân bố đúng theo _distribution_per_file",
+    "quy_tac_soan": [
+      "skill_id/clo_id phải là id THẬT trong FPT_Math_Competency_Framework_MAE101_MAD101_MAS291_v1.json (vd MAE-CLO1-S02).",
+      "student_answer phải viết như bài làm THẬT của sinh viên: trình bày TỪNG BƯỚC, có thể dùng LaTeX $..$; ca sai số thì con số sai phải truy được (vd 3×7=24).",
+      "Ca ADVANCED: phương pháp phải THẬT SỰ ngoài syllabus/nâng cao hơn (vd dùng L'Hôpital khi unit chỉ mới học giới hạn cơ bản; dùng đạo hàm tìm min/max thay vì bất đẳng thức; MAD dùng hàm sinh thay vì truy hồi; MAS dùng MGF thay vì tính trực tiếp) — và bài giải phải ĐÚNG.",
+      "difficulty đa số medium/hard (framework yêu cầu bằng chứng medium/hard cho mastery); easy tối đa 1/5 số câu.",
+      "accepted_methods CỐ Ý chỉ liệt kê phương pháp trong syllabus — để kiểm tra model có nhận ra phương pháp ngoài danh sách vẫn hợp lệ hay không.",
+      "expected.method_scope_level cho phép MẢNG khi ranh giới mờ (BEYOND_FPT_VALID vs ADVANCED_GENERALIZATION đều chấp nhận).",
+      "score_band là khoảng điểm chấp nhận trên thang points của câu — nới tay (±2/10) vì chấm tự luận có dao động hợp lý.",
+      "hint_events chỉ có ở 2 kịch bản HINT_*; revealed phải khai trung thực AI đã lộ gì; draft_at_request là bài làm dở TRƯỚC khi xin hint."
+    ],
+    "_distribution_per_file": {
+      "CORE_CORRECT": "5 câu — giải đúng, đủ bước, đúng phương pháp chuẩn syllabus",
+      "ALT_CORRECT": "5 câu — giải đúng bằng phương pháp thay thế hợp lệ trong mức môn",
+      "ADVANCED_CORRECT": "7 câu — giải ĐÚNG bằng phương pháp ngoài syllabus/nâng cao (trọng tâm chống kết luận oan: expect ADVANCED_BYPASS, CẤM KNOWLEDGE_GAP)",
+      "CALC_SLIP": "6 câu — phương pháp đúng nhưng sai phép tính giữa chừng → đáp số sai (expect PARTIALLY + chỉ ra được lỗi)",
+      "CONCEPT_WRONG": "6 câu — sai bản chất khái niệm / phương pháp không hợp lệ (expect KNOWLEDGE_GAP + INVALID_OR_UNJUSTIFIED)",
+      "RIGHT_ANSWER_NO_WORK": "4 câu — đáp số đúng nhưng nhảy bước/không lập luận (expect PARTIALLY, không được DEMONSTRATED trọn)",
+      "OFF_TOPIC": "3 câu — làm lạc đề/không liên quan (expect NOT_DEMONSTRATED, KHÔNG phải KNOWLEDGE_GAP)",
+      "HINT_HEAVY": "5 câu — có hint_events mức 4-5 (Dàn ý/Lời giải đầy đủ) rồi mới làm đúng (expect independent=false toàn bộ + must_flag_confirmation=true)",
+      "HINT_LIGHT": "4 câu — có hint mức 1-2 (Khái niệm/Phương pháp) nhưng phần tính toán tự làm (expect skill chính vẫn independent=true)"
+    },
+    "cham_bang_code": "So expected với response: answers_match == syllabus_frame.answers_match; method_scope_level ∈ expected (mảng); từng skill: status ∈ expected.status (mảng cho phép), independent == expected; question_score ∈ score_band; needs_confirmation == must_flag_confirmation; số mistakes ≥ min_mistakes. Mỗi phép so = 1 chỉ số, báo cáo % đạt theo kịch bản."
+  },
+  "items": [
+    {
+      "test_id": "V4_MAE101_001",
+      "subject": "MAE101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_001",
+        "question_text": "Cho $f(x)=\\frac{x^2-9}{x-3}$ khi $x\\ne3$ và $f(3)=m$. Tìm $m$ để $f$ liên tục tại $x=3$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Liên tục tại 3 cần $m=\\lim_{x\\to3}f(x)$. Với $x\\ne3$, $f(x)=x+3$, nên giới hạn bằng 6.",
+        "final_answer": "$m=6",
+        "accepted_methods": [
+          {
+            "name": "Rút gọn phân thức và dùng điều kiện liên tục",
+            "scope_level": "FPT_CORE",
+            "outline": "Phân tích tử, giản ước, tính giới hạn và đặt bằng f(3)."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO1-S03",
+          "name": "Xác định tính liên tục và phân loại gián đoạn"
+        }
+      ],
+      "student_answer": "Để liên tục tại $x=3$ cần $\\lim_{x\\to3}f(x)=f(3)=m$. Ta có $x^2-9=(x-3)(x+3)$ nên với $x\\ne3$, $f(x)=x+3$. Vì vậy giới hạn bằng $3+3=6$, do đó $m=6$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO1-S03",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_002",
+      "subject": "MAE101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_002",
+        "question_text": "Tính đạo hàm $y=(2x^3-x+1)^4$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dùng quy tắc dây chuyền: $y'=4(2x^3-x+1)^3(6x^2-1)$.",
+        "final_answer": "$4(2x^3-x+1)^3(6x^2-1)$",
+        "accepted_methods": [
+          {
+            "name": "Quy tắc dây chuyền",
+            "scope_level": "FPT_CORE",
+            "outline": "Đạo hàm hàm ngoài rồi nhân đạo hàm hàm trong."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO2-S04",
+          "name": "Áp dụng quy tắc dây chuyền"
+        }
+      ],
+      "student_answer": "Đặt $u=2x^3-x+1$, $y=u^4$. Khi đó $u'=6x^2-1$ và $y'=4u^3u'=4(2x^3-x+1)^3(6x^2-1)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO2-S04",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_003",
+      "subject": "MAE101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_003",
+        "question_text": "Một hình chữ nhật có chu vi 48 m. Tìm kích thước để diện tích lớn nhất.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đặt hai cạnh $x$ và $24-x$. $A=x(24-x)$, $A'=24-2x=0$ cho $x=12$; $A''=-2<0$.",
+        "final_answer": "$12\\text{ m}\\times12\\text{ m}$",
+        "accepted_methods": [
+          {
+            "name": "Tối ưu bằng đạo hàm một biến",
+            "scope_level": "FPT_CORE",
+            "outline": "Lập hàm mục tiêu từ ràng buộc, tìm điểm tới hạn và kiểm tra cực đại."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO3-S05",
+          "name": "Mô hình hóa và giải bài toán tối ưu"
+        }
+      ],
+      "student_answer": "Gọi một cạnh là $x$, cạnh kia là $24-x$. Diện tích $A(x)=24x-x^2$, miền $0<x<24$. $A'(x)=24-2x=0$ nên $x=12$. Vì $A''=-2<0$, đây là cực đại. Hai cạnh đều bằng 12 m.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO3-S05",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_004",
+      "subject": "MAE101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_004",
+        "question_text": "Tính $\\int 6x^2\\cos(2x^3+1)\\,dx$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đặt $u=2x^3+1$, $du=6x^2dx$, được $\\int\\cos udu=\\sin u+C$.",
+        "final_answer": "$\\sin(2x^3+1)+C$",
+        "accepted_methods": [
+          {
+            "name": "Đổi biến u",
+            "scope_level": "FPT_CORE",
+            "outline": "Nhận dạng đạo hàm của biểu thức trong và đổi biến."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S04",
+          "name": "Sử dụng phương pháp đổi biến"
+        }
+      ],
+      "student_answer": "Đặt $u=2x^3+1$ thì $du=6x^2dx$. Tích phân trở thành $\\int\\cos u\\,du=\\sin u+C$. Vậy kết quả là $\\sin(2x^3+1)+C$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S04",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_005",
+      "subject": "MAE101",
+      "scenario": "CORE_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_005",
+        "question_text": "Tìm trị riêng và một vector riêng tương ứng của $A=\\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\det(A-\\lambda I)=\\lambda^2-7\\lambda+10=(\\lambda-5)(\\lambda-2)$. Với 5 lấy $(1,1)$; với 2 lấy $(1,-2)$.",
+        "final_answer": "$\\lambda=5,2$; vector riêng tương ứng $(1,1),(1,-2)$",
+        "accepted_methods": [
+          {
+            "name": "Đa thức đặc trưng",
+            "scope_level": "FPT_CORE",
+            "outline": "Giải det(A-lambda I)=0 rồi giải hệ cho từng lambda."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO7-S05",
+          "name": "Tính trị riêng và vector riêng"
+        }
+      ],
+      "student_answer": "Ta có $\\det(A-\\lambda I)=(4-\\lambda)(3-\\lambda)-2=\\lambda^2-7\\lambda+10$. Suy ra $\\lambda=5$ hoặc $2$. Với $\\lambda=5$, hệ cho $y=x$, chọn $(1,1)$. Với $\\lambda=2$, $2x+y=0$, chọn $(1,-2)$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO7-S05",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          8,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_006",
+      "subject": "MAE101",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_006",
+        "question_text": "Tính $\\lim_{x\\to2}\\frac{x^2+x-6}{x-2}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Phân tích tử $(x-2)(x+3)$ rồi rút gọn, giới hạn bằng 5.",
+        "final_answer": "$5$",
+        "accepted_methods": [
+          {
+            "name": "Phân tích nhân tử",
+            "scope_level": "FPT_CORE",
+            "outline": "Phân tích tử và giản ước nhân tử gây 0/0."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO1-S02",
+          "name": "Tính giới hạn bằng lập luận số, đồ thị và đại số"
+        }
+      ],
+      "student_answer": "Em thực hiện phép chia đa thức: $x^2+x-6=(x-2)(x+3)$ nên thương của phép chia cho $x-2$ là $x+3$ và dư 0. Vì vậy trên lân cận 2, biểu thức bằng $x+3$, giới hạn là 5.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO1-S02",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_007",
+      "subject": "MAE101",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_007",
+        "question_text": "Cho đường tròn $x^2+y^2=25$. Tính hệ số góc tiếp tuyến tại điểm $(3,4)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đạo hàm ẩn: $2x+2yy'=0$, nên $y'=-x/y=-3/4$.",
+        "final_answer": "$-3/4$",
+        "accepted_methods": [
+          {
+            "name": "Đạo hàm ẩn",
+            "scope_level": "FPT_CORE",
+            "outline": "Đạo hàm hai vế theo x rồi thế điểm."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO2-S05",
+          "name": "Sử dụng đạo hàm ẩn"
+        }
+      ],
+      "student_answer": "Em viết nửa trên của đường tròn là $y=\\sqrt{25-x^2}$. Khi đó $y'=-x/\\sqrt{25-x^2}$. Tại $x=3$, $y'=-3/4$. Vậy hệ số góc là $-3/4$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO2-S05",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_008",
+      "subject": "MAE101",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_008",
+        "question_text": "Tìm giá trị lớn nhất của $f(x)=-x^2+8x-5$ trên $\\mathbb R$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dùng đạo hàm: $f'= -2x+8=0$ tại 4, $f(4)=11$.",
+        "final_answer": "$11$ tại $x=4$",
+        "accepted_methods": [
+          {
+            "name": "Đạo hàm tìm cực trị",
+            "scope_level": "FPT_CORE",
+            "outline": "Tìm điểm tới hạn và kiểm tra cực đại."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO3-S03",
+          "name": "Xác định cực trị và áp dụng định lý giá trị trung bình"
+        }
+      ],
+      "student_answer": "Em hoàn thành bình phương: $f(x)=-(x^2-8x)-5=-(x-4)^2+11$. Vì $-(x-4)^2\\le0$, giá trị lớn nhất là 11 khi $x=4$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO3-S03",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_009",
+      "subject": "MAE101",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_009",
+        "question_text": "Tính $\\int_0^1 x\\ln(1+x)\\,dx$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Từng phần với $u=\\ln(1+x)$, $dv=x dx$, sau đó chia đa thức; kết quả $1/4$.",
+        "final_answer": "$1/4$",
+        "accepted_methods": [
+          {
+            "name": "Tích phân từng phần",
+            "scope_level": "FPT_CORE",
+            "outline": "Chọn u logarit, dv phần đại số rồi tính tích phân còn lại."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S05",
+          "name": "Sử dụng tích phân từng phần"
+        }
+      ],
+      "student_answer": "Em đổi thứ tự bằng cách viết $x=(1+x)-1$ và đặt $t=1+x$: tích phân thành $\\int_1^2(t-1)\\ln t\\,dt=\\int_1^2t\\ln t\\,dt-\\int_1^2\\ln t\\,dt$. Từng phần cho hai tích phân lần lượt, kết quả cuối là $1/4$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S05",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_010",
+      "subject": "MAE101",
+      "scenario": "ALT_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_010",
+        "question_text": "Kiểm tra các vector $(1,2,0),(0,1,1),(1,3,1)$ có độc lập tuyến tính không.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đặt tổ hợp bằng 0 hoặc khử Gauss; vector thứ ba bằng tổng hai vector đầu nên phụ thuộc.",
+        "final_answer": "Phụ thuộc tuyến tính",
+        "accepted_methods": [
+          {
+            "name": "Khử Gauss",
+            "scope_level": "FPT_CORE",
+            "outline": "Lập ma trận cột và kiểm tra pivot."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO9-S03",
+          "name": "Kiểm tra độc lập tuyến tính"
+        }
+      ],
+      "student_answer": "Quan sát trực tiếp $(1,3,1)=(1,2,0)+(0,1,1)$. Vì có quan hệ $v_1+v_2-v_3=0$ với hệ số không đồng thời bằng 0, ba vector phụ thuộc tuyến tính.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO9-S03",
+            "status": [
+              "DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_011",
+      "subject": "MAE101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_011",
+        "question_text": "Tính $\\lim_{x\\to0}\\frac{\\sin 5x}{x}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Biến đổi thành $5\\frac{\\sin5x}{5x}$ rồi dùng giới hạn cơ bản, được 5.",
+        "final_answer": "$5$",
+        "accepted_methods": [
+          {
+            "name": "Giới hạn cơ bản sin t/t",
+            "scope_level": "FPT_CORE",
+            "outline": "Nhân chia 5 và dùng giới hạn cơ bản."
+          }
+        ],
+        "grading_notes": "Unit giới hạn chưa yêu cầu L'Hôpital; lời giải vẫn đúng về toán."
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO1-S02",
+          "name": "Tính giới hạn bằng lập luận số, đồ thị và đại số"
+        }
+      ],
+      "student_answer": "Đây là dạng $0/0$. Áp dụng L'Hôpital: đạo hàm tử là $5\\cos5x$, đạo hàm mẫu là 1. Giới hạn bằng $5\\cos0=5$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO1-S02",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAE101_012",
+      "subject": "MAE101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_012",
+        "question_text": "Tính $\\lim_{x\\to0}\\frac{e^x-1-x}{x^2}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Có thể biến đổi bằng các giới hạn cơ bản phù hợp; kết quả $1/2$.",
+        "final_answer": "$1/2$",
+        "accepted_methods": [
+          {
+            "name": "Biến đổi giới hạn cơ bản",
+            "scope_level": "FPT_CORE",
+            "outline": "Dùng đại số và các giới hạn đã học, không dựa vào chuỗi."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO1-S02",
+          "name": "Tính giới hạn bằng lập luận số, đồ thị và đại số"
+        }
+      ],
+      "student_answer": "Dùng khai triển Taylor tại 0: $e^x=1+x+x^2/2+x^3/6+O(x^4)$. Do đó tử bằng $x^2/2+x^3/6+O(x^4)$. Chia cho $x^2$ và cho $x\\to0$ được $1/2$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO1-S02",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAE101_013",
+      "subject": "MAE101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_013",
+        "question_text": "Tìm giá trị lớn nhất của $x+y$ với ràng buộc $x^2/4+y^2=1$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Thế $y=\\sqrt{1-x^2/4}$ hoặc tham số hóa, sau đó tối ưu một biến; giá trị lớn nhất $\\sqrt5$.",
+        "final_answer": "$\\sqrt5$",
+        "accepted_methods": [
+          {
+            "name": "Tối ưu một biến từ ràng buộc",
+            "scope_level": "FPT_CORE",
+            "outline": "Khử một biến hoặc tham số hóa ellipse rồi dùng đạo hàm."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO3-S05",
+          "name": "Mô hình hóa và giải bài toán tối ưu"
+        }
+      ],
+      "student_answer": "Dùng nhân tử Lagrange cho $f=x+y$, $g=x^2/4+y^2-1$. Hệ $1=\\lambda x/2$, $1=2\\lambda y$ cho $x=4y$. Thế ràng buộc: $4y^2+y^2=1$, lấy $y=1/\\sqrt5$, $x=4/\\sqrt5$ cho cực đại. Giá trị lớn nhất là $\\sqrt5$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO3-S05",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAE101_014",
+      "subject": "MAE101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_014",
+        "question_text": "Cho $A=\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}$. Tính $A^{10}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Có thể nhân theo quy luật hoặc chứng minh quy nạp $A^n=\\begin{pmatrix}1&n\\\\0&1\\end{pmatrix}$.",
+        "final_answer": "$\\begin{pmatrix}1&10\\\\0&1\\end{pmatrix}$",
+        "accepted_methods": [
+          {
+            "name": "Nhận dạng quy luật lũy thừa ma trận",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính vài lũy thừa và chứng minh quy nạp."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO7-S06",
+          "name": "Kiểm tra và thực hiện chéo hóa ma trận"
+        }
+      ],
+      "student_answer": "Viết $A=I+N$ với $N=\\begin{pmatrix}0&1\\\\0&0\\end{pmatrix}$ và $N^2=0$. Theo nhị thức ma trận, $(I+N)^{10}=I+10N$, do các hạng từ $N^2$ trở đi bằng 0. Vậy $A^{10}=\\begin{pmatrix}1&10\\\\0&1\\end{pmatrix}$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO7-S06",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAE101_015",
+      "subject": "MAE101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_015",
+        "question_text": "Tính diện tích ellipse $x^2/9+y^2/4\\le1$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đổi biến đơn giản từ ellipse về đường tròn hoặc tích phân lát cắt; diện tích $6\\pi$.",
+        "final_answer": "$6\\pi$",
+        "accepted_methods": [
+          {
+            "name": "Tích phân lát cắt",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính $4\\int_0^3 2\\sqrt{1-x^2/9}\\,dx$ bằng đổi biến lượng giác."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S02",
+          "name": "Diễn giải và tính tích phân xác định"
+        }
+      ],
+      "student_answer": "Em dùng phép đổi tọa độ $x=3u,y=2v$. Miền biến thành đĩa đơn vị $u^2+v^2\\le1$, Jacobian bằng 6. Vì diện tích đĩa đơn vị là $\\pi$, diện tích ellipse là $6\\pi$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S02",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAE101_016",
+      "subject": "MAE101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_016",
+        "question_text": "Tính $\\int_{-\\infty}^{\\infty}\\frac{1}{1+x^2}\\,dx$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Dùng nguyên hàm arctan và giới hạn hai phía, kết quả $\\pi$.",
+        "final_answer": "$\\pi$",
+        "accepted_methods": [
+          {
+            "name": "Nguyên hàm và giới hạn suy rộng",
+            "scope_level": "FPT_CORE",
+            "outline": "Tách hai tích phân tại 0, dùng arctan."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S07",
+          "name": "Tính tích phân suy rộng"
+        }
+      ],
+      "student_answer": "Xét hàm phức $f(z)=1/(1+z^2)$ và nửa đường tròn phía trên. Chỉ có cực đơn tại $z=i$ với residue $1/(2i)$. Theo định lý residue, tích phân trên trục thực bằng $2\\pi i\\cdot1/(2i)=\\pi$ vì tích phân trên cung tròn tiến về 0.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S07",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAE101_017",
+      "subject": "MAE101",
+      "scenario": "ADVANCED_CORRECT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_017",
+        "question_text": "Tìm giá trị lớn nhất của $3x+4y$ trên đường tròn $x^2+y^2=25$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Tham số hóa hoặc khử biến rồi dùng đạo hàm; giá trị lớn nhất 25.",
+        "final_answer": "$25$",
+        "accepted_methods": [
+          {
+            "name": "Tối ưu bằng đạo hàm trên ràng buộc",
+            "scope_level": "FPT_CORE",
+            "outline": "Tham số hóa $x=5\\cos t,y=5\\sin t$ rồi tìm cực đại."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO3-S05",
+          "name": "Mô hình hóa và giải bài toán tối ưu"
+        }
+      ],
+      "student_answer": "Dùng bất đẳng thức Cauchy-Schwarz: $3x+4y\\le\\sqrt{3^2+4^2}\\sqrt{x^2+y^2}=5\\cdot5=25$. Dấu bằng khi $(x,y)$ cùng hướng với $(3,4)$, tức $(3,4)$. Vậy max là 25.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "BEYOND_FPT_VALID",
+          "ADVANCED_GENERALIZATION"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO3-S05",
+            "status": [
+              "ADVANCED_BYPASS"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          7,
+          10
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0,
+        "_note": "Phương pháp nâng cao hợp lệ; gán KNOWLEDGE_GAP là lỗi nặng."
+      }
+    },
+    {
+      "test_id": "V4_MAE101_018",
+      "subject": "MAE101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_018",
+        "question_text": "Tính đạo hàm $y=(x^2+2)^5$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$y'=10x(x^2+2)^4$.",
+        "final_answer": "$10x(x^2+2)^4$",
+        "accepted_methods": [
+          {
+            "name": "Quy tắc dây chuyền",
+            "scope_level": "FPT_CORE",
+            "outline": "Nhân đạo hàm hàm ngoài với đạo hàm hàm trong."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO2-S04",
+          "name": "Áp dụng quy tắc dây chuyền"
+        }
+      ],
+      "student_answer": "Đặt $u=x^2+2$. Em có $y'=5u^4\\cdot u'=5(x^2+2)^4\\cdot2x=12x(x^2+2)^4$. Vậy đạo hàm là $12x(x^2+2)^4$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO2-S04",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_019",
+      "subject": "MAE101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_019",
+        "question_text": "Dùng một bước Newton từ $x_0=1.5$ cho phương trình $x^2-2=0$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$x_1=x_0-(x_0^2-2)/(2x_0)=17/12\\approx1.4167$.",
+        "final_answer": "$x_1\\approx1.4167$",
+        "accepted_methods": [
+          {
+            "name": "Phương pháp Newton",
+            "scope_level": "FPT_CORE",
+            "outline": "Thế vào công thức Newton."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO3-S06",
+          "name": "Áp dụng phương pháp Newton và đánh giá xấp xỉ"
+        }
+      ],
+      "student_answer": "$f(1.5)=2.25-2=0.25$, $f'(1.5)=3$. Do đó $x_1=1.5-0.25/3=1.5-0.0833=1.4267$. Vậy $x_1\\approx1.4267$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO3-S06",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_020",
+      "subject": "MAE101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_020",
+        "question_text": "Tính $\\int 2x e^{x^2}\\,dx$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đặt $u=x^2$, kết quả $e^{x^2}+C$.",
+        "final_answer": "$e^{x^2}+C$",
+        "accepted_methods": [
+          {
+            "name": "Đổi biến u",
+            "scope_level": "FPT_CORE",
+            "outline": "Đặt u=x², du=2x dx."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S04",
+          "name": "Sử dụng phương pháp đổi biến"
+        }
+      ],
+      "student_answer": "Đặt $u=x^2$, $du=2x dx$. Khi đó tích phân là $\\int e^u du=e^u+C$. Thế lại em được $2e^{x^2}+C$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S04",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_021",
+      "subject": "MAE101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_021",
+        "question_text": "Tính $\\int x e^x\\,dx$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$xe^x-e^x+C$.",
+        "final_answer": "$e^x(x-1)+C$",
+        "accepted_methods": [
+          {
+            "name": "Tích phân từng phần",
+            "scope_level": "FPT_CORE",
+            "outline": "Chọn u=x, dv=e^x dx."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S05",
+          "name": "Sử dụng tích phân từng phần"
+        }
+      ],
+      "student_answer": "Chọn $u=x$, $dv=e^x dx$ nên $du=dx$, $v=e^x$. Theo từng phần, em tính $\\int xe^x dx=xe^x+\\int e^x dx=xe^x+e^x+C$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S05",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_022",
+      "subject": "MAE101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_022",
+        "question_text": "Tìm trị riêng của $A=\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\det(A-\\lambda I)=(2-\\lambda)^2-1=(\\lambda-1)(\\lambda-3)$.",
+        "final_answer": "$\\lambda=1,3$",
+        "accepted_methods": [
+          {
+            "name": "Đa thức đặc trưng",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính determinant rồi giải phương trình."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO7-S05",
+          "name": "Tính trị riêng và vector riêng"
+        }
+      ],
+      "student_answer": "Em lập $(2-\\lambda)^2-1=0$, khai triển thành $\\lambda^2-4\\lambda+5=0$. Suy ra $\\lambda=2\\pm i$. Vậy ma trận có hai trị riêng phức $2\\pm i$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO7-S05",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_023",
+      "subject": "MAE101",
+      "scenario": "CALC_SLIP",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_023",
+        "question_text": "Tìm số chiều của không gian nghiệm hệ $x+y+z=0$, $2x+2y+2z=0$ trong $\\mathbb R^3$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Chỉ có một phương trình độc lập nên rank=1, nullity=2.",
+        "final_answer": "$\\dim=2$",
+        "accepted_methods": [
+          {
+            "name": "Khử Gauss và rank-nullity",
+            "scope_level": "FPT_CORE",
+            "outline": "Xác định số pivot và số biến tự do."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO9-S04",
+          "name": "Tìm cơ sở và số chiều"
+        }
+      ],
+      "student_answer": "Phương trình thứ hai gấp đôi phương trình thứ nhất, nên em có hai phương trình và ba ẩn. Em tính số biến tự do là $3-2=1$, do đó số chiều không gian nghiệm bằng 1.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO9-S04",
+            "status": [
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          4,
+          7
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_024",
+      "subject": "MAE101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_024",
+        "question_text": "Tính $\\lim_{x\\to2}\\frac{x^2-4}{x-2}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Rút gọn thành x+2 rồi lấy giới hạn 4.",
+        "final_answer": "$4$",
+        "accepted_methods": [
+          {
+            "name": "Phân tích nhân tử",
+            "scope_level": "FPT_CORE",
+            "outline": "Giản ước trước khi thế."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO1-S02",
+          "name": "Tính giới hạn bằng lập luận số, đồ thị và đại số"
+        }
+      ],
+      "student_answer": "Thế trực tiếp $x=2$ ta được $0/0$. Em cho rằng mọi dạng $0/0$ đều có giới hạn bằng 0, nên kết quả là 0.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO1-S02",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_025",
+      "subject": "MAE101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_025",
+        "question_text": "Tính đạo hàm $\\sin(x^2)$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$2x\\cos(x^2)$.",
+        "final_answer": "$2x\\cos(x^2)$",
+        "accepted_methods": [
+          {
+            "name": "Quy tắc dây chuyền",
+            "scope_level": "FPT_CORE",
+            "outline": "Đạo hàm sin là cos rồi nhân 2x."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO2-S04",
+          "name": "Áp dụng quy tắc dây chuyền"
+        }
+      ],
+      "student_answer": "Đạo hàm của $\\sin u$ là $\\cos u$, nên $y'=\\cos(x^2)$. Không cần nhân thêm vì bên trong vẫn là $x^2$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO2-S04",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_026",
+      "subject": "MAE101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_026",
+        "question_text": "Một hình chữ nhật có chu vi 40. Tìm diện tích lớn nhất.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đặt A=x(20-x), cực đại 100 tại x=10.",
+        "final_answer": "$100$",
+        "accepted_methods": [
+          {
+            "name": "Tối ưu bằng đạo hàm",
+            "scope_level": "FPT_CORE",
+            "outline": "Dùng ràng buộc chu vi để lập hàm một biến."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO3-S05",
+          "name": "Mô hình hóa và giải bài toán tối ưu"
+        }
+      ],
+      "student_answer": "Vì chu vi bằng 40 nên em lấy hai cạnh là 20 và 20. Diện tích là $20\\cdot20=400$. Đây là diện tích lớn nhất.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO3-S05",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_027",
+      "subject": "MAE101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_027",
+        "question_text": "Nêu và áp dụng công thức từng phần để tính $\\int xe^x dx$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\int u\\,dv=uv-\\int v\\,du$, kết quả $xe^x-e^x+C$.",
+        "final_answer": "$xe^x-e^x+C$",
+        "accepted_methods": [
+          {
+            "name": "Tích phân từng phần",
+            "scope_level": "FPT_CORE",
+            "outline": "Dùng đúng dấu trừ trong công thức."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S05",
+          "name": "Sử dụng tích phân từng phần"
+        }
+      ],
+      "student_answer": "Em dùng công thức $\\int u\\,dv=uv+\\int v\\,du$. Với $u=x$, $dv=e^x dx$, em được $xe^x+e^x+C$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S05",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_028",
+      "subject": "MAE101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_028",
+        "question_text": "Tìm vector riêng ứng với $\\lambda=3$ của $A=\\begin{pmatrix}3&1\\\\0&3\\end{pmatrix}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Giải $(A-3I)v=0$, được y=0, vector riêng span{(1,0)}.",
+        "final_answer": "$\\operatorname{span}\\{(1,0)\\}$",
+        "accepted_methods": [
+          {
+            "name": "Giải hệ riêng",
+            "scope_level": "FPT_CORE",
+            "outline": "Giải (A-lambda I)v=0."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO7-S05",
+          "name": "Tính trị riêng và vector riêng"
+        }
+      ],
+      "student_answer": "Vector riêng phải thỏa $Av=0$. Giải hệ $3x+y=0$, $3y=0$ được $x=y=0$, nên không có vector riêng cho $\\lambda=3$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO7-S05",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_029",
+      "subject": "MAE101",
+      "scenario": "CONCEPT_WRONG",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_029",
+        "question_text": "Kiểm tra $W=\\{(x,y)\\in\\mathbb R^2:x+y=1\\}$ có là không gian con không.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "W không chứa vector 0 nên không là không gian con.",
+        "final_answer": "Không phải không gian con",
+        "accepted_methods": [
+          {
+            "name": "Kiểm tra các tiên đề không gian con",
+            "scope_level": "FPT_CORE",
+            "outline": "Kiểm tra vector 0 và tính đóng."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO9-S01",
+          "name": "Kiểm tra một tập có phải không gian con"
+        }
+      ],
+      "student_answer": "W có vô số vector và phương trình xác định một đường thẳng, nên chắc chắn là không gian con của $\\mathbb R^2$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO9-S01",
+            "status": [
+              "KNOWLEDGE_GAP"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 1
+      }
+    },
+    {
+      "test_id": "V4_MAE101_030",
+      "subject": "MAE101",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_030",
+        "question_text": "Tìm $m$ để hàm trong câu $f(x)=\\frac{x^2-16}{x-4}$, $x\\ne4$, $f(4)=m$ liên tục.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Rút gọn x+4, giới hạn 8.",
+        "final_answer": "$m=8$",
+        "accepted_methods": [
+          {
+            "name": "Điều kiện liên tục và rút gọn",
+            "scope_level": "FPT_CORE",
+            "outline": "Nêu lim=f(4), rút gọn, tính giới hạn."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO1-S03",
+          "name": "Xác định tính liên tục và phân loại gián đoạn"
+        }
+      ],
+      "student_answer": "$m=8$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO1-S03",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_031",
+      "subject": "MAE101",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_031",
+        "question_text": "Tính đạo hàm $(3x-1)^6$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$18(3x-1)^5$.",
+        "final_answer": "$18(3x-1)^5$",
+        "accepted_methods": [
+          {
+            "name": "Quy tắc dây chuyền",
+            "scope_level": "FPT_CORE",
+            "outline": "Đạo hàm hàm ngoài nhân đạo hàm bên trong."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO2-S04",
+          "name": "Áp dụng quy tắc dây chuyền"
+        }
+      ],
+      "student_answer": "$18(3x-1)^5$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO2-S04",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_032",
+      "subject": "MAE101",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_032",
+        "question_text": "Tính $\\int x\\cos x\\,dx$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$x\\sin x+\\cos x+C$.",
+        "final_answer": "$x\\sin x+\\cos x+C$",
+        "accepted_methods": [
+          {
+            "name": "Tích phân từng phần",
+            "scope_level": "FPT_CORE",
+            "outline": "Chọn u=x, dv=cos x dx."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S05",
+          "name": "Sử dụng tích phân từng phần"
+        }
+      ],
+      "student_answer": "$x\\sin x+\\cos x+C$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S05",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_033",
+      "subject": "MAE101",
+      "scenario": "RIGHT_ANSWER_NO_WORK",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_033",
+        "question_text": "Tìm trị riêng của $\\begin{pmatrix}5&0\\\\0&-2\\end{pmatrix}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Ma trận đường chéo có trị riêng là phần tử đường chéo.",
+        "final_answer": "$5,-2$",
+        "accepted_methods": [
+          {
+            "name": "Đa thức đặc trưng",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính det(A-lambda I)."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO7-S05",
+          "name": "Tính trị riêng và vector riêng"
+        }
+      ],
+      "student_answer": "$\\lambda=5,-2$.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO7-S05",
+            "status": [
+              "PARTIALLY_DEMONSTRATED",
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          2,
+          6
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_034",
+      "subject": "MAE101",
+      "scenario": "OFF_TOPIC",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_034",
+        "question_text": "Tìm kích thước hình chữ nhật chu vi 60 có diện tích lớn nhất.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đặt hai cạnh x,30-x; cực đại tại 15,15.",
+        "final_answer": "$15\\times15$",
+        "accepted_methods": [
+          {
+            "name": "Tối ưu bằng đạo hàm",
+            "scope_level": "FPT_CORE",
+            "outline": "Lập hàm diện tích từ ràng buộc."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO3-S05",
+          "name": "Mô hình hóa và giải bài toán tối ưu"
+        }
+      ],
+      "student_answer": "Ma trận đơn vị cấp hai là $\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}$ và định thức của nó bằng 1.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO3-S05",
+            "status": [
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          2
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_035",
+      "subject": "MAE101",
+      "scenario": "OFF_TOPIC",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_035",
+        "question_text": "Tính $\\int 3x^2\\sqrt{x^3+1}\\,dx$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đặt u=x^3+1, kết quả 2/3 (x^3+1)^(3/2)+C.",
+        "final_answer": "$\\frac23(x^3+1)^{3/2}+C$",
+        "accepted_methods": [
+          {
+            "name": "Đổi biến",
+            "scope_level": "FPT_CORE",
+            "outline": "Đặt u=x³+1."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S04",
+          "name": "Sử dụng phương pháp đổi biến"
+        }
+      ],
+      "student_answer": "Hàm liên tục tại một điểm nếu giới hạn trái bằng giới hạn phải và bằng giá trị hàm tại điểm đó.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S04",
+            "status": [
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          2
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_036",
+      "subject": "MAE101",
+      "scenario": "OFF_TOPIC",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_036",
+        "question_text": "Xét ma trận $A=\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}$ có chéo hóa được không.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Chỉ có một vector riêng độc lập nên không chéo hóa được.",
+        "final_answer": "Không chéo hóa được",
+        "accepted_methods": [
+          {
+            "name": "So sánh bội đại số và hình học",
+            "scope_level": "FPT_CORE",
+            "outline": "Tìm eigenvalue và dimension eigenspace."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO7-S06",
+          "name": "Kiểm tra và thực hiện chéo hóa ma trận"
+        }
+      ],
+      "student_answer": "Xác suất của biến cố chắc chắn bằng 1, còn xác suất biến cố không thể bằng 0.",
+      "hint_events": [],
+      "expected": {
+        "answers_match": false,
+        "method_scope_level": [
+          "INVALID_OR_UNJUSTIFIED"
+        ],
+        "method_valid": false,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO7-S06",
+            "status": [
+              "NOT_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          0,
+          2
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_037",
+      "subject": "MAE101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_037",
+        "question_text": "Tìm m để $f(x)=\\frac{x^2-1}{x-1}$ với $x\\ne1$, $f(1)=m$ liên tục.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Rút gọn x+1, m=2.",
+        "final_answer": "$m=2$",
+        "accepted_methods": [
+          {
+            "name": "Điều kiện liên tục",
+            "scope_level": "FPT_CORE",
+            "outline": "Rút gọn và đặt giới hạn bằng m."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO1-S03",
+          "name": "Xác định tính liên tục và phân loại gián đoạn"
+        }
+      ],
+      "student_answer": "Để liên tục cần giới hạn bằng $m$. Vì $x^2-1=(x-1)(x+1)$ nên giới hạn là 2. Vậy $m=2$.",
+      "hint_events": [
+        {
+          "level": 4,
+          "hint_text": "Dàn ý đầy đủ: nêu lim=f(1), phân tích x²-1, giản ước, thế x=1 và kết luận m=2.",
+          "revealed": {
+            "concepts": [
+              "continuity"
+            ],
+            "methods": [
+              "factor and cancel"
+            ],
+            "steps": [
+              "lim=f(1)",
+              "factor x²-1",
+              "obtain m=2"
+            ]
+          },
+          "draft_at_request": "Em mới ghi: cần kiểm tra liên tục tại x=1."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO1-S03",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_038",
+      "subject": "MAE101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_038",
+        "question_text": "Tính đạo hàm $(x^2+1)^4$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$8x(x^2+1)^3$.",
+        "final_answer": "$8x(x^2+1)^3$",
+        "accepted_methods": [
+          {
+            "name": "Quy tắc dây chuyền",
+            "scope_level": "FPT_CORE",
+            "outline": "Ngoài 4u³, trong 2x."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO2-S04",
+          "name": "Áp dụng quy tắc dây chuyền"
+        }
+      ],
+      "student_answer": "Đặt $u=x^2+1$. Khi đó $y'=4u^3\\cdot2x=8x(x^2+1)^3$.",
+      "hint_events": [
+        {
+          "level": 5,
+          "hint_text": "Lời giải: đặt u=x²+1, y=u⁴; u'=2x; y'=4u³u'=8x(x²+1)³.",
+          "revealed": {
+            "concepts": [
+              "chain rule"
+            ],
+            "methods": [
+              "substitution u"
+            ],
+            "steps": [
+              "u=x²+1",
+              "u'=2x",
+              "multiply derivatives"
+            ]
+          },
+          "draft_at_request": "Em chưa biết có cần đạo hàm phần trong không."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO2-S04",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_039",
+      "subject": "MAE101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_039",
+        "question_text": "Tìm diện tích lớn nhất của hình chữ nhật chu vi 32.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Đặt A=x(16-x), max 64 tại x=8.",
+        "final_answer": "$64$",
+        "accepted_methods": [
+          {
+            "name": "Tối ưu bằng đạo hàm",
+            "scope_level": "FPT_CORE",
+            "outline": "Lập A và giải A'=0."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO3-S05",
+          "name": "Mô hình hóa và giải bài toán tối ưu"
+        }
+      ],
+      "student_answer": "Gọi cạnh là $x$ và $16-x$. $A=16x-x^2$, $A'=16-2x=0$ nên $x=8$. Diện tích lớn nhất là 64.",
+      "hint_events": [
+        {
+          "level": 4,
+          "hint_text": "Dàn ý: từ chu vi suy ra x+y=16; thế y=16-x; lập A=x(16-x); đạo hàm và kiểm tra cực đại.",
+          "revealed": {
+            "concepts": [
+              "optimization"
+            ],
+            "methods": [
+              "single-variable derivative"
+            ],
+            "steps": [
+              "constraint",
+              "objective",
+              "critical point",
+              "maximum"
+            ]
+          },
+          "draft_at_request": "Em mới đặt hai cạnh là x và y, có 2x+2y=32."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO3-S05",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_040",
+      "subject": "MAE101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_040",
+        "question_text": "Tính $\\int x\\ln x\\,dx$ với $x>0$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$x^2\\ln x/2-x^2/4+C$.",
+        "final_answer": "$\\frac{x^2}{2}\\ln x-\\frac{x^2}{4}+C$",
+        "accepted_methods": [
+          {
+            "name": "Tích phân từng phần",
+            "scope_level": "FPT_CORE",
+            "outline": "u=ln x, dv=x dx."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S05",
+          "name": "Sử dụng tích phân từng phần"
+        }
+      ],
+      "student_answer": "Chọn $u=\\ln x$, $dv=x dx$, nên $du=dx/x$, $v=x^2/2$. Kết quả $x^2\\ln x/2-\\int x/2 dx=x^2\\ln x/2-x^2/4+C$.",
+      "hint_events": [
+        {
+          "level": 5,
+          "hint_text": "Lời giải gần đầy đủ: chọn u=ln x, dv=x dx; v=x²/2, du=dx/x; thay công thức và tích phân x/2.",
+          "revealed": {
+            "concepts": [
+              "integration by parts"
+            ],
+            "methods": [
+              "u=ln x,dv=x dx"
+            ],
+            "steps": [
+              "compute du,v",
+              "apply formula",
+              "integrate x/2"
+            ]
+          },
+          "draft_at_request": "Em chỉ biết đây có thể là tích phân từng phần."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S05",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_041",
+      "subject": "MAE101",
+      "scenario": "HINT_HEAVY",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_041",
+        "question_text": "Tìm trị riêng của $A=\\begin{pmatrix}3&1\\\\1&3\\end{pmatrix}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\lambda=4,2$.",
+        "final_answer": "$4,2$",
+        "accepted_methods": [
+          {
+            "name": "Đa thức đặc trưng",
+            "scope_level": "FPT_CORE",
+            "outline": "Tính determinant và giải."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO7-S05",
+          "name": "Tính trị riêng và vector riêng"
+        }
+      ],
+      "student_answer": "$\\det(A-\\lambda I)=(3-\\lambda)^2-1=0$, nên $3-\\lambda=\\pm1$. Do đó $\\lambda=2$ hoặc 4.",
+      "hint_events": [
+        {
+          "level": 4,
+          "hint_text": "Dàn ý và phép tính: det(A-λI)=(3-λ)²-1; đặt bằng 0; giải (3-λ)=±1 để được 2,4.",
+          "revealed": {
+            "concepts": [
+              "eigenvalue"
+            ],
+            "methods": [
+              "characteristic polynomial"
+            ],
+            "steps": [
+              "form determinant",
+              "solve equation"
+            ]
+          },
+          "draft_at_request": "Em đã viết A-λI nhưng chưa biết tính tiếp."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO7-S05",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": false
+          }
+        ],
+        "score_band": [
+          0,
+          4
+        ],
+        "must_flag_confirmation": true,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_042",
+      "subject": "MAE101",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_042",
+        "question_text": "Tính $\\lim_{x\\to1}\\frac{x^3-1}{x-1}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Phân tích x³-1=(x-1)(x²+x+1), giới hạn 3.",
+        "final_answer": "$3$",
+        "accepted_methods": [
+          {
+            "name": "Phân tích hiệu lập phương",
+            "scope_level": "FPT_CORE",
+            "outline": "Rút gọn nhân tử."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO1-S02",
+          "name": "Tính giới hạn bằng lập luận số, đồ thị và đại số"
+        }
+      ],
+      "student_answer": "Em dùng $x^3-1=(x-1)(x^2+x+1)$, rút gọn rồi thế $x=1$, được 3.",
+      "hint_events": [
+        {
+          "level": 1,
+          "hint_text": "Hãy nhớ công thức phân tích hiệu hai lập phương.",
+          "revealed": {
+            "concepts": [
+              "difference of cubes"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em thấy dạng 0/0 và đang tìm cách phân tích."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO1-S02",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_043",
+      "subject": "MAE101",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_043",
+        "question_text": "Tính đạo hàm $e^{x^2+1}$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$2xe^{x^2+1}$.",
+        "final_answer": "$2xe^{x^2+1}$",
+        "accepted_methods": [
+          {
+            "name": "Quy tắc dây chuyền",
+            "scope_level": "FPT_CORE",
+            "outline": "Đạo hàm e^u là e^u u'."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO2-S04",
+          "name": "Áp dụng quy tắc dây chuyền"
+        }
+      ],
+      "student_answer": "Đặt $u=x^2+1$, em tính $u'=2x$. Do đó $y'=e^u u'=2xe^{x^2+1}$.",
+      "hint_events": [
+        {
+          "level": 2,
+          "hint_text": "Đây là hàm hợp; hãy xác định hàm trong.",
+          "revealed": {
+            "concepts": [
+              "composite function"
+            ],
+            "methods": [
+              "chain rule"
+            ],
+            "steps": []
+          },
+          "draft_at_request": "Em đã nhận ra hàm mũ nhưng chưa viết đạo hàm."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO2-S04",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_044",
+      "subject": "MAE101",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "medium",
+      "question": {
+        "id": "V4Q_MAE101_044",
+        "question_text": "Tính $\\int \\frac{2x}{x^2+4}\\,dx$.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "$\\ln(x^2+4)+C$.",
+        "final_answer": "$\\ln(x^2+4)+C$",
+        "accepted_methods": [
+          {
+            "name": "Đổi biến",
+            "scope_level": "FPT_CORE",
+            "outline": "u=x²+4."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO4-S04",
+          "name": "Sử dụng phương pháp đổi biến"
+        }
+      ],
+      "student_answer": "Đặt $u=x^2+4$, $du=2x dx$. Khi đó tích phân là $\\int du/u=\\ln|u|+C=\\ln(x^2+4)+C$.",
+      "hint_events": [
+        {
+          "level": 1,
+          "hint_text": "Tìm một biểu thức trong mẫu có đạo hàm xuất hiện ở tử.",
+          "revealed": {
+            "concepts": [
+              "u-substitution pattern"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em đang xem tử có liên hệ gì với mẫu."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO4-S04",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    },
+    {
+      "test_id": "V4_MAE101_045",
+      "subject": "MAE101",
+      "scenario": "HINT_LIGHT",
+      "difficulty": "hard",
+      "question": {
+        "id": "V4Q_MAE101_045",
+        "question_text": "Kiểm tra $(1,0,1),(0,1,1),(1,1,2)$ độc lập tuyến tính hay không.",
+        "latex": null,
+        "points": 10,
+        "standard_solution": "Vector thứ ba bằng tổng hai vector đầu nên phụ thuộc.",
+        "final_answer": "Phụ thuộc tuyến tính",
+        "accepted_methods": [
+          {
+            "name": "Quan hệ tuyến tính hoặc khử Gauss",
+            "scope_level": "FPT_CORE",
+            "outline": "Tìm tổ hợp không tầm thường."
+          }
+        ],
+        "grading_notes": ""
+      },
+      "skill_targets": [
+        {
+          "skill_id": "MAE-CLO9-S03",
+          "name": "Kiểm tra độc lập tuyến tính"
+        }
+      ],
+      "student_answer": "Em nhận thấy $v_3=v_1+v_2$, nên $v_1+v_2-v_3=0$ là quan hệ không tầm thường. Vậy phụ thuộc tuyến tính.",
+      "hint_events": [
+        {
+          "level": 1,
+          "hint_text": "Hãy thử kiểm tra xem một vector có viết được bằng tổng của hai vector còn lại không.",
+          "revealed": {
+            "concepts": [
+              "linear dependence"
+            ],
+            "methods": [],
+            "steps": []
+          },
+          "draft_at_request": "Em đã viết ba vector theo cột nhưng chưa khử."
+        }
+      ],
+      "expected": {
+        "answers_match": true,
+        "method_scope_level": [
+          "FPT_CORE",
+          "FPT_ACCEPTED_ALTERNATIVE"
+        ],
+        "method_valid": true,
+        "skills": [
+          {
+            "skill_id": "MAE-CLO9-S03",
+            "status": [
+              "DEMONSTRATED",
+              "PARTIALLY_DEMONSTRATED"
+            ],
+            "independent": true
+          }
+        ],
+        "score_band": [
+          6,
+          9
+        ],
+        "must_flag_confirmation": false,
+        "min_mistakes": 0
+      }
+    }
+  ]
+}

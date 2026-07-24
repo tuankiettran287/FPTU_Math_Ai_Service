@@ -1,0 +1,497 @@
+{
+ "llama8b": {
+  "n": 135,
+  "avg_latency_s": 39.0,
+  "checks": {
+   "answers_match": {
+    "pass": 106,
+    "of": 135,
+    "pct": 78.5
+   },
+   "method_scope": {
+    "pass": 72,
+    "of": 135,
+    "pct": 53.3
+   },
+   "skill_status": {
+    "pass": 67,
+    "of": 135,
+    "pct": 49.6
+   },
+   "skill_independent": {
+    "pass": 63,
+    "of": 135,
+    "pct": 46.7
+   },
+   "score_band": {
+    "pass": 73,
+    "of": 135,
+    "pct": 54.1
+   },
+   "needs_confirmation": {
+    "pass": 90,
+    "of": 135,
+    "pct": 66.7
+   },
+   "min_mistakes": {
+    "pass": 125,
+    "of": 135,
+    "pct": 92.6
+   }
+  },
+  "by_scenario": {
+   "ADVANCED_CORRECT": {
+    "items": 21,
+    "item_pass": 5,
+    "errors": 0,
+    "item_pass_pct": 23.8
+   },
+   "ALT_CORRECT": {
+    "items": 15,
+    "item_pass": 1,
+    "errors": 0,
+    "item_pass_pct": 6.7
+   },
+   "CALC_SLIP": {
+    "items": 18,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "CONCEPT_WRONG": {
+    "items": 18,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "CORE_CORRECT": {
+    "items": 15,
+    "item_pass": 3,
+    "errors": 0,
+    "item_pass_pct": 20.0
+   },
+   "HINT_HEAVY": {
+    "items": 15,
+    "item_pass": 10,
+    "errors": 0,
+    "item_pass_pct": 66.7
+   },
+   "HINT_LIGHT": {
+    "items": 12,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "OFF_TOPIC": {
+    "items": 9,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "RIGHT_ANSWER_NO_WORK": {
+    "items": 12,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   }
+  },
+  "no_false_gap_pct": 100.0,
+  "overall_item_pass_pct": 14.1
+ },
+ "qwen7b": {
+  "n": 135,
+  "avg_latency_s": 35.8,
+  "checks": {
+   "answers_match": {
+    "pass": 118,
+    "of": 134,
+    "pct": 88.1
+   },
+   "method_scope": {
+    "pass": 78,
+    "of": 134,
+    "pct": 58.2
+   },
+   "skill_status": {
+    "pass": 79,
+    "of": 134,
+    "pct": 59.0
+   },
+   "skill_independent": {
+    "pass": 114,
+    "of": 134,
+    "pct": 85.1
+   },
+   "score_band": {
+    "pass": 56,
+    "of": 134,
+    "pct": 41.8
+   },
+   "needs_confirmation": {
+    "pass": 102,
+    "of": 134,
+    "pct": 76.1
+   },
+   "min_mistakes": {
+    "pass": 130,
+    "of": 134,
+    "pct": 97.0
+   }
+  },
+  "by_scenario": {
+   "ADVANCED_CORRECT": {
+    "items": 21,
+    "item_pass": 1,
+    "errors": 0,
+    "item_pass_pct": 4.8
+   },
+   "ALT_CORRECT": {
+    "items": 15,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "CALC_SLIP": {
+    "items": 18,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "CONCEPT_WRONG": {
+    "items": 18,
+    "item_pass": 1,
+    "errors": 0,
+    "item_pass_pct": 5.6
+   },
+   "CORE_CORRECT": {
+    "items": 15,
+    "item_pass": 5,
+    "errors": 0,
+    "item_pass_pct": 33.3
+   },
+   "HINT_HEAVY": {
+    "items": 15,
+    "item_pass": 12,
+    "errors": 0,
+    "item_pass_pct": 80.0
+   },
+   "HINT_LIGHT": {
+    "items": 12,
+    "item_pass": 0,
+    "errors": 1,
+    "item_pass_pct": 0.0
+   },
+   "OFF_TOPIC": {
+    "items": 9,
+    "item_pass": 5,
+    "errors": 0,
+    "item_pass_pct": 55.6
+   },
+   "RIGHT_ANSWER_NO_WORK": {
+    "items": 12,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   }
+  },
+  "no_false_gap_pct": 100.0,
+  "overall_item_pass_pct": 17.8
+ },
+ "r1_14b": {
+  "n": 135,
+  "avg_latency_s": 69.6,
+  "checks": {
+   "answers_match": {
+    "pass": 117,
+    "of": 135,
+    "pct": 86.7
+   },
+   "method_scope": {
+    "pass": 94,
+    "of": 135,
+    "pct": 69.6
+   },
+   "skill_status": {
+    "pass": 90,
+    "of": 135,
+    "pct": 66.7
+   },
+   "skill_independent": {
+    "pass": 109,
+    "of": 135,
+    "pct": 80.7
+   },
+   "score_band": {
+    "pass": 82,
+    "of": 135,
+    "pct": 60.7
+   },
+   "needs_confirmation": {
+    "pass": 101,
+    "of": 135,
+    "pct": 74.8
+   },
+   "min_mistakes": {
+    "pass": 130,
+    "of": 135,
+    "pct": 96.3
+   }
+  },
+  "by_scenario": {
+   "ADVANCED_CORRECT": {
+    "items": 21,
+    "item_pass": 4,
+    "errors": 0,
+    "item_pass_pct": 19.0
+   },
+   "ALT_CORRECT": {
+    "items": 15,
+    "item_pass": 2,
+    "errors": 0,
+    "item_pass_pct": 13.3
+   },
+   "CALC_SLIP": {
+    "items": 18,
+    "item_pass": 2,
+    "errors": 0,
+    "item_pass_pct": 11.1
+   },
+   "CONCEPT_WRONG": {
+    "items": 18,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "CORE_CORRECT": {
+    "items": 15,
+    "item_pass": 9,
+    "errors": 0,
+    "item_pass_pct": 60.0
+   },
+   "HINT_HEAVY": {
+    "items": 15,
+    "item_pass": 15,
+    "errors": 0,
+    "item_pass_pct": 100.0
+   },
+   "HINT_LIGHT": {
+    "items": 12,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "OFF_TOPIC": {
+    "items": 9,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "RIGHT_ANSWER_NO_WORK": {
+    "items": 12,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   }
+  },
+  "no_false_gap_pct": 100.0,
+  "overall_item_pass_pct": 23.7
+ },
+ "r1_32b": {
+  "n": 135,
+  "avg_latency_s": 146.0,
+  "checks": {
+   "answers_match": {
+    "pass": 118,
+    "of": 135,
+    "pct": 87.4
+   },
+   "method_scope": {
+    "pass": 90,
+    "of": 135,
+    "pct": 66.7
+   },
+   "skill_status": {
+    "pass": 96,
+    "of": 135,
+    "pct": 71.1
+   },
+   "skill_independent": {
+    "pass": 133,
+    "of": 135,
+    "pct": 98.5
+   },
+   "score_band": {
+    "pass": 92,
+    "of": 135,
+    "pct": 68.1
+   },
+   "needs_confirmation": {
+    "pass": 114,
+    "of": 135,
+    "pct": 84.4
+   },
+   "min_mistakes": {
+    "pass": 119,
+    "of": 135,
+    "pct": 88.1
+   }
+  },
+  "by_scenario": {
+   "ADVANCED_CORRECT": {
+    "items": 21,
+    "item_pass": 12,
+    "errors": 0,
+    "item_pass_pct": 57.1
+   },
+   "ALT_CORRECT": {
+    "items": 15,
+    "item_pass": 4,
+    "errors": 0,
+    "item_pass_pct": 26.7
+   },
+   "CALC_SLIP": {
+    "items": 18,
+    "item_pass": 1,
+    "errors": 0,
+    "item_pass_pct": 5.6
+   },
+   "CONCEPT_WRONG": {
+    "items": 18,
+    "item_pass": 1,
+    "errors": 0,
+    "item_pass_pct": 5.6
+   },
+   "CORE_CORRECT": {
+    "items": 15,
+    "item_pass": 14,
+    "errors": 0,
+    "item_pass_pct": 93.3
+   },
+   "HINT_HEAVY": {
+    "items": 15,
+    "item_pass": 15,
+    "errors": 0,
+    "item_pass_pct": 100.0
+   },
+   "HINT_LIGHT": {
+    "items": 12,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "OFF_TOPIC": {
+    "items": 9,
+    "item_pass": 3,
+    "errors": 0,
+    "item_pass_pct": 33.3
+   },
+   "RIGHT_ANSWER_NO_WORK": {
+    "items": 12,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   }
+  },
+  "no_false_gap_pct": 100.0,
+  "overall_item_pass_pct": 37.0
+ },
+ "r1_7b": {
+  "n": 135,
+  "avg_latency_s": 45.8,
+  "checks": {
+   "answers_match": {
+    "pass": 89,
+    "of": 131,
+    "pct": 67.9
+   },
+   "method_scope": {
+    "pass": 62,
+    "of": 131,
+    "pct": 47.3
+   },
+   "skill_status": {
+    "pass": 56,
+    "of": 131,
+    "pct": 42.7
+   },
+   "skill_independent": {
+    "pass": 128,
+    "of": 131,
+    "pct": 97.7
+   },
+   "score_band": {
+    "pass": 55,
+    "of": 131,
+    "pct": 42.0
+   },
+   "needs_confirmation": {
+    "pass": 94,
+    "of": 131,
+    "pct": 71.8
+   },
+   "min_mistakes": {
+    "pass": 105,
+    "of": 131,
+    "pct": 80.2
+   }
+  },
+  "by_scenario": {
+   "ADVANCED_CORRECT": {
+    "items": 21,
+    "item_pass": 1,
+    "errors": 1,
+    "item_pass_pct": 4.8
+   },
+   "ALT_CORRECT": {
+    "items": 15,
+    "item_pass": 1,
+    "errors": 0,
+    "item_pass_pct": 6.7
+   },
+   "CALC_SLIP": {
+    "items": 18,
+    "item_pass": 0,
+    "errors": 1,
+    "item_pass_pct": 0.0
+   },
+   "CONCEPT_WRONG": {
+    "items": 18,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "CORE_CORRECT": {
+    "items": 15,
+    "item_pass": 8,
+    "errors": 0,
+    "item_pass_pct": 53.3
+   },
+   "HINT_HEAVY": {
+    "items": 15,
+    "item_pass": 12,
+    "errors": 1,
+    "item_pass_pct": 80.0
+   },
+   "HINT_LIGHT": {
+    "items": 12,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "OFF_TOPIC": {
+    "items": 9,
+    "item_pass": 0,
+    "errors": 0,
+    "item_pass_pct": 0.0
+   },
+   "RIGHT_ANSWER_NO_WORK": {
+    "items": 12,
+    "item_pass": 0,
+    "errors": 1,
+    "item_pass_pct": 0.0
+   }
+  },
+  "no_false_gap_pct": 100.0,
+  "overall_item_pass_pct": 16.3
+ }
+}

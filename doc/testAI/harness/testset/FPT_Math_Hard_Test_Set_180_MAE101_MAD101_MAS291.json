@@ -1,0 +1,1622 @@
+[
+  {
+    "test_id": "TEST_MAE101_001",
+    "subject": "MAE101",
+    "topic": "Limits and Continuity",
+    "difficulty": "medium",
+    "input_question": "Tính lim khi x→0 của [√(1+3x)−√(1−x)]/x.",
+    "expected_context": "Nhân liên hợp để khử dạng 0/0 hoặc dùng khai triển bậc nhất.",
+    "expected_answer": "Nhân liên hợp, tử trở thành 4x và mẫu là x[√(1+3x)+√(1−x)]. Rút gọn x rồi cho x→0, giới hạn bằng 4/2=2."
+  },
+  {
+    "test_id": "TEST_MAE101_002",
+    "subject": "MAE101",
+    "topic": "Limits and Continuity",
+    "difficulty": "hard",
+    "input_question": "Tìm a,b để f(x)=(ax+b)/(x−1) khi x≠1, f(1)=3 liên tục tại x=1, đồng thời f(2)=5.",
+    "expected_context": "Muốn giới hạn hữu hạn tại x=1 thì tử phải triệt tiêu tại x=1.",
+    "expected_answer": "Điều kiện a+b=0 nên b=−a. Khi đó f(x)=a với x≠1. Liên tục tại 1 yêu cầu a=3, nhưng f(2)=3 trái với điều kiện f(2)=5. Không tồn tại cặp (a,b)."
+  },
+  {
+    "test_id": "TEST_MAE101_003",
+    "subject": "MAE101",
+    "topic": "Limits and Continuity",
+    "difficulty": "hard",
+    "input_question": "Tính lim khi x→∞ của x[√(x²+4x+1)−x−2].",
+    "expected_context": "Nhân liên hợp để xử lý dạng ∞−∞.",
+    "expected_answer": "Biểu thức trong ngoặc bằng −3/[√(x²+4x+1)+x+2]. Vì vậy giới hạn là −3/[√(1+4/x+1/x²)+1+2/x]=−3/2."
+  },
+  {
+    "test_id": "TEST_MAE101_004",
+    "subject": "MAE101",
+    "topic": "Limits and Continuity",
+    "difficulty": "hard",
+    "input_question": "Cho f(x)=x sin(1/x) nếu x≠0 và f(0)=0. Chứng minh f liên tục nhưng không khả vi tại 0.",
+    "expected_context": "Dùng định lý kẹp cho liên tục và định nghĩa đạo hàm tại 0.",
+    "expected_answer": "|x sin(1/x)|≤|x| nên lim f(x)=0=f(0). Đạo hàm tại 0 cần lim sin(1/h), giới hạn này không tồn tại. Do đó f liên tục nhưng không khả vi tại 0."
+  },
+  {
+    "test_id": "TEST_MAE101_005",
+    "subject": "MAE101",
+    "topic": "Limits and Continuity",
+    "difficulty": "medium",
+    "input_question": "Xác định các điểm gián đoạn và loại gián đoạn của f(x)=(x²−1)/(|x|−1).",
+    "expected_context": "Xét riêng x>0 và x<0 rồi tính giới hạn tại các điểm làm mẫu bằng 0.",
+    "expected_answer": "Mẫu bằng 0 tại x=±1. Với x>0, f=x+1 nên lim tại 1 bằng 2. Với x<0, f=1−x nên lim tại −1 bằng 2. Cả hai đều là gián đoạn có thể khử."
+  },
+  {
+    "test_id": "TEST_MAE101_006",
+    "subject": "MAE101",
+    "topic": "Limits and Continuity",
+    "difficulty": "hard",
+    "input_question": "Tìm k để phương trình x³−3x+k=0 có đúng hai nghiệm thực phân biệt.",
+    "expected_context": "Xét cực trị của g(x)=x³−3x+k; đúng hai nghiệm phân biệt xảy ra khi một cực trị nằm trên trục hoành.",
+    "expected_answer": "g'(x)=3(x²−1), cực trị tại ±1. g(−1)=k+2 và g(1)=k−2. Cần k+2=0 hoặc k−2=0, nên k=−2 hoặc k=2."
+  },
+  {
+    "test_id": "TEST_MAE101_007",
+    "subject": "MAE101",
+    "topic": "Limits and Continuity",
+    "difficulty": "hard",
+    "input_question": "Chứng minh phương trình ln x=2−x có đúng một nghiệm dương và xác định khoảng chứa nghiệm.",
+    "expected_context": "Xét h(x)=ln x+x−2, chứng minh đơn điệu và dùng định lý giá trị trung gian.",
+    "expected_answer": "h'(x)=1/x+1>0 nên h tăng nghiêm ngặt. h(1)=−1 và h(2)=ln2>0, nên có đúng một nghiệm trong (1,2)."
+  },
+  {
+    "test_id": "TEST_MAE101_008",
+    "subject": "MAE101",
+    "topic": "Derivatives",
+    "difficulty": "medium",
+    "input_question": "Tính đạo hàm bậc hai của y=x²e^(−x).",
+    "expected_context": "Dùng quy tắc tích hai lần.",
+    "expected_answer": "y'=e^(−x)(2x−x²). Do đó y''=e^(−x)(x²−4x+2)."
+  },
+  {
+    "test_id": "TEST_MAE101_009",
+    "subject": "MAE101",
+    "topic": "Derivatives",
+    "difficulty": "hard",
+    "input_question": "Cho y=(x²+1)^(sin x). Tính y'/y.",
+    "expected_context": "Dùng vi phân logarit.",
+    "expected_answer": "ln y=sin x·ln(x²+1). Suy ra y'/y=cos x·ln(x²+1)+2x sin x/(x²+1)."
+  },
+  {
+    "test_id": "TEST_MAE101_010",
+    "subject": "MAE101",
+    "topic": "Derivatives",
+    "difficulty": "hard",
+    "input_question": "Cho x²+y²=4xy. Tính d²y/dx² tại (2,2).",
+    "expected_context": "Đạo hàm ẩn hai lần.",
+    "expected_answer": "Lần một cho y'=(2x−4y)/(4x−2y), nên tại (2,2), y'=−1. Đạo hàm lần hai từ 2x+2yy'=4y+4xy' cho 2+2(y')²+2yy''=8y'+4xy''. Thế điểm và y' được y''=0."
+  },
+  {
+    "test_id": "TEST_MAE101_011",
+    "subject": "MAE101",
+    "topic": "Derivatives",
+    "difficulty": "hard",
+    "input_question": "Tìm tiếp tuyến chung của y=x² và y=−x²+4x−2.",
+    "expected_context": "Viết tiếp tuyến của mỗi parabol theo hoành độ tiếp điểm rồi đồng nhất hệ số.",
+    "expected_answer": "Tiếp tuyến của y=x² tại a là y=2ax−a². Tiếp tuyến của parabol kia tại b là y=(4−2b)x+b²−2. Đồng nhất cho a+b=2 và −a²=b²−2, suy ra a=b=1. Tiếp tuyến chung là y=2x−1."
+  },
+  {
+    "test_id": "TEST_MAE101_012",
+    "subject": "MAE101",
+    "topic": "Derivatives",
+    "difficulty": "medium",
+    "input_question": "Tìm các điểm trên y=x³−3x có tiếp tuyến song song với y=6x+1.",
+    "expected_context": "Đặt đạo hàm bằng hệ số góc 6.",
+    "expected_answer": "3x²−3=6 nên x=±√3. Cả hai điểm có y=0, vậy các điểm là (√3,0) và (−√3,0)."
+  },
+  {
+    "test_id": "TEST_MAE101_013",
+    "subject": "MAE101",
+    "topic": "Derivatives",
+    "difficulty": "hard",
+    "input_question": "Tìm cực trị của f(x)=x^(1/x), x>0.",
+    "expected_context": "Dùng logarit và xét dấu đạo hàm của ln f.",
+    "expected_answer": "ln f=ln x/x nên (ln f)'=(1−ln x)/x². Đạo hàm đổi dấu từ dương sang âm tại x=e. Cực đại duy nhất là f(e)=e^(1/e)."
+  },
+  {
+    "test_id": "TEST_MAE101_014",
+    "subject": "MAE101",
+    "topic": "Derivatives",
+    "difficulty": "hard",
+    "input_question": "Cho f(x)=arctan((1−x)/(1+x)), x>−1. Tính f'(x).",
+    "expected_context": "Dùng đạo hàm hàm hợp và rút gọn 1+u².",
+    "expected_answer": "Đặt u=(1−x)/(1+x), u'=−2/(1+x)². Vì 1+u²=2(1+x²)/(1+x)² nên f'(x)=−1/(1+x²)."
+  },
+  {
+    "test_id": "TEST_MAE101_015",
+    "subject": "MAE101",
+    "topic": "Applications of Derivatives",
+    "difficulty": "medium",
+    "input_question": "Một hình chữ nhật nội tiếp nửa đường tròn bán kính R, đáy nằm trên đường kính. Tìm kích thước cho diện tích lớn nhất.",
+    "expected_context": "Gọi nửa chiều rộng là x, chiều cao y=√(R²−x²), tối ưu A=2xy.",
+    "expected_answer": "A²=4x²(R²−x²) đạt cực đại khi x²=R²/2. Chiều rộng=√2R, chiều cao=R/√2, diện tích cực đại R²."
+  },
+  {
+    "test_id": "TEST_MAE101_016",
+    "subject": "MAE101",
+    "topic": "Applications of Derivatives",
+    "difficulty": "hard",
+    "input_question": "Tấm bìa vuông cạnh 20 cm được cắt bốn hình vuông cạnh x ở góc rồi gập thành hộp không nắp. Tìm x để thể tích lớn nhất.",
+    "expected_context": "Tối ưu V=x(20−2x)² trên 0<x<10.",
+    "expected_answer": "V'=(20−2x)(20−6x). Điểm tới hạn trong miền là x=10/3. Hai đầu miền cho thể tích 0 nên x=10/3 cm cho thể tích cực đại 16000/27 cm³."
+  },
+  {
+    "test_id": "TEST_MAE101_017",
+    "subject": "MAE101",
+    "topic": "Applications of Derivatives",
+    "difficulty": "hard",
+    "input_question": "Một người đứng cách chân cột đèn 10 m, mắt cao 1.6 m, cột cao 8 m. Người đi xa cột với tốc độ 1.5 m/s. Tính tốc độ thay đổi góc nhìn lên đỉnh cột tại thời điểm đó.",
+    "expected_context": "Đặt tanθ=6.4/x và đạo hàm theo thời gian.",
+    "expected_answer": "sec²θ·dθ/dt=−6.4x^(−2)dx/dt. Tại x=10, sec²θ=1+0.64²=1.4096. Suy ra dθ/dt≈−0.0681 rad/s."
+  },
+  {
+    "test_id": "TEST_MAE101_018",
+    "subject": "MAE101",
+    "topic": "Applications of Derivatives",
+    "difficulty": "hard",
+    "input_question": "Tìm điểm trên parabol y=x² gần điểm (0,3) nhất.",
+    "expected_context": "Tối thiểu hóa bình phương khoảng cách.",
+    "expected_answer": "D²=x²+(x²−3)²=x⁴−5x²+9. D²'=2x(2x²−5). So sánh các điểm tới hạn cho x=±√(5/2), y=5/2 là hai điểm gần nhất."
+  },
+  {
+    "test_id": "TEST_MAE101_019",
+    "subject": "MAE101",
+    "topic": "Applications of Derivatives",
+    "difficulty": "medium",
+    "input_question": "Dùng phương pháp Newton với x0=1 thực hiện hai bước để giải cos x=x.",
+    "expected_context": "Đặt f(x)=cos x−x, f'(x)=−sin x−1.",
+    "expected_answer": "x1≈0.750364; x2≈0.739113. Nghiệm xấp xỉ sau hai bước là 0.7391."
+  },
+  {
+    "test_id": "TEST_MAE101_020",
+    "subject": "MAE101",
+    "topic": "Applications of Derivatives",
+    "difficulty": "hard",
+    "input_question": "Chứng minh e^x=3x có đúng hai nghiệm dương.",
+    "expected_context": "Xét h(x)=e^x−3x, tính cực tiểu và xét dấu.",
+    "expected_answer": "h''>0 nên h lồi; h có cực tiểu tại x=ln3. h(0)>0, h(ln3)=3−3ln3<0 và h→∞ khi x→∞. Vì thế có đúng hai nghiệm dương."
+  },
+  {
+    "test_id": "TEST_MAE101_021",
+    "subject": "MAE101",
+    "topic": "Applications of Derivatives",
+    "difficulty": "hard",
+    "input_question": "Tìm giá trị lớn nhất và nhỏ nhất của f(x)=x+4/x trên [1,5].",
+    "expected_context": "Tìm điểm tới hạn và so sánh với hai đầu mút.",
+    "expected_answer": "f'=1−4/x²=0 tại x=2. f(1)=5, f(2)=4, f(5)=29/5. Giá trị nhỏ nhất là 4 tại x=2; lớn nhất là 29/5 tại x=5."
+  },
+  {
+    "test_id": "TEST_MAE101_022",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "medium",
+    "input_question": "Tính ∫x²/(x²+1) dx.",
+    "expected_context": "Tách phân thức thành 1−1/(x²+1).",
+    "expected_answer": "Kết quả là x−arctan x+C."
+  },
+  {
+    "test_id": "TEST_MAE101_023",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "hard",
+    "input_question": "Tính ∫x³/(x²+1) dx.",
+    "expected_context": "Chia đa thức hoặc viết x³=x(x²+1)−x.",
+    "expected_answer": "Kết quả x²/2−(1/2)ln(x²+1)+C."
+  },
+  {
+    "test_id": "TEST_MAE101_024",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "hard",
+    "input_question": "Tính ∫e^x sin x dx.",
+    "expected_context": "Dùng tích phân từng phần hai lần.",
+    "expected_answer": "Đặt I=∫e^x sin x dx. Sau hai lần từng phần thu được 2I=e^x(sin x−cos x), nên I=(e^x/2)(sin x−cos x)+C."
+  },
+  {
+    "test_id": "TEST_MAE101_025",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "medium",
+    "input_question": "Tính ∫_0^1 x√(1−x²) dx.",
+    "expected_context": "Đặt u=1−x².",
+    "expected_answer": "Giá trị bằng −1/2∫_1^0u^(1/2)du=1/3."
+  },
+  {
+    "test_id": "TEST_MAE101_026",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "hard",
+    "input_question": "Tính ∫dx/(x²−4).",
+    "expected_context": "Phân tích thành phân thức đơn giản.",
+    "expected_answer": "1/(x²−4)=1/4[1/(x−2)−1/(x+2)]. Tích phân=(1/4)ln|(x−2)/(x+2)|+C."
+  },
+  {
+    "test_id": "TEST_MAE101_027",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "hard",
+    "input_question": "Tính ∫_0^(π/2)x sin x dx.",
+    "expected_context": "Dùng tích phân từng phần.",
+    "expected_answer": "Chọn u=x, dv=sin x dx. Giá trị [−x cos x+sin x]_0^(π/2)=1."
+  },
+  {
+    "test_id": "TEST_MAE101_028",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "hard",
+    "input_question": "Tính diện tích miền giới hạn bởi y=x² và y=2x.",
+    "expected_context": "Tìm giao điểm và tích phân hàm trên trừ hàm dưới.",
+    "expected_answer": "Giao điểm x=0,2. Diện tích=∫_0^2(2x−x²)dx=4/3."
+  },
+  {
+    "test_id": "TEST_MAE101_029",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "hard",
+    "input_question": "Tính thể tích khối tròn xoay khi quay miền dưới y=√x, 0≤x≤4 quanh trục x.",
+    "expected_context": "Dùng phương pháp đĩa.",
+    "expected_answer": "V=π∫_0^4y²dx=π∫_0^4x dx=8π."
+  },
+  {
+    "test_id": "TEST_MAE101_030",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "hard",
+    "input_question": "Xét hội tụ và tính ∫_2^∞dx/[x(ln x)²].",
+    "expected_context": "Đặt u=ln x.",
+    "expected_answer": "Tích phân thành ∫_(ln2)^∞u^(−2)du=1/ln2, nên hội tụ."
+  },
+  {
+    "test_id": "TEST_MAE101_031",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "medium",
+    "input_question": "Dùng Simpson với n=2 để xấp xỉ ∫_0^2e^(−x²)dx.",
+    "expected_context": "Với h=1, Simpson cho S=(1/3)[f(0)+4f(1)+f(2)].",
+    "expected_answer": "S=(1/3)[1+4e^(−1)+e^(−4)]≈0.82995."
+  },
+  {
+    "test_id": "TEST_MAE101_032",
+    "subject": "MAE101",
+    "topic": "Integration",
+    "difficulty": "hard",
+    "input_question": "Tìm giá trị trung bình của f(x)=ln x trên [1,e].",
+    "expected_context": "Giá trị trung bình là (1/(b−a))∫_a^bf(x)dx.",
+    "expected_answer": "∫_1^e ln x dx=1, nên giá trị trung bình là 1/(e−1)."
+  },
+  {
+    "test_id": "TEST_MAE101_033",
+    "subject": "MAE101",
+    "topic": "Linear Systems",
+    "difficulty": "medium",
+    "input_question": "Giải hệ x+y+z=6, 2x−y+z=3, x+3y−2z=1.",
+    "expected_context": "Dùng khử Gauss hoặc thế.",
+    "expected_answer": "Nghiệm là x=1,y=2,z=3."
+  },
+  {
+    "test_id": "TEST_MAE101_034",
+    "subject": "MAE101",
+    "topic": "Linear Systems",
+    "difficulty": "hard",
+    "input_question": "Tìm m để hệ x+y+z=1; 2x+3y+4z=2; x+2y+mz=0 có nghiệm duy nhất.",
+    "expected_context": "Hệ có nghiệm duy nhất khi định thức ma trận hệ số khác 0.",
+    "expected_answer": "Định thức bằng m−2. Do đó hệ có nghiệm duy nhất khi m≠2."
+  },
+  {
+    "test_id": "TEST_MAE101_035",
+    "subject": "MAE101",
+    "topic": "Linear Systems",
+    "difficulty": "hard",
+    "input_question": "Biện luận hệ x+y+z=1; 2x+2y+2z=2; x+y+az=b.",
+    "expected_context": "Hai phương trình đầu phụ thuộc; so sánh phương trình ba với phương trình một.",
+    "expected_answer": "Nếu a≠1, hệ có vô số nghiệm với một biến tự do. Nếu a=1,b=1, hệ có vô số nghiệm với hai biến tự do. Nếu a=1,b≠1, hệ vô nghiệm."
+  },
+  {
+    "test_id": "TEST_MAE101_036",
+    "subject": "MAE101",
+    "topic": "Linear Systems",
+    "difficulty": "hard",
+    "input_question": "Tìm nghịch đảo của A=[[1,2,1],[0,1,1],[2,3,4]].",
+    "expected_context": "Dùng khử Gauss hoặc ma trận phụ hợp.",
+    "expected_answer": "det A=3. A⁻¹=(1/3)[[1,−5,1],[2,2,−1],[−2,1,1]]."
+  },
+  {
+    "test_id": "TEST_MAE101_037",
+    "subject": "MAE101",
+    "topic": "Linear Systems",
+    "difficulty": "hard",
+    "input_question": "Cho A=[[1,2],[3,4]]. Tính A^5 mà không nhân lặp trực tiếp.",
+    "expected_context": "Dùng định lý Cayley-Hamilton A²−5A−2I=0.",
+    "expected_answer": "Từ A²=5A+2I suy ra A³=27A+10I, A⁴=145A+54I, A⁵=779A+290I. Kết quả A⁵=[[1069,1558],[2337,3406]]."
+  },
+  {
+    "test_id": "TEST_MAE101_038",
+    "subject": "MAE101",
+    "topic": "Linear Systems",
+    "difficulty": "medium",
+    "input_question": "Tìm hạng của A=[[1,2,3],[2,4,6],[1,1,1]].",
+    "expected_context": "Dùng biến đổi sơ cấp hàng.",
+    "expected_answer": "Hàng hai bằng hai lần hàng một, còn hàng ba độc lập với hàng một. Vì vậy rank(A)=2."
+  },
+  {
+    "test_id": "TEST_MAE101_039",
+    "subject": "MAE101",
+    "topic": "Linear Systems",
+    "difficulty": "hard",
+    "input_question": "A là ma trận 4×6 có rank 4. Nếu Ax=b tương thích, tập nghiệm có số chiều bao nhiêu?",
+    "expected_context": "Dùng định lý rank-nullity.",
+    "expected_answer": "Nullity=6−4=2. Vì hệ tương thích, tập nghiệm là một không gian affine 2 chiều."
+  },
+  {
+    "test_id": "TEST_MAE101_040",
+    "subject": "MAE101",
+    "topic": "Linear Systems",
+    "difficulty": "hard",
+    "input_question": "Tìm điều kiện của b=(b1,b2,b3) để hệ Ax=b có nghiệm, với A=[[1,0],[0,1],[1,1]].",
+    "expected_context": "b phải thuộc không gian cột của A.",
+    "expected_answer": "Hệ tương đương x=b1, y=b2, x+y=b3. Điều kiện cần và đủ là b3=b1+b2."
+  },
+  {
+    "test_id": "TEST_MAE101_041",
+    "subject": "MAE101",
+    "topic": "Eigenvalues and Diagonalization",
+    "difficulty": "medium",
+    "input_question": "Tìm trị riêng và vector riêng của A=[[4,1],[2,3]].",
+    "expected_context": "Giải det(A−λI)=0 rồi tìm không gian riêng.",
+    "expected_answer": "Đa thức đặc trưng λ²−7λ+10=(λ−5)(λ−2). Với λ=5, vector riêng có thể là (1,1). Với λ=2, vector riêng có thể là (1,−2)."
+  },
+  {
+    "test_id": "TEST_MAE101_042",
+    "subject": "MAE101",
+    "topic": "Eigenvalues and Diagonalization",
+    "difficulty": "hard",
+    "input_question": "Chéo hóa A=[[4,1],[2,3]] và suy ra công thức A^n.",
+    "expected_context": "Dùng hai vector riêng độc lập để lập P và D.",
+    "expected_answer": "P=[[1,1],[1,−2]], D=diag(5,2), P⁻¹=[[2/3,1/3],[1/3,−1/3]]. A^n=P diag(5^n,2^n)P⁻¹=(1/3)[[2·5^n+2^n,5^n−2^n],[2·5^n−2·2^n,5^n+2·2^n]]."
+  },
+  {
+    "test_id": "TEST_MAE101_043",
+    "subject": "MAE101",
+    "topic": "Eigenvalues and Diagonalization",
+    "difficulty": "hard",
+    "input_question": "Xét A=[[2,1,0],[0,2,1],[0,0,2]]. A có chéo hóa được không?",
+    "expected_context": "So sánh bội đại số và số chiều không gian riêng.",
+    "expected_answer": "A chỉ có trị riêng λ=2 bội đại số 3. Nullity(A−2I)=1 nên chỉ có một vector riêng độc lập. A không chéo hóa được."
+  },
+  {
+    "test_id": "TEST_MAE101_044",
+    "subject": "MAE101",
+    "topic": "Eigenvalues and Diagonalization",
+    "difficulty": "hard",
+    "input_question": "Cho A đối xứng thực. Chứng minh các vector riêng ứng với hai trị riêng phân biệt trực giao.",
+    "expected_context": "Dùng A^T=A và tích vô hướng.",
+    "expected_answer": "Nếu Av1=λ1v1, Av2=λ2v2 thì v1^TAv2=λ2v1^Tv2. Mặt khác v1^TAv2=(Av1)^Tv2=λ1v1^Tv2. Vì λ1≠λ2 nên v1^Tv2=0."
+  },
+  {
+    "test_id": "TEST_MAE101_045",
+    "subject": "MAE101",
+    "topic": "Eigenvalues and Diagonalization",
+    "difficulty": "medium",
+    "input_question": "Một ma trận 3×3 có trị riêng 2,−1,5. Tính định thức và trace.",
+    "expected_context": "Định thức là tích trị riêng; trace là tổng trị riêng.",
+    "expected_answer": "det=−10 và trace=6."
+  },
+  {
+    "test_id": "TEST_MAE101_046",
+    "subject": "MAE101",
+    "topic": "Eigenvalues and Diagonalization",
+    "difficulty": "hard",
+    "input_question": "Tìm k để A=[[k,1],[1,k]] xác định dương.",
+    "expected_context": "Ma trận đối xứng xác định dương khi mọi trị riêng dương.",
+    "expected_answer": "Trị riêng là k+1 và k−1. Cả hai dương khi k>1."
+  },
+  {
+    "test_id": "TEST_MAE101_047",
+    "subject": "MAE101",
+    "topic": "Eigenvalues and Diagonalization",
+    "difficulty": "hard",
+    "input_question": "Tìm ma trận phép chiếu trực giao lên span{(1,2)}.",
+    "expected_context": "Dùng P=uu^T/(u^Tu).",
+    "expected_answer": "Với u=(1,2), u^Tu=5. P=(1/5)[[1,2],[2,4]]."
+  },
+  {
+    "test_id": "TEST_MAE101_048",
+    "subject": "MAE101",
+    "topic": "Vectors and Geometry",
+    "difficulty": "medium",
+    "input_question": "Tìm phương trình mặt phẳng qua A(1,0,1), B(2,1,0), C(0,1,2).",
+    "expected_context": "Tính AB×AC để tìm pháp tuyến.",
+    "expected_answer": "AB=(1,1,−1), AC=(−1,1,1), tích có hướng có thể lấy n=(1,0,1). Mặt phẳng là x+z=2."
+  },
+  {
+    "test_id": "TEST_MAE101_049",
+    "subject": "MAE101",
+    "topic": "Vectors and Geometry",
+    "difficulty": "hard",
+    "input_question": "Tính khoảng cách từ P(1,2,3) đến đường thẳng r=(0,1,1)+t(1,−1,2).",
+    "expected_context": "Dùng d=|AP×v|/|v|.",
+    "expected_answer": "AP=(1,1,2), v=(1,−1,2), AP×v=(4,0,−2). d=2√5/√6=√30/3."
+  },
+  {
+    "test_id": "TEST_MAE101_050",
+    "subject": "MAE101",
+    "topic": "Vectors and Geometry",
+    "difficulty": "hard",
+    "input_question": "Tìm giao tuyến của x+y+z=3 và 2x−y+z=1.",
+    "expected_context": "Vector chỉ phương là tích có hướng của hai pháp tuyến; tìm một điểm chung.",
+    "expected_answer": "Vector chỉ phương là (2,1,−3). Cho z=0 được điểm (4/3,5/3,0). Giao tuyến: r=(4/3,5/3,0)+t(2,1,−3)."
+  },
+  {
+    "test_id": "TEST_MAE101_051",
+    "subject": "MAE101",
+    "topic": "Vectors and Geometry",
+    "difficulty": "hard",
+    "input_question": "Tính thể tích tứ diện O(0,0,0), A(1,2,0), B(0,1,3), C(2,0,1).",
+    "expected_context": "V=|det[A B C]|/6.",
+    "expected_answer": "Định thức bằng 13 nên thể tích bằng 13/6."
+  },
+  {
+    "test_id": "TEST_MAE101_052",
+    "subject": "MAE101",
+    "topic": "Vectors and Geometry",
+    "difficulty": "medium",
+    "input_question": "Tìm góc giữa hai mặt phẳng x+y−z=0 và 2x−y+2z=3.",
+    "expected_context": "Góc giữa mặt phẳng là góc nhọn giữa pháp tuyến.",
+    "expected_answer": "n1=(1,1,−1), n2=(2,−1,2). cosθ=|n1·n2|/(|n1||n2|)=1/(3√3). θ=arccos(1/(3√3))."
+  },
+  {
+    "test_id": "TEST_MAE101_053",
+    "subject": "MAE101",
+    "topic": "Vectors and Geometry",
+    "difficulty": "hard",
+    "input_question": "Chứng minh A(1,0,0), B(0,1,0), C(0,0,1), D(1,1,1) không đồng phẳng.",
+    "expected_context": "Tính tích hỗn tạp AB·(AC×AD).",
+    "expected_answer": "Tích hỗn tạp bằng 2≠0, nên bốn điểm không đồng phẳng."
+  },
+  {
+    "test_id": "TEST_MAE101_054",
+    "subject": "MAE101",
+    "topic": "Vectors and Geometry",
+    "difficulty": "hard",
+    "input_question": "Tìm điểm đối xứng của P(1,2,3) qua mặt phẳng x+y+z=0.",
+    "expected_context": "Dùng P'=P−2[(n·P)/(n·n)]n.",
+    "expected_answer": "n=(1,1,1), (n·P)/(n·n)=6/3=2. P'=P−4n=(−3,−2,−1)."
+  },
+  {
+    "test_id": "TEST_MAE101_055",
+    "subject": "MAE101",
+    "topic": "Vector Spaces",
+    "difficulty": "medium",
+    "input_question": "Tìm cơ sở không gian nghiệm x+y+z+w=0, x−y+z−w=0.",
+    "expected_context": "Giải theo hai biến tự do.",
+    "expected_answer": "x=−z, y=−w. Một cơ sở là {(-1,0,1,0),(0,-1,0,1)}."
+  },
+  {
+    "test_id": "TEST_MAE101_056",
+    "subject": "MAE101",
+    "topic": "Vector Spaces",
+    "difficulty": "hard",
+    "input_question": "Trong P2, S={1+x,x+x²,1−x²} có là cơ sở không?",
+    "expected_context": "Biểu diễn theo {1,x,x²} và kiểm tra phụ thuộc tuyến tính.",
+    "expected_answer": "Vector thứ ba bằng vector thứ nhất trừ vector thứ hai. S phụ thuộc tuyến tính nên không là cơ sở của P2."
+  },
+  {
+    "test_id": "TEST_MAE101_057",
+    "subject": "MAE101",
+    "topic": "Vector Spaces",
+    "difficulty": "hard",
+    "input_question": "Tìm tọa độ của p(x)=2+3x−x² theo B={1+x,x+x²,1−x²}.",
+    "expected_context": "Kiểm tra B có thật sự là cơ sở và giải hệ hệ số.",
+    "expected_answer": "B phụ thuộc. Hệ hệ số có vô số nghiệm: b=3−a, c=2−a với a tùy ý. Vì vậy p thuộc span(B) nhưng không có tọa độ duy nhất theo B."
+  },
+  {
+    "test_id": "TEST_MAE101_058",
+    "subject": "MAE101",
+    "topic": "Vector Spaces",
+    "difficulty": "hard",
+    "input_question": "Cho T:P2→P2, T(p)=p'+p(0). Tìm ma trận theo cơ sở {1,x,x²} và rank.",
+    "expected_context": "Tính ảnh của từng vector cơ sở.",
+    "expected_answer": "T(1)=1, T(x)=1, T(x²)=2x. Ma trận [[1,1,0],[0,0,2],[0,0,0]], rank=2."
+  },
+  {
+    "test_id": "TEST_MAE101_059",
+    "subject": "MAE101",
+    "topic": "Vector Spaces",
+    "difficulty": "medium",
+    "input_question": "Tìm kernel của T:R3→R2, T(x,y,z)=(x+y,y+z).",
+    "expected_context": "Giải T(x,y,z)=0.",
+    "expected_answer": "x=−y,z=−y. Ker(T)=span{(-1,1,-1)}."
+  },
+  {
+    "test_id": "TEST_MAE101_060",
+    "subject": "MAE101",
+    "topic": "Vector Spaces",
+    "difficulty": "hard",
+    "input_question": "Cho W=span{(1,1,0),(1,0,1)}. Tìm hình chiếu trực giao của v=(2,1,3) lên W.",
+    "expected_context": "Dùng A(A^TA)^−1A^Tv.",
+    "expected_answer": "A^TA=[[2,1],[1,2]], A^Tv=(3,5). Hệ số là (1/3,7/3), nên projection=(8/3,1/3,7/3)."
+  },
+  {
+    "test_id": "TEST_MAD101_001",
+    "subject": "MAD101",
+    "topic": "Logic and Inference",
+    "difficulty": "medium",
+    "input_question": "Dùng các luật tương đương để rút gọn ¬[(P→Q)∧(Q→R)]∨(P→R).",
+    "expected_context": "Thay kéo theo bằng phép tuyển và dùng De Morgan, phân phối, hấp thụ.",
+    "expected_answer": "P→Q≡¬P∨Q, Q→R≡¬Q∨R, P→R≡¬P∨R. Biểu thức tương đương [(P∧¬Q)∨(Q∧¬R)]∨(¬P∨R). Mỗi trường hợp làm P→R sai đòi P=T,R=F; khi đó hoặc Q=F làm P∧¬Q đúng, hoặc Q=T làm Q∧¬R đúng. Vì vậy biểu thức luôn đúng, là hằng đúng."
+  },
+  {
+    "test_id": "TEST_MAD101_002",
+    "subject": "MAD101",
+    "topic": "Logic and Inference",
+    "difficulty": "hard",
+    "input_question": "Chứng minh lập luận sau hợp lệ: (P∨Q)→R, R→S, ¬S ⟹ ¬P∧¬Q.",
+    "expected_context": "Dùng modus tollens, sau đó phủ định phép tuyển bằng De Morgan.",
+    "expected_answer": "Từ R→S và ¬S suy ra ¬R. Từ (P∨Q)→R và ¬R suy ra ¬(P∨Q). Theo De Morgan, ¬(P∨Q)≡¬P∧¬Q."
+  },
+  {
+    "test_id": "TEST_MAD101_003",
+    "subject": "MAD101",
+    "topic": "Logic and Inference",
+    "difficulty": "hard",
+    "input_question": "Kiểm tra tính hợp lệ của lập luận: P→Q, R→Q, ¬P ⟹ R. Nếu không hợp lệ, đưa phản ví dụ.",
+    "expected_context": "Một lập luận không hợp lệ nếu tồn tại phép gán làm mọi tiền đề đúng nhưng kết luận sai.",
+    "expected_answer": "Chọn P=F,Q=T,R=F. Khi đó P→Q=T, R→Q=T, ¬P=T nhưng kết luận R=F. Lập luận không hợp lệ."
+  },
+  {
+    "test_id": "TEST_MAD101_004",
+    "subject": "MAD101",
+    "topic": "Logic and Inference",
+    "difficulty": "hard",
+    "input_question": "Phủ định và đơn giản hóa mệnh đề ∀x∈R ∃y∈R: (x<y)∧(y²>x²). Sau đó xác định mệnh đề gốc đúng hay sai.",
+    "expected_context": "Khi phủ định đổi lượng từ và dùng De Morgan.",
+    "expected_answer": "Phủ định là ∃x∈R ∀y∈R: (x≥y)∨(y²≤x²). Mệnh đề gốc đúng: với mọi x, chọn y>|x|+1 thì y>x và y²>x²."
+  },
+  {
+    "test_id": "TEST_MAD101_005",
+    "subject": "MAD101",
+    "topic": "Logic and Inference",
+    "difficulty": "medium",
+    "input_question": "Chuyển câu 'Mỗi sinh viên đã học MAD101 hoặc MAE101, nhưng không học cả hai, thì được đăng ký khóa X' thành biểu thức logic với M, E, X.",
+    "expected_context": "'Hoặc nhưng không cả hai' là XOR: (M∨E)∧¬(M∧E).",
+    "expected_answer": "Biểu thức là [(M∨E)∧¬(M∧E)]→X."
+  },
+  {
+    "test_id": "TEST_MAD101_006",
+    "subject": "MAD101",
+    "topic": "Logic and Inference",
+    "difficulty": "hard",
+    "input_question": "Dùng suy diễn tự nhiên chứng minh từ ∀x(P(x)→Q(x)) và ∃x(P(x)∧R(x)) suy ra ∃x(Q(x)∧R(x)).",
+    "expected_context": "Lấy phần tử chứng kiến từ tồn tại, dùng thế phổ dụng và modus ponens.",
+    "expected_answer": "Từ ∃x(P(x)∧R(x)), chọn a sao cho P(a)∧R(a). Suy ra P(a),R(a). Từ ∀x(P→Q), suy ra P(a)→Q(a), nên Q(a). Do đó Q(a)∧R(a), suy ra ∃x(Q(x)∧R(x))."
+  },
+  {
+    "test_id": "TEST_MAD101_007",
+    "subject": "MAD101",
+    "topic": "Logic and Inference",
+    "difficulty": "hard",
+    "input_question": "Xác định mệnh đề (P↔Q)↔[(P∧Q)∨(¬P∧¬Q)] là hằng đúng hay không mà không lập toàn bộ bảng chân trị.",
+    "expected_context": "Dùng định nghĩa tương đương hai chiều.",
+    "expected_answer": "P↔Q đúng đúng khi P,Q cùng giá trị. Biểu thức bên phải cũng đúng đúng khi cả hai cùng đúng hoặc cùng sai. Hai vế tương đương trong mọi phép gán, nên toàn bộ là hằng đúng."
+  },
+  {
+    "test_id": "TEST_MAD101_008",
+    "subject": "MAD101",
+    "topic": "Logic and Inference",
+    "difficulty": "hard",
+    "input_question": "Chứng minh bằng phản chứng: nếu n² là số lẻ thì n là số lẻ.",
+    "expected_context": "Giả sử kết luận sai, dùng tính chẵn lẻ.",
+    "expected_answer": "Giả sử n² lẻ nhưng n chẵn. Khi đó n=2k nên n²=4k²=2(2k²) chẵn, mâu thuẫn. Vậy n phải lẻ."
+  },
+  {
+    "test_id": "TEST_MAD101_009",
+    "subject": "MAD101",
+    "topic": "Sets, Functions and Sequences",
+    "difficulty": "medium",
+    "input_question": "Cho A={1,2,3,4,5}, quan hệ R trên A xác định bởi aRb khi a−b chia hết cho 2. Tìm các lớp tương đương.",
+    "expected_context": "Kiểm tra quan hệ đồng dư modulo 2; lớp gồm các phần tử cùng tính chẵn lẻ.",
+    "expected_answer": "R là quan hệ tương đương. Hai lớp là [1]={1,3,5} và [2]={2,4}."
+  },
+  {
+    "test_id": "TEST_MAD101_010",
+    "subject": "MAD101",
+    "topic": "Sets, Functions and Sequences",
+    "difficulty": "hard",
+    "input_question": "Cho f:Z→Z, f(n)=n²+n. Xác định f có đơn ánh hoặc toàn ánh không.",
+    "expected_context": "Dùng phản ví dụ cho đơn ánh và tính chẵn cho toàn ánh.",
+    "expected_answer": "f(0)=0=f(−1), nên không đơn ánh. n²+n=n(n+1) luôn chẵn nên không thể nhận giá trị lẻ, do đó không toàn ánh lên Z."
+  },
+  {
+    "test_id": "TEST_MAD101_011",
+    "subject": "MAD101",
+    "topic": "Sets, Functions and Sequences",
+    "difficulty": "hard",
+    "input_question": "Cho f:R\\{1}→R\\{2}, f(x)=(2x+1)/(x−1). Tìm f⁻¹ và chứng minh f là song ánh.",
+    "expected_context": "Giải y theo x; kiểm tra miền và đồng nhất hai phép hợp.",
+    "expected_answer": "y(x−1)=2x+1 nên x=(y+1)/(y−2). Vì y≠2, f⁻¹(y)=(y+1)/(y−2). Hai phép hợp cho đồng nhất, nên f song ánh."
+  },
+  {
+    "test_id": "TEST_MAD101_012",
+    "subject": "MAD101",
+    "topic": "Sets, Functions and Sequences",
+    "difficulty": "medium",
+    "input_question": "Tính tổng Σ từ k=1 đến n của k(k+1).",
+    "expected_context": "Tách thành Σk²+Σk.",
+    "expected_answer": "Tổng=n(n+1)(2n+1)/6+n(n+1)/2=n(n+1)(n+2)/3."
+  },
+  {
+    "test_id": "TEST_MAD101_013",
+    "subject": "MAD101",
+    "topic": "Sets, Functions and Sequences",
+    "difficulty": "hard",
+    "input_question": "Tính Σ từ k=0 đến n của k·2^k.",
+    "expected_context": "Dùng đạo hàm tổng hình học hoặc công thức truy hồi.",
+    "expected_answer": "Σk2^k=2+(n−1)2^(n+1). Kiểm tra n=0 cho 0; công thức cho 2−2=0."
+  },
+  {
+    "test_id": "TEST_MAD101_014",
+    "subject": "MAD101",
+    "topic": "Sets, Functions and Sequences",
+    "difficulty": "hard",
+    "input_question": "Cho dãy a1=1 và a_{n+1}=2a_n+3. Tìm công thức tường minh.",
+    "expected_context": "Dịch dãy để khử hằng số hoặc giải truy hồi tuyến tính bậc một.",
+    "expected_answer": "Đặt b_n=a_n+3 thì b_{n+1}=2b_n, b1=4. Do đó b_n=4·2^(n−1)=2^(n+1), nên a_n=2^(n+1)−3."
+  },
+  {
+    "test_id": "TEST_MAD101_015",
+    "subject": "MAD101",
+    "topic": "Sets, Functions and Sequences",
+    "difficulty": "hard",
+    "input_question": "Chứng minh A\\(B∩C)=(A\\B)∪(A\\C) bằng phương pháp phần tử.",
+    "expected_context": "Biến đổi điều kiện thuộc tập bằng logic.",
+    "expected_answer": "x∈A\\(B∩C) ⇔ x∈A và không(x∈B và x∈C) ⇔ x∈A và (x∉B hoặc x∉C) ⇔ x∈(A\\B) hoặc x∈(A\\C)."
+  },
+  {
+    "test_id": "TEST_MAD101_016",
+    "subject": "MAD101",
+    "topic": "Sets, Functions and Sequences",
+    "difficulty": "hard",
+    "input_question": "Cho |A|=20, |B|=18, |C|=15, |A∩B|=8, |A∩C|=7, |B∩C|=6, |A∩B∩C|=3. Tính |A∪B∪C|.",
+    "expected_context": "Dùng công thức bao hàm-loại trừ cho ba tập.",
+    "expected_answer": "|A∪B∪C|=20+18+15−8−7−6+3=35."
+  },
+  {
+    "test_id": "TEST_MAD101_017",
+    "subject": "MAD101",
+    "topic": "Sets, Functions and Sequences",
+    "difficulty": "hard",
+    "input_question": "Cho f:A→B và g:B→C. Chứng minh nếu g∘f đơn ánh thì f đơn ánh; nếu g∘f toàn ánh thì g toàn ánh.",
+    "expected_context": "Dùng trực tiếp định nghĩa đơn ánh và toàn ánh.",
+    "expected_answer": "Nếu f(a1)=f(a2) thì g(f(a1))=g(f(a2)); do g∘f đơn ánh nên a1=a2. Nếu c∈C, do g∘f toàn ánh có a sao cho g(f(a))=c; đặt b=f(a), suy ra g(b)=c, nên g toàn ánh."
+  },
+  {
+    "test_id": "TEST_MAD101_018",
+    "subject": "MAD101",
+    "topic": "Algorithms and Complexity",
+    "difficulty": "medium",
+    "input_question": "Xác định Θ của T(n)=5n³+2n log n+100.",
+    "expected_context": "Dùng hạng tăng nhanh nhất.",
+    "expected_answer": "T(n)=Θ(n³)."
+  },
+  {
+    "test_id": "TEST_MAD101_019",
+    "subject": "MAD101",
+    "topic": "Algorithms and Complexity",
+    "difficulty": "hard",
+    "input_question": "Phân tích số lần thực hiện câu lệnh trong đoạn: for i=1..n, for j=1..i, for k=1..j thực hiện O(1).",
+    "expected_context": "Tính tổng ba lớp Σ_iΣ_j j.",
+    "expected_answer": "Tổng=Σ_{i=1}^n i(i+1)/2 = n(n+1)(n+2)/6, nên độ phức tạp Θ(n³)."
+  },
+  {
+    "test_id": "TEST_MAD101_020",
+    "subject": "MAD101",
+    "topic": "Algorithms and Complexity",
+    "difficulty": "hard",
+    "input_question": "Giải truy hồi T(n)=2T(n/2)+n log n, T(1)=1.",
+    "expected_context": "Dùng Master theorem hoặc cây đệ quy.",
+    "expected_answer": "a=2,b=2, n^{log_ba}=n. f(n)=n log n=Θ(n log^1n), nên T(n)=Θ(n log²n)."
+  },
+  {
+    "test_id": "TEST_MAD101_021",
+    "subject": "MAD101",
+    "topic": "Algorithms and Complexity",
+    "difficulty": "hard",
+    "input_question": "Giải truy hồi T(n)=T(n−1)+n, T(1)=1.",
+    "expected_context": "Khai triển tổng.",
+    "expected_answer": "T(n)=1+Σ_{k=2}^n k=n(n+1)/2, nên Θ(n²)."
+  },
+  {
+    "test_id": "TEST_MAD101_022",
+    "subject": "MAD101",
+    "topic": "Algorithms and Complexity",
+    "difficulty": "medium",
+    "input_question": "Một thuật toán tìm kiếm nhị phân trên mảng 1024 phần tử cần tối đa bao nhiêu lần so sánh chính?",
+    "expected_context": "Số bước tối đa xấp xỉ log2 n cộng một tùy quy ước.",
+    "expected_answer": "Vì 1024=2^10, cần tối đa khoảng 10 lần chia đôi; nếu tính cả lần kiểm tra cuối thì nhiều nhất 11 phép so sánh chính."
+  },
+  {
+    "test_id": "TEST_MAD101_023",
+    "subject": "MAD101",
+    "topic": "Algorithms and Complexity",
+    "difficulty": "hard",
+    "input_question": "Chứng minh đoạn lặp i=1; while i≤n: i=3i có độ phức tạp Θ(log n).",
+    "expected_context": "Sau k vòng lặp, i=3^k.",
+    "expected_answer": "Vòng lặp dừng khi 3^k>n, nên k=⌊log3 n⌋+1. Do đó số vòng lặp là Θ(log n)."
+  },
+  {
+    "test_id": "TEST_MAD101_024",
+    "subject": "MAD101",
+    "topic": "Algorithms and Complexity",
+    "difficulty": "hard",
+    "input_question": "So sánh tăng trưởng của n^2 và 2^n; chứng minh tồn tại N sao cho 2^n>n^2 với mọi n≥N.",
+    "expected_context": "Có thể dùng quy nạp từ một mốc thích hợp.",
+    "expected_answer": "Tại n=5, 32>25. Giả sử 2^n>n^2 với n≥5. Khi đó 2^(n+1)>2n^2. Với n≥3, 2n^2>(n+1)^2 vì n^2−2n−1>0. Suy ra đúng với mọi n≥5."
+  },
+  {
+    "test_id": "TEST_MAD101_025",
+    "subject": "MAD101",
+    "topic": "Algorithms and Complexity",
+    "difficulty": "hard",
+    "input_question": "Cho thuật toán: for i=1..n, j=1; while j≤n: j=j+i. Phân tích độ phức tạp tổng.",
+    "expected_context": "Với mỗi i, vòng while chạy khoảng n/i lần; tổng liên quan đến số điều hòa.",
+    "expected_answer": "Tổng số vòng ≈Σ_{i=1}^n n/i=nH_n=Θ(n log n)."
+  },
+  {
+    "test_id": "TEST_MAD101_026",
+    "subject": "MAD101",
+    "topic": "Algorithms and Complexity",
+    "difficulty": "hard",
+    "input_question": "Nêu bất biến vòng lặp để chứng minh insertion sort sắp xếp đúng và chỉ ra kết luận khi kết thúc.",
+    "expected_context": "Bất biến mô tả đoạn đầu mảng đã được sắp xếp và chứa đúng các phần tử ban đầu của đoạn đó.",
+    "expected_answer": "Trước mỗi vòng lặp với chỉ số i, đoạn A[1..i−1] đã được sắp tăng và là hoán vị của các phần tử ban đầu ở vị trí 1..i−1. Bước chèn duy trì tính chất; khi i=n+1, toàn bộ mảng đã sắp và vẫn là hoán vị của đầu vào."
+  },
+  {
+    "test_id": "TEST_MAD101_027",
+    "subject": "MAD101",
+    "topic": "Number Theory and Cryptography",
+    "difficulty": "medium",
+    "input_question": "Dùng thuật toán Euclid mở rộng tìm gcd(414,662) và biểu diễn dưới dạng 414x+662y.",
+    "expected_context": "Thực hiện chia Euclid rồi thế ngược.",
+    "expected_answer": "662=414+248; 414=248+166; 248=166+82; 166=2·82+2; 82=41·2. gcd=2. Thế ngược được 2=5·414−3·662."
+  },
+  {
+    "test_id": "TEST_MAD101_028",
+    "subject": "MAD101",
+    "topic": "Number Theory and Cryptography",
+    "difficulty": "hard",
+    "input_question": "Giải đồng dư 14x≡30 (mod 100).",
+    "expected_context": "Đồng dư ax≡b mod m có nghiệm khi gcd(a,m)|b; sau đó chia cho gcd.",
+    "expected_answer": "gcd(14,100)=2 chia 30. Chia được 7x≡15 mod 50. Nghịch đảo của 7 mod 50 là 43, nên x≡15·43≡45 mod 50. Trong modulo 100 có hai lớp x≡45,95."
+  },
+  {
+    "test_id": "TEST_MAD101_029",
+    "subject": "MAD101",
+    "topic": "Number Theory and Cryptography",
+    "difficulty": "hard",
+    "input_question": "Giải hệ x≡2 (mod 3), x≡3 (mod 5), x≡2 (mod 7).",
+    "expected_context": "Dùng định lý phần dư Trung Hoa.",
+    "expected_answer": "Từ kiểm tra hoặc CRT, nghiệm nhỏ nhất là 23 vì 23 mod 3=2, mod 5=3, mod 7=2. Modulus chung 105, nên x≡23 (mod 105)."
+  },
+  {
+    "test_id": "TEST_MAD101_030",
+    "subject": "MAD101",
+    "topic": "Number Theory and Cryptography",
+    "difficulty": "medium",
+    "input_question": "Tính 7^222 mod 13.",
+    "expected_context": "Dùng định lý Fermat nhỏ hoặc chu kỳ.",
+    "expected_answer": "7^12≡1 mod 13, 222≡6 mod 12. 7^6 mod 13=12, nên kết quả là 12."
+  },
+  {
+    "test_id": "TEST_MAD101_031",
+    "subject": "MAD101",
+    "topic": "Number Theory and Cryptography",
+    "difficulty": "hard",
+    "input_question": "Tìm nghịch đảo của 37 modulo 101 bằng Euclid mở rộng.",
+    "expected_context": "Biểu diễn 1 dưới dạng tổ hợp tuyến tính của 37 và 101.",
+    "expected_answer": "101=2·37+27; 37=27+10; 27=2·10+7; 10=7+3; 7=2·3+1. Thế ngược được 1=30·101−82·37. Vậy 37^−1≡−82≡19 mod 101."
+  },
+  {
+    "test_id": "TEST_MAD101_032",
+    "subject": "MAD101",
+    "topic": "Number Theory and Cryptography",
+    "difficulty": "hard",
+    "input_question": "Trong RSA với p=11,q=17,e=7, tìm n, φ(n), d và giải mã ciphertext c=15.",
+    "expected_context": "n=pq, φ=(p−1)(q−1), d=e^−1 mod φ; plaintext m=c^d mod n.",
+    "expected_answer": "n=187, φ=160. Giải 7d≡1 mod160 được d=23. Tính 15^23 mod187 bằng bình phương nhanh được m=42."
+  },
+  {
+    "test_id": "TEST_MAD101_033",
+    "subject": "MAD101",
+    "topic": "Number Theory and Cryptography",
+    "difficulty": "hard",
+    "input_question": "Chứng minh nếu a≡b (mod m) thì a^k≡b^k (mod m) với mọi k≥1.",
+    "expected_context": "Dùng phân tích hiệu lũy thừa.",
+    "expected_answer": "a^k−b^k=(a−b)(a^{k−1}+a^{k−2}b+...+b^{k−1}). Vì m|(a−b), suy ra m|(a^k−b^k)."
+  },
+  {
+    "test_id": "TEST_MAD101_034",
+    "subject": "MAD101",
+    "topic": "Number Theory and Cryptography",
+    "difficulty": "hard",
+    "input_question": "Tìm chữ số cuối cùng của 3^(3^10).",
+    "expected_context": "Xét chu kỳ modulo 10 của lũy thừa 3 và số mũ modulo 4.",
+    "expected_answer": "Chu kỳ chữ số cuối của 3 là 3,9,7,1 theo modulo 4. 3^10≡1 mod4, nên số mũ ≡1 mod4. Chữ số cuối là 3."
+  },
+  {
+    "test_id": "TEST_MAD101_035",
+    "subject": "MAD101",
+    "topic": "Number Theory and Cryptography",
+    "difficulty": "hard",
+    "input_question": "Giải phương trình Diophantine 35x+22y=1 và cho nghiệm tổng quát.",
+    "expected_context": "Dùng Euclid mở rộng rồi thêm nghiệm thuần nhất.",
+    "expected_answer": "1=8·22−5·35, nên một nghiệm là x=−5,y=8. Nghiệm tổng quát: x=−5+22t, y=8−35t, t∈Z."
+  },
+  {
+    "test_id": "TEST_MAD101_036",
+    "subject": "MAD101",
+    "topic": "Induction and Recursion",
+    "difficulty": "medium",
+    "input_question": "Chứng minh bằng quy nạp rằng 1+3+...+(2n−1)=n².",
+    "expected_context": "Kiểm tra cơ sở và cộng số lẻ tiếp theo.",
+    "expected_answer": "Với n=1 đúng. Giả sử tổng n số lẻ đầu là n². Thêm 2n+1 được n²+2n+1=(n+1)². Suy ra đúng với mọi n≥1."
+  },
+  {
+    "test_id": "TEST_MAD101_037",
+    "subject": "MAD101",
+    "topic": "Induction and Recursion",
+    "difficulty": "hard",
+    "input_question": "Chứng minh bằng quy nạp rằng 5^n−1 chia hết cho 4 với mọi n≥1.",
+    "expected_context": "Dùng bước quy nạp tách 5^{k+1}−1=5(5^k−1)+4.",
+    "expected_answer": "Cơ sở n=1:4 chia hết cho4. Giả sử 5^k−1=4m. Khi đó 5^{k+1}−1=5(5^k−1)+4=4(5m+1), nên chia hết cho4."
+  },
+  {
+    "test_id": "TEST_MAD101_038",
+    "subject": "MAD101",
+    "topic": "Induction and Recursion",
+    "difficulty": "hard",
+    "input_question": "Dùng quy nạp mạnh chứng minh mọi số nguyên n≥2 là tích của các số nguyên tố.",
+    "expected_context": "Nếu n không nguyên tố thì phân tích n=ab với 2≤a,b<n và dùng giả thiết mạnh.",
+    "expected_answer": "Cơ sở n=2 là nguyên tố. Giả sử mọi số từ2 đến k đều là tích số nguyên tố. Với k+1, nếu nguyên tố thì xong; nếu hợp số, k+1=ab với a,b≤k, mỗi số là tích các số nguyên tố theo giả thiết, nên k+1 cũng vậy."
+  },
+  {
+    "test_id": "TEST_MAD101_039",
+    "subject": "MAD101",
+    "topic": "Induction and Recursion",
+    "difficulty": "hard",
+    "input_question": "Giải truy hồi a_n=4a_{n−1}−4a_{n−2}, a_0=1,a_1=4.",
+    "expected_context": "Dùng phương trình đặc trưng có nghiệm kép.",
+    "expected_answer": "r²−4r+4=(r−2)². Nghiệm dạng a_n=(C1+C2n)2^n. Từ a0=1 có C1=1; a1=4 cho 2(1+C2)=4 nên C2=1. Vậy a_n=(n+1)2^n."
+  },
+  {
+    "test_id": "TEST_MAD101_040",
+    "subject": "MAD101",
+    "topic": "Induction and Recursion",
+    "difficulty": "hard",
+    "input_question": "Giải truy hồi a_n=3a_{n−1}+2, a_0=1.",
+    "expected_context": "Tìm nghiệm riêng hằng hoặc dịch biến.",
+    "expected_answer": "Nghiệm tổng quát a_n=C·3^n−1. Từ a0=1 suy ra C=2, nên a_n=2·3^n−1."
+  },
+  {
+    "test_id": "TEST_MAD101_041",
+    "subject": "MAD101",
+    "topic": "Induction and Recursion",
+    "difficulty": "hard",
+    "input_question": "Phân tích số lời gọi của Fibonacci đệ quy ngây thơ F(n)=F(n−1)+F(n−2).",
+    "expected_context": "Số lời gọi thỏa truy hồi tương tự Fibonacci.",
+    "expected_answer": "T(n)=T(n−1)+T(n−2)+O(1), nên T(n)=Θ(φ^n), thường được chặn là O(2^n)."
+  },
+  {
+    "test_id": "TEST_MAD101_042",
+    "subject": "MAD101",
+    "topic": "Counting and Recurrence",
+    "difficulty": "medium",
+    "input_question": "Có bao nhiêu chuỗi nhị phân độ dài 10 chứa đúng 4 bit 1 và không có hai bit 1 liên tiếp?",
+    "expected_context": "Chọn vị trí cho 4 bit 1 với ít nhất một bit 0 ngăn cách; dùng biến đổi khoảng trống.",
+    "expected_answer": "Số cách là C(10−4+1,4)=C(7,4)=35."
+  },
+  {
+    "test_id": "TEST_MAD101_043",
+    "subject": "MAD101",
+    "topic": "Counting and Recurrence",
+    "difficulty": "hard",
+    "input_question": "Có bao nhiêu hoán vị khác nhau của từ MATHEMATICS?",
+    "expected_context": "Dùng công thức hoán vị đa tập.",
+    "expected_answer": "Từ có 11 chữ, trong đó M,A,T mỗi chữ xuất hiện 2 lần. Số hoán vị là 11!/(2!2!2!)=4,989,600."
+  },
+  {
+    "test_id": "TEST_MAD101_044",
+    "subject": "MAD101",
+    "topic": "Counting and Recurrence",
+    "difficulty": "hard",
+    "input_question": "Có bao nhiêu nghiệm nguyên không âm của x1+x2+x3+x4=20 với x1≥2 và x2≤5?",
+    "expected_context": "Dịch x1 rồi dùng stars and bars kết hợp loại trừ điều kiện x2.",
+    "expected_answer": "Đặt y1=x1−2, tổng y1+x2+x3+x4=18. Không hạn chế có C(21,3)=1330. Trừ nghiệm x2≥6: đặt y2=x2−6, tổng còn12, có C(15,3)=455. Kết quả 875."
+  },
+  {
+    "test_id": "TEST_MAD101_045",
+    "subject": "MAD101",
+    "topic": "Counting and Recurrence",
+    "difficulty": "hard",
+    "input_question": "Một lớp có 12 sinh viên nam và 8 nữ. Chọn ban 5 người có ít nhất 2 nữ. Có bao nhiêu cách?",
+    "expected_context": "Cộng theo số nữ hoặc lấy tổng trừ trường hợp 0 và 1 nữ.",
+    "expected_answer": "C(20,5)−C(12,5)−C(8,1)C(12,4)=15504−792−3960=10752."
+  },
+  {
+    "test_id": "TEST_MAD101_046",
+    "subject": "MAD101",
+    "topic": "Counting and Recurrence",
+    "difficulty": "medium",
+    "input_question": "Dùng bao hàm-loại trừ đếm số nguyên từ 1 đến 1000 chia hết cho 3 hoặc 5.",
+    "expected_context": "|A∪B|=|A|+|B|−|A∩B|.",
+    "expected_answer": "Có ⌊1000/3⌋+⌊1000/5⌋−⌊1000/15⌋=333+200−66=467."
+  },
+  {
+    "test_id": "TEST_MAD101_047",
+    "subject": "MAD101",
+    "topic": "Counting and Recurrence",
+    "difficulty": "hard",
+    "input_question": "Có bao nhiêu ánh xạ toàn ánh từ tập 5 phần tử lên tập 3 phần tử?",
+    "expected_context": "Dùng bao hàm-loại trừ trên các giá trị bị bỏ sót.",
+    "expected_answer": "3^5−C(3,1)2^5+C(3,2)1^5=243−96+3=150."
+  },
+  {
+    "test_id": "TEST_MAD101_048",
+    "subject": "MAD101",
+    "topic": "Counting and Recurrence",
+    "difficulty": "hard",
+    "input_question": "Giải truy hồi a_n=2a_{n−1}+3^n, a_0=1.",
+    "expected_context": "Giải phần thuần nhất và tìm nghiệm riêng dạng C3^n.",
+    "expected_answer": "Nghiệm thuần nhất C2^n. Thử a_n^p=A3^n: A3^n=2A3^{n−1}+3^n ⇒ A=2A/3+1 ⇒ A=3. Vậy a_n=C2^n+3·3^n. Từ a0=1, C=−2. Do đó a_n=3^{n+1}−2^{n+1}."
+  },
+  {
+    "test_id": "TEST_MAD101_049",
+    "subject": "MAD101",
+    "topic": "Counting and Recurrence",
+    "difficulty": "hard",
+    "input_question": "Một mật khẩu dài 8 ký tự gồm chữ cái hoa và chữ số, phải có ít nhất một chữ và một số. Có bao nhiêu mật khẩu?",
+    "expected_context": "Dùng tổng số trừ hai trường hợp chỉ chữ hoặc chỉ số.",
+    "expected_answer": "Có 36^8−26^8−10^8 mật khẩu."
+  },
+  {
+    "test_id": "TEST_MAD101_050",
+    "subject": "MAD101",
+    "topic": "Graphs",
+    "difficulty": "medium",
+    "input_question": "Một đồ thị đơn có dãy bậc 4,4,3,3,2,2. Dãy này có thể là dãy bậc của một đồ thị không?",
+    "expected_context": "Dùng thuật toán Havel-Hakimi.",
+    "expected_answer": "Sắp 4,4,3,3,2,2. Bỏ 4 và giảm bốn số sau: 3,2,2,1,2 → sắp 3,2,2,2,1. Bỏ3: 1,1,1,1. Tiếp tục cho toàn 0. Dãy là graphic."
+  },
+  {
+    "test_id": "TEST_MAD101_051",
+    "subject": "MAD101",
+    "topic": "Graphs",
+    "difficulty": "hard",
+    "input_question": "Chứng minh mọi đồ thị đơn có ít nhất hai đỉnh cùng bậc.",
+    "expected_context": "Bậc nằm trong 0..n−1 nhưng không thể đồng thời có đỉnh bậc0 và n−1.",
+    "expected_answer": "Có n đỉnh nhưng chỉ tối đa n−1 giá trị bậc khả dĩ xuất hiện cùng lúc, vì 0 và n−1 không thể cùng xuất hiện. Theo nguyên lý Dirichlet, ít nhất hai đỉnh cùng bậc."
+  },
+  {
+    "test_id": "TEST_MAD101_052",
+    "subject": "MAD101",
+    "topic": "Graphs",
+    "difficulty": "hard",
+    "input_question": "Cho đồ thị có cạnh AB=1, AC=4, BC=2, BD=5, CD=1, CE=3, DE=2. Dùng Dijkstra tìm đường ngắn nhất từ A đến E.",
+    "expected_context": "Thực hiện thư giãn theo khoảng cách tăng dần.",
+    "expected_answer": "Từ A: dB=1,dC=4. Chọn B, cập nhật dC=3,dD=6. Chọn C, cập nhật dD=4,dE=6. Chọn D, cập nhật dE=6 không đổi. Khoảng cách ngắn nhất là 6; có thể đi A-B-C-E hoặc A-B-C-D-E."
+  },
+  {
+    "test_id": "TEST_MAD101_053",
+    "subject": "MAD101",
+    "topic": "Graphs",
+    "difficulty": "hard",
+    "input_question": "Một đồ thị liên thông có 8 đỉnh, mọi đỉnh bậc 3. Tính số cạnh và xác định có đường đi Euler không.",
+    "expected_context": "Dùng định lý bắt tay và tiêu chuẩn Euler.",
+    "expected_answer": "Tổng bậc=24 nên có 12 cạnh. Có 8 đỉnh bậc lẻ, nên không có đường đi Euler và cũng không có chu trình Euler."
+  },
+  {
+    "test_id": "TEST_MAD101_054",
+    "subject": "MAD101",
+    "topic": "Graphs",
+    "difficulty": "medium",
+    "input_question": "Xác định số sắc của đồ thị đầy đủ hai phía K3,4.",
+    "expected_context": "Mọi đồ thị hai phía có thể tô bằng 2 màu nếu có ít nhất một cạnh.",
+    "expected_answer": "χ(K3,4)=2."
+  },
+  {
+    "test_id": "TEST_MAD101_055",
+    "subject": "MAD101",
+    "topic": "Graphs",
+    "difficulty": "hard",
+    "input_question": "Chứng minh đồ thị hai phía không chứa chu trình lẻ.",
+    "expected_context": "Trong chu trình của đồ thị hai phía, các đỉnh phải luân phiên giữa hai phía.",
+    "expected_answer": "Bắt đầu ở một phía, sau số cạnh chẵn mới trở về cùng phía. Vì chu trình kết thúc tại đỉnh đầu, độ dài phải chẵn. Do đó không thể có chu trình lẻ."
+  },
+  {
+    "test_id": "TEST_MAD101_056",
+    "subject": "MAD101",
+    "topic": "Graphs",
+    "difficulty": "hard",
+    "input_question": "Dùng Kruskal tìm cây khung nhỏ nhất cho các cạnh: AB1, AC5, BC2, BD4, CD3, CE6, DE1.",
+    "expected_context": "Sắp cạnh tăng dần và bỏ cạnh tạo chu trình.",
+    "expected_answer": "Chọn AB1, DE1, BC2, CD3. Bốn cạnh này nối đủ 5 đỉnh và không tạo chu trình. Tổng trọng số=7."
+  },
+  {
+    "test_id": "TEST_MAD101_057",
+    "subject": "MAD101",
+    "topic": "Trees",
+    "difficulty": "medium",
+    "input_question": "Một cây đầy đủ m-phân có i đỉnh trong. Chứng minh số lá là (m−1)i+1.",
+    "expected_context": "Đếm số cạnh theo hai cách.",
+    "expected_answer": "Mỗi đỉnh trong sinh m cạnh nên số cạnh=mi. Mặt khác cây có i+l đỉnh nên số cạnh=i+l−1. Suy ra mi=i+l−1, do đó l=(m−1)i+1."
+  },
+  {
+    "test_id": "TEST_MAD101_058",
+    "subject": "MAD101",
+    "topic": "Trees",
+    "difficulty": "hard",
+    "input_question": "Một cây nhị phân đầy đủ có 31 lá. Tính số đỉnh trong, tổng số đỉnh và chiều cao nhỏ nhất có thể.",
+    "expected_context": "Với cây nhị phân đầy đủ L=I+1; cây có chiều cao h chứa tối đa 2^h lá nếu gốc ở mức0.",
+    "expected_answer": "I=30, tổng đỉnh=61. Cần 2^h≥31 nên h tối thiểu là5."
+  },
+  {
+    "test_id": "TEST_MAD101_059",
+    "subject": "MAD101",
+    "topic": "Trees",
+    "difficulty": "hard",
+    "input_question": "Cho cây có Prüfer code (4,4,2,4). Khôi phục tập cạnh.",
+    "expected_context": "Với code dài n−2 nên n=6; lặp chọn lá nhỏ nhất không xuất hiện trong code.",
+    "expected_answer": "Ban đầu lá nhỏ nhất 1, nối 1-4. Code còn 4,2,4; lá nhỏ nhất 3, nối 3-4. Code còn 2,4; lá nhỏ nhất 5, nối 5-2. Code còn4; lá nhỏ nhất2, nối2-4. Hai đỉnh còn lại4,6 nối4-6. Cạnh: {1-4,3-4,5-2,2-4,4-6}."
+  },
+  {
+    "test_id": "TEST_MAD101_060",
+    "subject": "MAD101",
+    "topic": "Trees",
+    "difficulty": "hard",
+    "input_question": "Cho cây có 10 đỉnh. Sau khi xóa một cạnh e, cây tách thành hai thành phần có 4 và 6 đỉnh. Có bao nhiêu cặp đỉnh mà đường đi duy nhất giữa chúng trong cây ban đầu chứa cạnh e?",
+    "expected_context": "Đường đi chứa e khi và chỉ khi hai đầu mút nằm ở hai thành phần khác nhau sau khi xóa e.",
+    "expected_answer": "Có 4 cách chọn một đỉnh ở thành phần thứ nhất và 6 cách chọn một đỉnh ở thành phần thứ hai. Số cặp là 4·6=24."
+  },
+  {
+    "test_id": "TEST_MAS291_001",
+    "subject": "MAS291",
+    "topic": "Probability",
+    "difficulty": "medium",
+    "input_question": "Một hệ thống có hai server hoạt động độc lập, xác suất server A hỏng là 0.08 và B hỏng là 0.12. Hệ thống ngừng khi cả hai cùng hỏng. Tính xác suất hệ thống hoạt động.",
+    "expected_context": "Dùng biến cố bù và tính độc lập.",
+    "expected_answer": "P(cả hai hỏng)=0.08·0.12=0.0096. P(hệ thống hoạt động)=1−0.0096=0.9904."
+  },
+  {
+    "test_id": "TEST_MAS291_002",
+    "subject": "MAS291",
+    "topic": "Probability",
+    "difficulty": "hard",
+    "input_question": "Một lô hàng có 6 sản phẩm tốt và 4 sản phẩm lỗi. Lấy ngẫu nhiên 3 sản phẩm không hoàn lại. Tính xác suất có đúng 1 sản phẩm lỗi.",
+    "expected_context": "Dùng phân phối siêu bội.",
+    "expected_answer": "P=C(4,1)C(6,2)/C(10,3)=4·15/120=0.5."
+  },
+  {
+    "test_id": "TEST_MAS291_003",
+    "subject": "MAS291",
+    "topic": "Probability",
+    "difficulty": "hard",
+    "input_question": "Có ba hộp: H1 gồm 2 đỏ,3 xanh; H2 gồm 4 đỏ,1 xanh; H3 gồm 3 đỏ,2 xanh. Chọn hộp với xác suất lần lượt 0.2,0.5,0.3 rồi lấy một bi. Bi lấy ra màu đỏ. Tính xác suất đã chọn H2.",
+    "expected_context": "Dùng xác suất toàn phần và Bayes.",
+    "expected_answer": "P(Đ)=0.2·2/5+0.5·4/5+0.3·3/5=0.66. P(H2|Đ)=0.5·0.8/0.66=20/33≈0.6061."
+  },
+  {
+    "test_id": "TEST_MAS291_004",
+    "subject": "MAS291",
+    "topic": "Probability",
+    "difficulty": "medium",
+    "input_question": "Hai biến cố A,B có P(A)=0.6, P(B)=0.5, P(A∪B)=0.8. Tính P(A|B) và kiểm tra độc lập.",
+    "expected_context": "P(A∩B)=P(A)+P(B)−P(A∪B).",
+    "expected_answer": "P(A∩B)=0.3. P(A|B)=0.3/0.5=0.6. Vì P(A|B)=P(A), A và B độc lập."
+  },
+  {
+    "test_id": "TEST_MAS291_005",
+    "subject": "MAS291",
+    "topic": "Probability",
+    "difficulty": "hard",
+    "input_question": "Một xét nghiệm có độ nhạy 0.95, độ đặc hiệu 0.90, tỉ lệ mắc bệnh 0.02. Một người có kết quả dương tính. Tính xác suất người đó thực sự mắc bệnh.",
+    "expected_context": "Dùng Bayes; xác suất dương giả là 1−độ đặc hiệu.",
+    "expected_answer": "P(D|+)=0.95·0.02/[0.95·0.02+0.10·0.98]=0.019/0.117≈0.1624."
+  },
+  {
+    "test_id": "TEST_MAS291_006",
+    "subject": "MAS291",
+    "topic": "Probability",
+    "difficulty": "hard",
+    "input_question": "Bốn linh kiện độc lập mắc nối tiếp có độ tin cậy lần lượt 0.98,0.95,0.97,0.99. Tính độ tin cậy hệ thống và xác suất hệ thống hỏng.",
+    "expected_context": "Hệ nối tiếp hoạt động khi mọi linh kiện hoạt động.",
+    "expected_answer": "R=0.98·0.95·0.97·0.99≈0.8940. Xác suất hỏng≈0.1060."
+  },
+  {
+    "test_id": "TEST_MAS291_007",
+    "subject": "MAS291",
+    "topic": "Probability",
+    "difficulty": "hard",
+    "input_question": "Một mật khẩu gồm 6 chữ số, mỗi chữ số chọn đều từ 0 đến 9 và có thể lặp. Tính xác suất mật khẩu chứa ít nhất một chữ số 7.",
+    "expected_context": "Dùng biến cố bù không có chữ số 7.",
+    "expected_answer": "P=1−(9/10)^6=1−0.531441=0.468559."
+  },
+  {
+    "test_id": "TEST_MAS291_008",
+    "subject": "MAS291",
+    "topic": "Probability",
+    "difficulty": "hard",
+    "input_question": "Tung hai xúc xắc công bằng. Biết tổng lớn hơn 8, tính xác suất có ít nhất một mặt 6.",
+    "expected_context": "Đếm có điều kiện trên không gian các cặp có tổng 9,10,11,12.",
+    "expected_answer": "Có 10 kết quả với tổng>8. Các kết quả có ít nhất một 6: (3,6),(4,6),(5,6),(6,3),(6,4),(6,5),(6,6), tổng 7. Xác suất=7/10."
+  },
+  {
+    "test_id": "TEST_MAS291_009",
+    "subject": "MAS291",
+    "topic": "Probability",
+    "difficulty": "medium",
+    "input_question": "Ba người độc lập giải một bài với xác suất đúng 0.7,0.6,0.5. Tính xác suất đúng ít nhất hai người giải được.",
+    "expected_context": "Cộng xác suất đúng đúng hai và đúng ba.",
+    "expected_answer": "Đúng ba:0.7·0.6·0.5=0.21. Đúng hai:0.7·0.6·0.5+0.7·0.4·0.5+0.3·0.6·0.5=0.44. Tổng=0.65."
+  },
+  {
+    "test_id": "TEST_MAS291_010",
+    "subject": "MAS291",
+    "topic": "Probability",
+    "difficulty": "hard",
+    "input_question": "Một chuỗi Markov hai trạng thái có ma trận chuyển P=[[0.8,0.2],[0.3,0.7]]. Nếu ban đầu chắc chắn ở trạng thái 1, tính xác suất ở trạng thái 2 sau hai bước.",
+    "expected_context": "Nhân vector phân phối ban đầu với P².",
+    "expected_answer": "Sau một bước phân phối (0.8,0.2). Xác suất trạng thái2 sau bước hai=0.8·0.2+0.2·0.7=0.30."
+  },
+  {
+    "test_id": "TEST_MAS291_011",
+    "subject": "MAS291",
+    "topic": "Discrete Distributions",
+    "difficulty": "medium",
+    "input_question": "X có phân phối P(X=x)=cx cho x=1,2,3,4. Tìm c, E(X).",
+    "expected_context": "Chuẩn hóa tổng xác suất rồi tính kỳ vọng.",
+    "expected_answer": "c(1+2+3+4)=1 nên c=0.1. E(X)=Σx·0.1x=0.1Σx²=0.1·30=3."
+  },
+  {
+    "test_id": "TEST_MAS291_012",
+    "subject": "MAS291",
+    "topic": "Discrete Distributions",
+    "difficulty": "hard",
+    "input_question": "Với phân phối ở câu trước, tính Var(X).",
+    "expected_context": "Dùng Var=E(X²)−E(X)².",
+    "expected_answer": "E(X²)=Σx²·P(X=x)=0.1Σx³=0.1·100=10. Var=10−9=1."
+  },
+  {
+    "test_id": "TEST_MAS291_013",
+    "subject": "MAS291",
+    "topic": "Discrete Distributions",
+    "difficulty": "medium",
+    "input_question": "X~Binomial(12,0.25). Tính P(X≤2).",
+    "expected_context": "Cộng xác suất nhị thức từ 0 đến 2.",
+    "expected_answer": "P=0.75^12+12·0.25·0.75^11+C(12,2)0.25²0.75^10≈0.3907."
+  },
+  {
+    "test_id": "TEST_MAS291_014",
+    "subject": "MAS291",
+    "topic": "Discrete Distributions",
+    "difficulty": "hard",
+    "input_question": "Một dây chuyền có xác suất lỗi 0.02 trên mỗi sản phẩm, độc lập. Tính xác suất phải kiểm tra ít nhất 50 sản phẩm mới gặp lỗi đầu tiên.",
+    "expected_context": "Số phép thử đến lỗi đầu tiên là geometric; P(X≥50)=P(49 sản phẩm đầu không lỗi).",
+    "expected_answer": "P(X≥50)=0.98^49≈0.3716."
+  },
+  {
+    "test_id": "TEST_MAS291_015",
+    "subject": "MAS291",
+    "topic": "Discrete Distributions",
+    "difficulty": "hard",
+    "input_question": "Số yêu cầu đến server tuân theo Poisson trung bình 4 yêu cầu/phút. Tính xác suất trong 30 giây có ít nhất 3 yêu cầu.",
+    "expected_context": "Trong 0.5 phút, λ=2; dùng biến cố bù.",
+    "expected_answer": "P(X≥3)=1−e^(−2)(1+2+2²/2)=1−5e^(−2)≈0.3233."
+  },
+  {
+    "test_id": "TEST_MAS291_016",
+    "subject": "MAS291",
+    "topic": "Discrete Distributions",
+    "difficulty": "hard",
+    "input_question": "Một tổng đài nhận trung bình 6 cuộc gọi/giờ theo Poisson. Biết trong 30 phút đầu không có cuộc gọi, tính xác suất 30 phút tiếp theo cũng không có cuộc gọi.",
+    "expected_context": "Quá trình Poisson có gia số độc lập; 30 phút có kỳ vọng 3.",
+    "expected_answer": "Xác suất bằng e^(−3)≈0.0498."
+  },
+  {
+    "test_id": "TEST_MAS291_017",
+    "subject": "MAS291",
+    "topic": "Discrete Distributions",
+    "difficulty": "medium",
+    "input_question": "X~Hypergeometric với N=20,K=5,n=4. Tính E(X).",
+    "expected_context": "Kỳ vọng siêu bội là nK/N.",
+    "expected_answer": "E(X)=4·5/20=1."
+  },
+  {
+    "test_id": "TEST_MAS291_018",
+    "subject": "MAS291",
+    "topic": "Discrete Distributions",
+    "difficulty": "hard",
+    "input_question": "Một trò chơi trả 10 điểm với xác suất 0.2, trả 3 điểm với xác suất 0.5 và mất 5 điểm với xác suất 0.3. Tính kỳ vọng và độ lệch chuẩn lợi nhuận.",
+    "expected_context": "Tính E(X), E(X²), rồi phương sai.",
+    "expected_answer": "E=10·0.2+3·0.5−5·0.3=2. E(X²)=100·0.2+9·0.5+25·0.3=32. Var=32−4=28, SD=√28≈5.292."
+  },
+  {
+    "test_id": "TEST_MAS291_019",
+    "subject": "MAS291",
+    "topic": "Discrete Distributions",
+    "difficulty": "hard",
+    "input_question": "X~Binomial(n,p), biết E(X)=6 và Var(X)=3.6. Tìm n,p.",
+    "expected_context": "Dùng np=6 và np(1−p)=3.6.",
+    "expected_answer": "1−p=3.6/6=0.6 nên p=0.4. n=6/0.4=15."
+  },
+  {
+    "test_id": "TEST_MAS291_020",
+    "subject": "MAS291",
+    "topic": "Discrete Distributions",
+    "difficulty": "hard",
+    "input_question": "Số lỗi mỗi mét cáp Poisson với λ=0.5. Có 10 mét cáp độc lập. Tính xác suất tổng số lỗi không vượt quá 3.",
+    "expected_context": "Tổng các biến Poisson độc lập là Poisson với tham số tổng.",
+    "expected_answer": "Tổng X~Poisson(5). P(X≤3)=e^(−5)[1+5+25/2+125/6]≈0.2650."
+  },
+  {
+    "test_id": "TEST_MAS291_021",
+    "subject": "MAS291",
+    "topic": "Continuous Distributions",
+    "difficulty": "medium",
+    "input_question": "X có mật độ f(x)=cx trên 0≤x≤2 và bằng 0 ngoài khoảng. Tìm c và P(X>1).",
+    "expected_context": "Chuẩn hóa tích phân mật độ bằng 1 rồi tích phân trên khoảng cần tính.",
+    "expected_answer": "∫_0^2cx dx=2c=1 nên c=1/2. P(X>1)=∫_1^2x/2 dx=[x²/4]_1^2=3/4."
+  },
+  {
+    "test_id": "TEST_MAS291_022",
+    "subject": "MAS291",
+    "topic": "Continuous Distributions",
+    "difficulty": "hard",
+    "input_question": "Với mật độ f(x)=x/2 trên [0,2], tính E(X) và Var(X).",
+    "expected_context": "Tính các moment bằng tích phân.",
+    "expected_answer": "E(X)=∫_0^2x·x/2 dx=4/3. E(X²)=∫_0^2x²·x/2 dx=2. Var=2−16/9=2/9."
+  },
+  {
+    "test_id": "TEST_MAS291_023",
+    "subject": "MAS291",
+    "topic": "Continuous Distributions",
+    "difficulty": "medium",
+    "input_question": "X~Uniform(5,15). Tìm P(|X−10|<3) và Var(X).",
+    "expected_context": "Xác suất bằng tỉ lệ độ dài; Var=(b−a)²/12.",
+    "expected_answer": "Khoảng thuận lợi (7,13) dài 6 trên tổng 10 nên P=0.6. Var=100/12=25/3."
+  },
+  {
+    "test_id": "TEST_MAS291_024",
+    "subject": "MAS291",
+    "topic": "Continuous Distributions",
+    "difficulty": "hard",
+    "input_question": "Thời gian sống X~Exponential với trung bình 8 giờ. Tính P(5<X<12).",
+    "expected_context": "λ=1/8; dùng hàm sống.",
+    "expected_answer": "P=e^(−5/8)−e^(−12/8)≈0.5353−0.2231=0.3122."
+  },
+  {
+    "test_id": "TEST_MAS291_025",
+    "subject": "MAS291",
+    "topic": "Continuous Distributions",
+    "difficulty": "hard",
+    "input_question": "X~Exponential(λ). Biết P(X>10)=0.25. Tìm λ và trung vị của X.",
+    "expected_context": "Dùng e^(−10λ)=0.25; trung vị m thỏa e^(−λm)=0.5.",
+    "expected_answer": "λ=ln4/10≈0.13863. Trung vị m=ln2/λ=5."
+  },
+  {
+    "test_id": "TEST_MAS291_026",
+    "subject": "MAS291",
+    "topic": "Continuous Distributions",
+    "difficulty": "medium",
+    "input_question": "X~N(80,12²). Tính P(X>98), biết Φ(1.5)=0.9332.",
+    "expected_context": "Chuẩn hóa z=(98−80)/12=1.5.",
+    "expected_answer": "P(X>98)=1−0.9332=0.0668."
+  },
+  {
+    "test_id": "TEST_MAS291_027",
+    "subject": "MAS291",
+    "topic": "Continuous Distributions",
+    "difficulty": "hard",
+    "input_question": "X~N(100,15²). Tìm c sao cho P(100−c<X<100+c)=0.95.",
+    "expected_context": "Khoảng trung tâm 95% của chuẩn tương ứng z=±1.96.",
+    "expected_answer": "c=1.96·15=29.4."
+  },
+  {
+    "test_id": "TEST_MAS291_028",
+    "subject": "MAS291",
+    "topic": "Continuous Distributions",
+    "difficulty": "hard",
+    "input_question": "Đường kính chi tiết N(20,0.1²). Chi tiết đạt chuẩn nếu 19.85≤X≤20.15. Tính tỉ lệ đạt chuẩn, biết Φ(1.5)=0.9332.",
+    "expected_context": "Chuẩn hóa hai cận thành ±1.5.",
+    "expected_answer": "P=Φ(1.5)−Φ(−1.5)=2·0.9332−1=0.8664."
+  },
+  {
+    "test_id": "TEST_MAS291_029",
+    "subject": "MAS291",
+    "topic": "Continuous Distributions",
+    "difficulty": "hard",
+    "input_question": "X,Y độc lập, X~N(10,4), Y~N(6,9), trong đó tham số thứ hai là phương sai. Tìm phân phối của Z=2X−Y.",
+    "expected_context": "Tổ hợp tuyến tính của các biến chuẩn độc lập vẫn chuẩn; cộng phương sai theo bình phương hệ số.",
+    "expected_answer": "E(Z)=2·10−6=14. Var(Z)=4·4+9=25. Do đó Z~N(14,25)."
+  },
+  {
+    "test_id": "TEST_MAS291_030",
+    "subject": "MAS291",
+    "topic": "Continuous Distributions",
+    "difficulty": "hard",
+    "input_question": "X~N(50,10²). Tìm phân vị 90%, biết z0.90=1.2816.",
+    "expected_context": "Phân vị x_p=μ+z_pσ.",
+    "expected_answer": "x_0.90=50+1.2816·10=62.816."
+  },
+  {
+    "test_id": "TEST_MAS291_031",
+    "subject": "MAS291",
+    "topic": "Descriptive Statistics and Sampling",
+    "difficulty": "medium",
+    "input_question": "Dữ liệu 2,4,5,7,12. Tính trung bình, phương sai mẫu và hệ số biến thiên.",
+    "expected_context": "Dùng s²=Σ(x−x̄)²/(n−1), CV=s/x̄.",
+    "expected_answer": "x̄=6. Tổng bình phương độ lệch=58, s²=14.5, s≈3.808. CV≈3.808/6=63.5%."
+  },
+  {
+    "test_id": "TEST_MAS291_032",
+    "subject": "MAS291",
+    "topic": "Descriptive Statistics and Sampling",
+    "difficulty": "hard",
+    "input_question": "Dữ liệu có Q1=20,Q3=32. Dùng quy tắc 1.5IQR xác định hàng rào ngoại lệ và kiểm tra các giá trị 1,50.",
+    "expected_context": "IQR=Q3−Q1; hàng rào Q1−1.5IQR và Q3+1.5IQR.",
+    "expected_answer": "IQR=12. Hàng rào dưới=2, trên=50. Giá trị1 là ngoại lệ; 50 nằm đúng hàng rào nên không bị xem là ngoại lệ theo quy tắc nghiêm ngặt ngoài hàng rào."
+  },
+  {
+    "test_id": "TEST_MAS291_033",
+    "subject": "MAS291",
+    "topic": "Descriptive Statistics and Sampling",
+    "difficulty": "hard",
+    "input_question": "Một tập dữ liệu có n=10, trung bình 20. Sau đó phát hiện một giá trị 30 bị nhập thành 50. Tính trung bình đúng.",
+    "expected_context": "Tổng sai bằng n·x̄; thay giá trị sai bằng giá trị đúng.",
+    "expected_answer": "Tổng sai=200. Tổng đúng=200−50+30=180. Trung bình đúng=18."
+  },
+  {
+    "test_id": "TEST_MAS291_034",
+    "subject": "MAS291",
+    "topic": "Descriptive Statistics and Sampling",
+    "difficulty": "medium",
+    "input_question": "Tổng thể có μ=40,σ=9. Lấy mẫu n=81. Tìm P(38<x̄<42), biết Φ(2)=0.9772.",
+    "expected_context": "x̄ có trung bình μ và sai số chuẩn σ/√n=1.",
+    "expected_answer": "Chuẩn hóa cho z từ −2 đến 2. P=0.9544."
+  },
+  {
+    "test_id": "TEST_MAS291_035",
+    "subject": "MAS291",
+    "topic": "Descriptive Statistics and Sampling",
+    "difficulty": "hard",
+    "input_question": "Tổng thể lệch phải, μ=100,σ=30. Lấy mẫu n=100. Giải thích và tính xấp xỉ P(x̄>106), biết P(Z>2)=0.0228.",
+    "expected_context": "Dùng định lý giới hạn trung tâm vì n lớn.",
+    "expected_answer": "SE=30/10=3. z=(106−100)/3=2. P≈0.0228."
+  },
+  {
+    "test_id": "TEST_MAS291_036",
+    "subject": "MAS291",
+    "topic": "Descriptive Statistics and Sampling",
+    "difficulty": "hard",
+    "input_question": "Một mẫu ngẫu nhiên n=25 từ tổng thể chuẩn có σ=10. Tính xác suất x̄ lệch khỏi μ không quá 4, biết Φ(2)=0.9772.",
+    "expected_context": "SE=10/5=2; chuyển thành |Z|≤2.",
+    "expected_answer": "P(|x̄−μ|≤4)=P(|Z|≤2)=0.9544."
+  },
+  {
+    "test_id": "TEST_MAS291_037",
+    "subject": "MAS291",
+    "topic": "Descriptive Statistics and Sampling",
+    "difficulty": "hard",
+    "input_question": "Hai ước lượng θ̂1,θ̂2 có Bias lần lượt 1 và −2, phương sai lần lượt 4 và 1. So sánh MSE.",
+    "expected_context": "MSE=Var+Bias².",
+    "expected_answer": "MSE1=4+1=5. MSE2=1+4=5. Hai ước lượng có MSE bằng nhau."
+  },
+  {
+    "test_id": "TEST_MAS291_038",
+    "subject": "MAS291",
+    "topic": "Descriptive Statistics and Sampling",
+    "difficulty": "medium",
+    "input_question": "Một tổng thể có tỉ lệ p=0.3. Với n=200, tìm trung bình và độ lệch chuẩn của p̂.",
+    "expected_context": "E(p̂)=p; SD=√[p(1−p)/n].",
+    "expected_answer": "E(p̂)=0.3. SD=√(0.21/200)≈0.0324."
+  },
+  {
+    "test_id": "TEST_MAS291_039",
+    "subject": "MAS291",
+    "topic": "Descriptive Statistics and Sampling",
+    "difficulty": "hard",
+    "input_question": "Một khảo sát lấy mẫu hệ thống mỗi người thứ 20 từ danh sách được sắp theo ký túc xá. Chu kỳ sắp xếp cũng là 20. Nêu rủi ro và cách khắc phục.",
+    "expected_context": "Mẫu hệ thống có thể bị sai lệch nếu chu kỳ lấy mẫu trùng với tính tuần hoàn của danh sách.",
+    "expected_answer": "Có nguy cơ luôn chọn cùng một vị trí trong mỗi nhóm ký túc xá, gây mẫu không đại diện. Khắc phục bằng xáo trộn danh sách, đổi khoảng lấy mẫu hoặc dùng lấy mẫu ngẫu nhiên phân tầng."
+  },
+  {
+    "test_id": "TEST_MAS291_040",
+    "subject": "MAS291",
+    "topic": "Descriptive Statistics and Sampling",
+    "difficulty": "hard",
+    "input_question": "Trong lấy mẫu phân tầng, tầng 1 có N1=600, tầng 2 có N2=400. Cần mẫu n=100 theo phân bổ tỉ lệ. Tìm n1,n2.",
+    "expected_context": "Phân bổ tỉ lệ n_h=nN_h/N.",
+    "expected_answer": "n1=100·600/1000=60; n2=40."
+  },
+  {
+    "test_id": "TEST_MAS291_041",
+    "subject": "MAS291",
+    "topic": "Confidence Intervals",
+    "difficulty": "medium",
+    "input_question": "Một mẫu n=64 có x̄=52, σ=8. Lập khoảng tin cậy 99% cho μ, dùng z*=2.576.",
+    "expected_context": "Khoảng z: x̄±z*σ/√n.",
+    "expected_answer": "SE=8/8=1. Khoảng là 52±2.576, tức (49.424,54.576)."
+  },
+  {
+    "test_id": "TEST_MAS291_042",
+    "subject": "MAS291",
+    "topic": "Confidence Intervals",
+    "difficulty": "hard",
+    "input_question": "Mẫu n=25 có x̄=18.4, s=3.5. Lập khoảng tin cậy 95% cho μ, biết t0.975,24=2.064.",
+    "expected_context": "Dùng khoảng t vì σ chưa biết.",
+    "expected_answer": "SE=3.5/5=0.7. Sai số biên=2.064·0.7=1.4448. Khoảng (16.9552,19.8448)."
+  },
+  {
+    "test_id": "TEST_MAS291_043",
+    "subject": "MAS291",
+    "topic": "Confidence Intervals",
+    "difficulty": "hard",
+    "input_question": "Trong 400 sản phẩm có 36 sản phẩm lỗi. Lập khoảng tin cậy 95% cho tỉ lệ lỗi.",
+    "expected_context": "Dùng khoảng chuẩn cho tỉ lệ p̂±1.96√[p̂(1−p̂)/n].",
+    "expected_answer": "p̂=0.09. SE=√(0.09·0.91/400)≈0.01431. E≈0.02805. Khoảng xấp xỉ (0.0619,0.1181)."
+  },
+  {
+    "test_id": "TEST_MAS291_044",
+    "subject": "MAS291",
+    "topic": "Confidence Intervals",
+    "difficulty": "hard",
+    "input_question": "Muốn ước lượng trung bình với sai số biên không quá 2 ở mức 95%, biết σ≈12. Tìm cỡ mẫu tối thiểu.",
+    "expected_context": "n=(z*σ/E)² và làm tròn lên.",
+    "expected_answer": "n=(1.96·12/2)²=138.2976, nên cần ít nhất 139 quan sát."
+  },
+  {
+    "test_id": "TEST_MAS291_045",
+    "subject": "MAS291",
+    "topic": "Confidence Intervals",
+    "difficulty": "medium",
+    "input_question": "Một khoảng tin cậy 95% cho μ là (40,48). Tìm ước lượng điểm và sai số biên.",
+    "expected_context": "Ước lượng điểm là trung điểm; sai số biên là nửa độ rộng.",
+    "expected_answer": "x̄=(40+48)/2=44; E=(48−40)/2=4."
+  },
+  {
+    "test_id": "TEST_MAS291_046",
+    "subject": "MAS291",
+    "topic": "Hypothesis Testing",
+    "difficulty": "hard",
+    "input_question": "Biết σ=10, n=100, x̄=103. Kiểm định H0:μ=100 so với H1:μ>100 ở α=0.01. Biết z0.99=2.326.",
+    "expected_context": "Tính z và so với ngưỡng bác bỏ phía phải.",
+    "expected_answer": "z=(103−100)/(10/10)=3. Vì 3>2.326, bác bỏ H0. Có bằng chứng ở mức 1% rằng μ>100."
+  },
+  {
+    "test_id": "TEST_MAS291_047",
+    "subject": "MAS291",
+    "topic": "Hypothesis Testing",
+    "difficulty": "hard",
+    "input_question": "Mẫu n=16 có x̄=51, s=8. Kiểm định H0:μ=55 so với H1:μ≠55. Tính thống kê t và đưa quyết định ở α=0.05, biết t0.975,15=2.131.",
+    "expected_context": "Dùng kiểm định t một mẫu.",
+    "expected_answer": "t=(51−55)/(8/4)=−2. Vì |t|=2<2.131, không bác bỏ H0."
+  },
+  {
+    "test_id": "TEST_MAS291_048",
+    "subject": "MAS291",
+    "topic": "Hypothesis Testing",
+    "difficulty": "medium",
+    "input_question": "Một kiểm định cho p-value=0.047. Đưa quyết định ở α=0.05 và α=0.01.",
+    "expected_context": "Bác bỏ H0 khi p-value≤α.",
+    "expected_answer": "Ở α=0.05, bác bỏ H0. Ở α=0.01, không bác bỏ H0."
+  },
+  {
+    "test_id": "TEST_MAS291_049",
+    "subject": "MAS291",
+    "topic": "Hypothesis Testing",
+    "difficulty": "hard",
+    "input_question": "Nhà máy tuyên bố tỉ lệ lỗi không quá 5%. Mẫu 200 sản phẩm có 16 lỗi. Kiểm định H0:p=0.05 so với H1:p>0.05. Tính z.",
+    "expected_context": "Dùng kiểm định một tỉ lệ với SE dưới H0.",
+    "expected_answer": "p̂=0.08. SE0=√(0.05·0.95/200)≈0.01541. z=(0.08−0.05)/0.01541≈1.947."
+  },
+  {
+    "test_id": "TEST_MAS291_050",
+    "subject": "MAS291",
+    "topic": "Hypothesis Testing",
+    "difficulty": "hard",
+    "input_question": "Với kiểm định phía phải ở α=0.05, z quan sát=1.947. Biết z0.95=1.645. Kết luận cho bài toán tỉ lệ lỗi ở câu trước.",
+    "expected_context": "So sánh thống kê với ngưỡng bác bỏ.",
+    "expected_answer": "Vì 1.947>1.645, bác bỏ H0. Có bằng chứng rằng tỉ lệ lỗi lớn hơn 5%."
+  },
+  {
+    "test_id": "TEST_MAS291_051",
+    "subject": "MAS291",
+    "topic": "Hypothesis Testing",
+    "difficulty": "hard",
+    "input_question": "Một kiểm định có α=0.05 và power=0.90 tại một giá trị thay thế cụ thể. Tính xác suất sai lầm loại II tại giá trị đó.",
+    "expected_context": "Power=1−β.",
+    "expected_answer": "β=0.10."
+  },
+  {
+    "test_id": "TEST_MAS291_052",
+    "subject": "MAS291",
+    "topic": "Two-Sample Inference",
+    "difficulty": "medium",
+    "input_question": "Hai mẫu độc lập có x̄1=82,x̄2=78,s1=10,s2=8,n1=n2=50. Tính ước lượng hiệu và SE kiểu Welch.",
+    "expected_context": "SE=√(s1²/n1+s2²/n2).",
+    "expected_answer": "Ước lượng μ1−μ2 là 4. SE=√(100/50+64/50)=√3.28≈1.811."
+  },
+  {
+    "test_id": "TEST_MAS291_053",
+    "subject": "MAS291",
+    "topic": "Two-Sample Inference",
+    "difficulty": "hard",
+    "input_question": "Dùng dữ liệu câu trước, kiểm định H0:μ1−μ2=0 so với hai phía. Tính t và nhận xét ở mức 5% nếu ngưỡng xấp xỉ 1.99.",
+    "expected_context": "t=(hiệu quan sát−0)/SE.",
+    "expected_answer": "t=4/1.811≈2.209. Vì |t|>1.99, bác bỏ H0; có bằng chứng hai trung bình khác nhau."
+  },
+  {
+    "test_id": "TEST_MAS291_054",
+    "subject": "MAS291",
+    "topic": "Two-Sample Inference",
+    "difficulty": "hard",
+    "input_question": "Một nghiên cứu ghép cặp có các hiệu số: −2,−1,0,−3,−4. Tính d̄, s_d và thống kê t kiểm định H0:μ_d=0.",
+    "expected_context": "Dùng kiểm định t một mẫu trên hiệu số.",
+    "expected_answer": "d̄=−2. Các độ lệch bình phương là 0,1,4,1,4, tổng10; s_d²=10/4=2.5, s_d≈1.581. SE≈1.581/√5≈0.707. t≈−2/0.707=−2.828."
+  },
+  {
+    "test_id": "TEST_MAS291_055",
+    "subject": "MAS291",
+    "topic": "Two-Sample Inference",
+    "difficulty": "hard",
+    "input_question": "Nhóm A thành công 72/120, nhóm B thành công 50/100. Tính khoảng tin cậy 95% cho pA−pB.",
+    "expected_context": "Dùng SE không gộp cho khoảng tin cậy hai tỉ lệ.",
+    "expected_answer": "p̂A=0.6,p̂B=0.5, hiệu=0.1. SE=√(0.24/120+0.25/100)=√0.0045≈0.06708. E≈0.1315. Khoảng (−0.0315,0.2315)."
+  },
+  {
+    "test_id": "TEST_MAS291_056",
+    "subject": "MAS291",
+    "topic": "Regression and Correlation",
+    "difficulty": "medium",
+    "input_question": "Cho dữ liệu (x,y): (1,2),(2,3),(3,5). Tính đường hồi quy tuyến tính y theo x.",
+    "expected_context": "Tính x̄,ȳ,Sxx,Sxy; b1=Sxy/Sxx, b0=ȳ−b1x̄.",
+    "expected_answer": "x̄=2,ȳ=10/3. Sxx=2, Sxy=3. b1=1.5, b0=1/3. Đường hồi quy ŷ=1/3+1.5x."
+  },
+  {
+    "test_id": "TEST_MAS291_057",
+    "subject": "MAS291",
+    "topic": "Regression and Correlation",
+    "difficulty": "hard",
+    "input_question": "Với đường hồi quy ŷ=1/3+1.5x của câu trước, tính phần dư tại x=3,y=5 và tổng bình phương phần dư cho cả ba điểm.",
+    "expected_context": "Phần dư e=y−ŷ; SSE=Σe².",
+    "expected_answer": "Dự đoán lần lượt 11/6,10/3,29/6. Phần dư 1/6,−1/3,1/6. SSE=1/36+1/9+1/36=1/6."
+  },
+  {
+    "test_id": "TEST_MAS291_058",
+    "subject": "MAS291",
+    "topic": "Regression and Correlation",
+    "difficulty": "hard",
+    "input_question": "Một mô hình có SST=200 và SSE=50. Tính R² và diễn giải.",
+    "expected_context": "R²=1−SSE/SST.",
+    "expected_answer": "R²=1−50/200=0.75. Mô hình giải thích 75% biến thiên của biến phản hồi trong mẫu."
+  },
+  {
+    "test_id": "TEST_MAS291_059",
+    "subject": "MAS291",
+    "topic": "Regression and Correlation",
+    "difficulty": "hard",
+    "input_question": "Cho r=0.6, s_x=4, s_y=10. Tính hệ số góc hồi quy y theo x.",
+    "expected_context": "Trong hồi quy tuyến tính đơn, b1=r(s_y/s_x).",
+    "expected_answer": "b1=0.6·10/4=1.5."
+  },
+  {
+    "test_id": "TEST_MAS291_060",
+    "subject": "MAS291",
+    "topic": "Regression and Correlation",
+    "difficulty": "hard",
+    "input_question": "Một mô hình ŷ=20+4x được xây dựng với x trong khoảng [1,8]. Giải thích vì sao dự đoán tại x=20 có rủi ro và phân biệt với nội suy.",
+    "expected_context": "Dự đoán ngoài miền dữ liệu là ngoại suy; quan hệ tuyến tính quan sát được có thể không còn đúng.",
+    "expected_answer": "x=20 nằm ngoài [1,8], nên đây là ngoại suy, không phải nội suy. Dự đoán ŷ=100 có thể tính được nhưng độ tin cậy thấp vì mô hình chưa được kiểm chứng ở vùng x đó."
+  }
+]
